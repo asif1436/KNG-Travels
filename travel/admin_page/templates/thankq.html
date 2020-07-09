@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+{# Load the tag library #}
+{% load bootstrap4 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+
+{% bootstrap_javascript jquery='full' %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+
+{% block content %}
+<div class="shadow p-4 mb-4 bg-white">
+    <h1> Dear {{name}},</h1>
+    <h2> Thank You for Booking With KNG Travels </h2>
+    <h4> soon you will get a call from our side ....</h4>
+</div>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="card">
+                <div class="card-head border-bottom">
+                    <h2>Your Booking Details</h2>
+                </div>
+                {% if ap_data %}
+                    <div class="card-body p-0">
+                        <table class="table table-striped">
+                            <tr>
+                                <td>Itinerary:</td>
+                                <td>{{ ap_data.ap_pic_add }}>{{ ap_data.ap_city }}>{{ ap_data.ap_pic_add }}</td>
+                            </tr>
+                            <tr>
+                                <td>Pickup Date:</td>
+                                <td>{{ ap_data.ap_pickup }} at {{ ap_data.ap_picktime }}</td>
+                            </tr>
+                            <tr>
+                                <td>Car Type</td>
+                                <td>{{ car }}</td>
+                            </tr>
+                            <tr>
+                                <td>Total Fare:</td>
+                                <td>$$$$$$</td>
+                            </tr>
+                            </tbody>
+                        </table>
+            
+                    </div>
+                {% elif l_data %}
+                    <div class="card-body p-0">
+                        <table class="table table-striped">
+                            <tr>
+                                <td>Pickup City:</td>
+                                <td>{{ l_data.l_city }}</td>
+                            </tr>
+                            <tr>
+                                <td>Trip Type:</td>
+                                <td>None</td>
+                            </tr>
+                            <tr>
+                                <td>Pickup Date:</td>
+                                <td>{{ l_data.l_pickup }} at {{ l_data.l_picktime }}</td>
+                            </tr>
+                            <tr>
+                                <td>Car Type</td>
+                                <td>{{ car }}</td>
+                            </tr>
+                            <tr>
+                                <td>Total Fare:</td>
+                                <td>$$$$$</td>
+                            </tr>
+                            </tbody>
+                        </table>
+            
+                    </div>
+                {% elif os_data %}
+                    <div class="card-body p-0">
+                        <table class="table table-striped">
+                            <tr>
+                                <td>Itinerary:</td>
+                                <td>{{ os_data.os_from }}>>{{ os_data.os_to }}>>{{ os_data.os_from }}</td>
+                            </tr>
+                            <tr>
+                                <td>Pickup Date:</td>
+                                <td>{{ os_data.os_pickup }} at {{ os_data.os_picktime }}</td>
+                            </tr>
+                            <tr>
+                                <td>Return Date:</td>
+                                <td>{{ os_data.os_return}}</td>
+                            </tr>
+                            <tr>
+                                <td>Car Type</td>
+                                <td>{{ car }}</td>
+                            </tr>
+                            <tr>
+                                <td>Total Fare:</td>
+                                <td>$$$$$$</td>
+                            </tr>
+                            </tbody>
+                        </table>
+            
+                    </div>
+                {% else %}
+                <h4> Sorry No Data available</h4>
+                {% endif %}
+        
+            </div>
+        
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

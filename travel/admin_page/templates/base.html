@@ -1,0 +1,323 @@
+{% load static %}
+{# Load the tag library #}
+{% load bootstrap4 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>AdminLTE 3 | Dashboard</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'adminlte/plugins/fontawesome-free/css/all.min.css' %}">
+ 
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Tempusdominus Bbootstrap 4 -->
+  <link rel="stylesheet" href="{% static 'adminlte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="{% static 'adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+  <!-- JQVMap -->
+  <link rel="stylesheet" href="{% static 'adminlte/plugins/jqvmap/jqvmap.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'adminlte/dist/css/adminlte.min.css' %}">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="{% static 'adminlte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+  <!-- Daterange picker -->
+  <link rel="stylesheet" href="{% static 'adminlte/plugins/daterangepicker/daterangepicker.css' %}">
+  <!-- summernote -->
+  <link rel="stylesheet" href="{% static 'adminlte/plugins/summernote/summernote-bs4.css' %}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+  <link href="{% static 'assets/css/my.css' %}" rel="stylesheet" >
+  <style type="text/css">
+    
+      .show-content{
+          
+        display: block !important;
+      }
+
+      .hide-content{
+        content: "" !important ;
+        display: none !important;
+      } 
+    /* label {
+      width:auto;
+      height: auto;
+      display: inline-block;
+    } */
+  </style>
+
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+    </ul> 
+    <nav class="navbar navbar-light">
+      <span class="navbar-brand mb-0 h1">KNG Travels</span>
+    </nav>  
+    
+
+    <!-- SEARCH FORM -->
+    <!-- <form class="form-inline ml-3">
+      <div class="input-group input-group-sm">
+        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+        <div class="input-group-append">
+          <button class="btn btn-navbar" type="submit">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </form> -->
+
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+      <!-- Messages Dropdown Menu -->
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class='d-flex fas fa-phone-volume justify-content-end' style='font-size:24px'>9666817780</i>
+          <!-- <span class="badge  navbar-badge">9666146101</span> -->
+        </a>        
+      </li>
+      <!-- Notifications Dropdown Menu -->
+      <!-- <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="far fa-bell"></i>
+          <span class="badge badge-warning navbar-badge">15</span>
+        </a>        
+      </li> 
+    </ul> -->
+  </nav>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="{% url 'home' %}" class="brand-link">
+      <img src="{% static 'assets/img/kng3.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+           style="opacity: .8">
+      <span class="brand-text font-weight-light">KNG Travels</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="{% static 'adminlte/dist/img/user2-160x160.jpg' %}" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+          <a href="#" class="d-block">Alexander Pierce</a>
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
+      
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-6">
+            <img src="{% static 'assets/img/Kng3.png' %}">
+          </div>
+          <div class="col-6">           
+            <i class='d-flex fas fa-phone-volume justify-content-end' style='font-size:24px'>9666817780</i>
+          </div>         
+        </div>
+      </div>
+    </div>  -->
+    
+    <!-- Content Header (Page header) -->
+    
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      
+      {% block messages %}
+     
+      {% endblock %}
+
+      {% block content_block_wrap %}
+          {% block content %}                    
+          {% endblock %}
+      {% endblock %}
+      
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+    All rights reserved.
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Version</b> 3.0.6-pre
+
+    </div>
+  </footer>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="{% static 'adminlte/plugins/jquery/jquery.min.js' %}"></script>
+<script>
+  function activatePlaceSearch(){
+    var input = document.getElementById('id_os_from');
+    var autocomplete = new google.maps.places.Autocomplete(input);
+  }
+</script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDchmZL2J7sUGE63Ak-i52I2UMbSSPkZUQ&libraries=places&callback=activatePlaceSearch"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{% static 'adminlte/plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- ChartJS -->
+<script src="{% static 'adminlte/plugins/chart.js/Chart.min.js' %}"></script>
+<!-- Sparkline -->
+<script src="{% static 'adminlte/plugins/sparklines/sparkline.js' %}"></script>
+<!-- JQVMap -->
+<script src="{% static 'adminlte/plugins/jqvmap/jquery.vmap.min.js' %}"></script>
+<script src="{% static 'admilte/plugins/jqvmap/maps/jquery.vmap.usa.js' %}"></script>
+<!-- jQuery Knob Chart -->
+<script src="{% static 'adminlte/plugins/jquery-knob/jquery.knob.min.js' %}"></script>
+<!-- daterangepicker -->
+<script src="{% static 'adminlte/plugins/moment/moment.min.js' %}"></script>
+<script src="{% static 'adminlte/plugins/daterangepicker/daterangepicker.js' %}"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="{% static 'adminlte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+<!-- Summernote -->
+<script src="{% static 'adminlte/plugins/summernote/summernote-bs4.min.js' %}"></script>
+<!-- overlayScrollbars -->
+<script src="{% static 'adminlte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'adminlte/dist/js/adminlte.js' %}"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="{% static 'adminlte/dist/js/pages/dashboard.js' %}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{% static 'adminlte/dist/js/demo.js' %}"></script>
+<script src="{% static 'assets/js/my.js' %}" type="text/javascript"></script>
+
+<script>
+  $(document).ready(function(){
+  $("#id_c_car_0").before('<img src="{% static "assets/img/zest2.jpg" %}" class="rounded-circle " width="100" height="50">')  
+  
+  $("#id_c_car_1").before('<img src="{% static "assets/img/indica1.jpg" %}" class="rounded-circle" width="100" height="50">')
+  
+  $("#id_c_car_2").before('<img src="{% static "assets/img/sumo1.jpg" %}" class="rounded-circle" width="100" height="50">')
+  
+});
+
+
+</script>
+<script>
+$(document).ready(function(){
+  $("#zestinfo").addClass("hide-content")
+  $("#indicainfo").addClass("hide-content")
+  $("#sumoinfo").addClass("hide-content")
+  $("#outstation").addClass("bg-primary")
+  $("#outstationinfo").show()
+  $("#localinfo").hide()
+  $("#airportinfo").hide()
+});
+  $("#outstation").click(function(){
+    $(this).addClass("bg-primary")   
+    $("#local").removeClass("bg-primary")
+    $("#airport").removeClass("bg-primary")
+    $("#outstationinfo").show()
+    $("#localinfo").hide()
+    $("#airportinfo").hide()
+  });
+  $("#local").click(function(){
+    $(this).addClass("bg-primary")
+    $("#outstation").removeClass("bg-primary")
+    $("#airport").removeClass("bg-primary")
+    $("#outstationinfo").hide()
+    $("#localinfo").show()
+    $("#airportinfo").hide()
+  });
+  $("#airport").click(function(){
+    $(this).addClass("bg-primary")
+    $("#outstation").removeClass("bg-primary")
+    $("#local").removeClass("bg-primary")
+    $("#outstationinfo").hide()
+    $("#localinfo").hide()
+    $("#airportinfo").show()
+  });
+  $('#id_c_car_0').click(function(){
+  $("#zestinfo").removeClass("hide-content");
+  $("#indicainfo").addClass("hide-content");
+  $("#sumoinfo").addClass("hide-content");
+  });
+  $('#id_c_car_1').click(function(){
+  $("#zestinfo").addClass("hide-content")
+  $("#indicainfo").removeClass("hide-content")
+  $("#sumoinfo").addClass("hide-content")
+  });
+  $('#id_c_car_2').click(function(){
+  $("#zestinfo").addClass("hide-content")
+  $("#indicainfo").addClass("hide-content")
+  $("#sumoinfo").removeClass("hide-content")
+  });
+  $('#id_os_trip_type_0').click(function(){
+        $("input#id_os_return.form-control").hide();
+    });
+    $('#id_os_trip_type_1').click(function(){
+        $("input#id_os_return.form-control").show();
+    });
+  $("select#id_ap_trip.form-control option[value='']").html('<option>Selcet Trip Type</option>');
+  $("select#id_os_trip_type.form-control option[value='']").html('<option>Selcet Trip Type</option>');
+  
+  $('select#id_os_trip_type.form-control').change(function() {
+
+  val = $(this).val();
+  if(val == "ONE WAY" ) $("input#id_os_return.form-control").hide();
+  if(val == "Round Trip" ) $("input#id_os_return.form-control").show(); 
+
+  });
+
+</script>
+<script>
+  var onLoaded = function() {
+     // I am assuming your field has id of where_load, it might be different
+      var location_input = document.getElementById('id_os_from');
+      var autocomplete = new google.maps.places.Autocomplete(location_input);
+
+  }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYh7xWxA24jJxOlIU7QP3HklAtuJ-Jf5s&libraries=places&callback=onLoaded" async defer></script>
+
+</body>
+</html>
