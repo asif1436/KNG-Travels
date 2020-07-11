@@ -12,53 +12,48 @@
 
 {% block content %}
 <!-- MultiStep Form -->
-<div class="row">
-    <div class="col-md-12">
-        {% bootstrap_messages messages %}
-    </div>
-</div>
-<div class="container-fluid" id="grad1">
-    <div class="row justify-content-center mt-0">
-        
-        <div class="col-11 col-sm-9 col-md-7 col-lg-6 text-center p-0 mt-3 mb-2">
-            <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
+
+<div class="container-fluid" >
+    <div class="row justify-content-center mt-0">        
+        <div class="col-12 col-sm-9 col-md-7 col-lg-6 text-center p-0 mt-3 mb-2">
+            <div class="card px-0 pt-0 pb-0 mt-3 mb-3">
                 <div class="row">
                     <div class="col-md-12 mx-0">
                         <form method="POST" id="msform">
                             {% csrf_token %}
                             <!-- progressbar -->
-
                             <ul id="progressbar">
                                 <i ></i>
-                                <li class="active" class="fas fa-car" id="account"><strong class="fas fa-globe-europe">Travel Type</strong></li>
-                                <li id="personal"><strong class="fas fa-car">Select Car</strong></li>
-                                <li id="payment"><strong class="fas fa-user-alt">Persion Info</strong></li>
-                                <li id="confirm"><strong class="fab fa-cc-amazon-pay">Payment</strong></li>
+                                <li class="active" id="account"><strong >Travel Type</strong></li>
+                                <li id="personal"><strong >Select Car</strong></li>
+                                <li id="payment"><strong >Persion Info</strong></li>
+                                <li id="confirm"><strong >Payment</strong></li>
                             </ul> <!-- fieldsets -->
                             <fieldset>
-                                <div class="form-card text-center" style="padding-top: 0px; padding-left: 7px; padding-right: 7px;">
-                                    <div class="card-head"  >
-                                        <div class="row" style="height: 40px; ">                               
-                                            <div id="outstation" class="col-4 border" style="padding-left: 6px; padding-right: 6px;">
-                                                <i class=" fas fa-map-marked-alt"></i>
+                                <div class="form-card " style="padding-top: 0px; padding-left: 7px; padding-right: 7px;">
+                                    <div class="card-head">
+                                        <div class="row">                               
+                                            <div id="outstation" class="col-4 col border">
+                                                <i class=" fas fa-map-marked-alt"></i><br>
                                                 <span>OUTSTASION</span>                                              
                                             </div>
-                                            <div id="local" class="col-4 border">
-                                                <i class="fa fa-map-marker" ></i>
+                                            <div id="local" class="col-4 col border">
+                                                <i class="fa fa-map-marker" ></i><br>
                                                 <span>LOCAL</span>
                                             </div>
-                                            <div id="airport" class="col-4 border">
-                                                <i class="fas fa-plane-departure fa-orange"></i>
-                                                <span>AIR PORT</span>
+                                            <div id="airport" class="col-4 col border ">
+                                                <i class="fas fa-plane-departure fa-orange"></i><br>
+                                                <span>AIRPORT</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card-body" style="margin-top: 10px;">
+                                    <div class="card-body" style="margin-top: 0px;">
                                         <div id='outstationinfo' class="row ">
-                                            <div class="col-md-12">                                              
-                                                <div>{% bootstrap_field os_form.os_trip_type show_label=False  %}</div>                                     		                                                                                    
-                                            </div> 
-                                            <div class="col-md-12">
+                                            
+                                            {% for tt in os_form.os_trip_type %}                                              
+                                            <div class="col-6 border rounded-lg">{{ tt }}</div>
+                                            {% endfor %}
+                                            <div class="col-md-12" style="padding-top: 15px;">
                                                 {% bootstrap_field os_form.os_from show_label=False %}
                                             </div>
                                             <div class="col-md-12 ">
@@ -73,7 +68,10 @@
                                             </div>
                                             <div class="col-md-4">
                                                 {% bootstrap_field os_form.os_return show_label=False %}
-                                            </div>                                            
+                                            </div>
+                                            <!-- <div class="col-md-4">
+                                                {% bootstrap_field os_form.os_car show_label=False %}
+                                            </div>                                          -->
                                         </div>
                                         <div id="localinfo" class="row">
                                             <div class="col-md-12">                                                
@@ -108,11 +106,16 @@
                             </fieldset>
                             <fieldset>
                                 <div class="form-card text-center" style="padding-top: 7px; padding-left: 7px; padding-right: 7px;">
-                                    <div class="card-head" >
-                                        <div class="row border-bottom ">
-                                            <div class=" form-horizontal overflow-auto" >
+                                    <div class="card-head border-bottom" >
+                                        <div class="row">
+                                            <!-- <div class="col-md-12" >
                                                 {% bootstrap_field car_form.c_car show_label=False %}                                                
+                                            </div><br> -->
+                                            {% for car in os_form.os_car %}
+                                            <div class="col-4">
+                                                {{ car }}
                                             </div>
+                                            {% endfor %}
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -241,7 +244,7 @@
                                     </div> <br><br>
                                     <div class="row justify-content-center">
                                         <div class="col-7 text-center">
-                                            <h5>You Have Successfully Signed Up</h5>
+                                            <h5>You Have Successfully Booked a Car</h5>
                                         </div>
                                     </div>
                                 </div>
@@ -252,5 +255,8 @@
             </div>
         </div>
     </div>
+</div>
+<div>
+    {{ os_form.as_form }}
 </div>
 {% endblock %}

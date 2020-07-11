@@ -18,6 +18,7 @@
   <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'adminlte/plugins/fontawesome-free/css/my.css' %}">
   <link rel="stylesheet" href="{% static 'adminlte/plugins/fontawesome-free/css/all.min.css' %}">
  
   <!-- Ionicons -->
@@ -39,8 +40,9 @@
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
-  <link href="{% static 'assets/css/my.css' %}" rel="stylesheet" >
+  <!-- <link href="{% static 'assets/css/my.css' %}" rel="stylesheet" > -->
   <style type="text/css">
+    
     
       .show-content{
           
@@ -56,6 +58,30 @@
       height: auto;
       display: inline-block;
     } */
+
+    [type=radio] { 
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    /* IMAGE STYLES */
+    [type=radio] + img {
+      cursor: pointer;
+    }
+
+    /* CHECKED STYLES */
+    [type=radio]:checked + img {
+      outline: 2px solid #f666;
+    }
+    img.round-circule {
+      border-radius: 50px;
+      border: 2px solid #73AD21; 
+      width: 150px;
+      height: 150px; 
+    }
+
   </style>
 
 </head>
@@ -136,7 +162,7 @@
   </aside>
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper" id="grad1">
     <!-- <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -155,7 +181,7 @@
     <!-- /.content-header -->
 
     <!-- Main content -->
-    <section class="content">
+    <section class="content" >
       
       {% block messages %}
      
@@ -195,7 +221,7 @@
     var autocomplete = new google.maps.places.Autocomplete(input);
   }
 </script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDchmZL2J7sUGE63Ak-i52I2UMbSSPkZUQ&libraries=places&callback=activatePlaceSearch"></script>
+
 <!-- jQuery UI 1.11.4 -->
 <script src="{% static 'adminlte/plugins/jquery-ui/jquery-ui.min.js' %}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -209,8 +235,7 @@
 <!-- Sparkline -->
 <script src="{% static 'adminlte/plugins/sparklines/sparkline.js' %}"></script>
 <!-- JQVMap -->
-<script src="{% static 'adminlte/plugins/jqvmap/jquery.vmap.min.js' %}"></script>
-<script src="{% static 'admilte/plugins/jqvmap/maps/jquery.vmap.usa.js' %}"></script>
+
 <!-- jQuery Knob Chart -->
 <script src="{% static 'adminlte/plugins/jquery-knob/jquery.knob.min.js' %}"></script>
 <!-- daterangepicker -->
@@ -224,19 +249,16 @@
 <script src="{% static 'adminlte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
 <!-- AdminLTE App -->
 <script src="{% static 'adminlte/dist/js/adminlte.js' %}"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{% static 'adminlte/dist/js/pages/dashboard.js' %}"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="{% static 'adminlte/dist/js/demo.js' %}"></script>
+<!-- bootstrab form wizard js file -->
 <script src="{% static 'assets/js/my.js' %}" type="text/javascript"></script>
 
 <script>
   $(document).ready(function(){
-  $("#id_c_car_0").before('<img src="{% static "assets/img/zest2.jpg" %}" class="rounded-circle " width="100" height="50">')  
+  $("#id_os_car_0").before('<img src="{% static "assets/img/zest-front-view.jpg" %}" class="form-inline" style=" border-radius: 50px; border: 2px solid #73AD21; width: 50px; height: 50px;">')  
   
-  $("#id_c_car_1").before('<img src="{% static "assets/img/indica1.jpg" %}" class="rounded-circle" width="100" height="50">')
+  $("#id_os_car_1").before('<img src="{% static "assets/img/indica1.jpg" %}" class="form-inline" style=" border-radius: 50px; border: 2px solid #73AD21; width: 50px; height: 50px;">')
   
-  $("#id_c_car_2").before('<img src="{% static "assets/img/sumo1.jpg" %}" class="rounded-circle" width="100" height="50">')
+  $("#id_os_car_2").before('<img src="{% static "assets/img/sumo1.jpg" %}" class="form-inline" style=" border-radius: 50px; border: 2px solid #73AD21; width: 50px; height: 50px;">')
   
 });
 
@@ -244,8 +266,11 @@
 </script>
 <script>
 $(document).ready(function(){
-  $("#zestinfo").addClass("hide-content")
+  $("#id_os_trip_type_0").prop("checked", true);
+  $("#id_os_car_0").prop("checked", true);
+  $("#id_os_trip_type_0").parents('div.col-6.border.rounded-lg').addClass('bg-cyan');
   $("#indicainfo").addClass("hide-content")
+  $('#id_c_car_1').addClass("border")
   $("#sumoinfo").addClass("hide-content")
   $("#outstation").addClass("bg-primary")
   $("#outstationinfo").show()
@@ -276,36 +301,38 @@ $(document).ready(function(){
     $("#localinfo").hide()
     $("#airportinfo").show()
   });
-  $('#id_c_car_0').click(function(){
+  $('#id_os_car_0').click(function(){
   $("#zestinfo").removeClass("hide-content");
   $("#indicainfo").addClass("hide-content");
   $("#sumoinfo").addClass("hide-content");
   });
-  $('#id_c_car_1').click(function(){
+  $('#id_os_car_1').click(function(){
   $("#zestinfo").addClass("hide-content")
   $("#indicainfo").removeClass("hide-content")
   $("#sumoinfo").addClass("hide-content")
   });
-  $('#id_c_car_2').click(function(){
+  $('#id_os_car_2').click(function(){
   $("#zestinfo").addClass("hide-content")
   $("#indicainfo").addClass("hide-content")
   $("#sumoinfo").removeClass("hide-content")
   });
   $('#id_os_trip_type_0').click(function(){
-        $("input#id_os_return.form-control").hide();
-    });
-    $('#id_os_trip_type_1').click(function(){
-        $("input#id_os_return.form-control").show();
-    });
+    $(this).parents('div.col-6.border.rounded-lg').addClass('bg-cyan');
+    $('#id_os_trip_type_1').parents('div.col-6.border.rounded-lg').removeClass('bg-cyan')
+    $("input#id_os_return.form-control").show();
+  });
+  $('#id_os_trip_type_1').click(function(){
+    $(this).parents('div.col-6.border.rounded-lg').addClass("bg-cyan");
+    $('#id_os_trip_type_0').parents('div.col-6.border.rounded-lg').removeClass('bg-cyan')
+    $("input#id_os_return.form-control").hide();
+  });
   $("select#id_ap_trip.form-control option[value='']").html('<option>Selcet Trip Type</option>');
   $("select#id_os_trip_type.form-control option[value='']").html('<option>Selcet Trip Type</option>');
   
   $('select#id_os_trip_type.form-control').change(function() {
-
-  val = $(this).val();
-  if(val == "ONE WAY" ) $("input#id_os_return.form-control").hide();
-  if(val == "Round Trip" ) $("input#id_os_return.form-control").show(); 
-
+    val = $(this).val();
+    if(val == "ONE WAY" ) $("input#id_os_return.form-control").hide();
+    if(val == "Round Trip" ) $("input#id_os_return.form-control").show();
   });
 
 </script>

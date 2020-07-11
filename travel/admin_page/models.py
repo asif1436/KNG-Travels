@@ -9,13 +9,27 @@ TRIP_TYPE = (
 )
 CHOICES=(('ONE WAY', 'One way'),
   ('Round Trip', 'Round Trip'))
+
+class Cardemo(models.Model):
+    cars = models.CharField(max_length=50, null=True, verbose_name="car name")
+    img = models.ImageField(upload_to='4wheeler/Images/', null=True, blank=True, verbose_name="Car Image")
+
+    def __str__(self):
+        return self.cars
+    
+    def carimg(self):
+        return self.img
+
+
 class OutStation(models.Model):
-    os_trip_type = models.CharField(max_length=50, null=True, blank=True, verbose_name="CHOICES", choices=CHOICES)
+    os_trip_type = models.CharField(max_length=50, null=True, blank=True, verbose_name="Trip Type")
     os_from = models.CharField(max_length=100, null=True, blank=True , verbose_name="FROM city -e.g. Wankidi" )
     os_to = models.CharField(max_length=100, null=True, blank=True, verbose_name="TO city -e.g. Hyderabad")
     os_pickup = models.DateField(null=True, blank=True, verbose_name="PICK UP")
     os_return = models.DateField(null=True, blank=True, verbose_name="RETURN")
     os_picktime = models.TimeField(null=True, blank=True, verbose_name="PICK UP AT")
+    os_car = models.ForeignKey(Cardemo, null=True, default=Cardemo.cars , on_delete=models.CASCADE)
+
 
     status = models.BooleanField(default=True)
     created_on = models.DateTimeField(auto_now_add=True)

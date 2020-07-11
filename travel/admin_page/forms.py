@@ -3,6 +3,7 @@ from admin_page.models import *
 from django.forms import ModelForm
 from django.utils.safestring import mark_safe
 from tempus_dominus.widgets import DatePicker, TimePicker, DateTimePicker
+from django.forms.widgets import RadioSelect
 
 
 
@@ -14,13 +15,14 @@ class  OutstationForm(ModelForm):
         model = OutStation
         exclude = ['os_outstation', 'os_status', 'os_created_on', 'os_updated_on']
         widgets = {
-        'os_pickup': DatePicker(),
-        'os_return': DatePicker(),
-        'os_picktime': TimePicker(),
-
+            #'os_trip_type': RadioSelect(),
+            'os_car': RadioSelect(),
+            'os_pickup': DatePicker(),
+            'os_return': DatePicker(),
+            'os_picktime': TimePicker(),
         }
     
-    #os_trip_type =  forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'form-check-inline'}), choices=(('ONE WAY', 'One way'),('Round Trip', 'Round Trip')))
+    os_trip_type =  forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'form-check-inline'}), choices=(('Round Trip', 'Round Trip'), ('ONE WAY', 'One way')))
     
 
 
@@ -56,4 +58,4 @@ class CarForm(ModelForm):
         model = Car
         exclude = ['c_os', 'c_local', 'c_ap', 'c_created_on', 'c_updated_on']
 
-    c_car = forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'form-horizontal form-check form-check-inline '}), choices=(('zest','ZEST'), ('indica','INDICA'),('Sumo', 'SUMO'),))
+    c_car = forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'form-check form-check-inline '}), choices=(('zest','ZEST'), ('indica','INDICA'),('Sumo', 'SUMO'),))
