@@ -29,14 +29,18 @@
                         <table class="table table-striped">
                             <tr>
                                 <td>Itinerary:</td>
-                                <td>{{ ap_data.ap_pic_add }}>{{ ap_data.ap_city }}>{{ ap_data.ap_pic_add }}</td>
+                                <td>{{ ap_data.ap_pic_add }}>>{{ ap_data.ap_city }}>>{{ ap_data.ap_pic_add }}</td>
                             </tr>
                             <tr>
                                 <td>Pickup Date:</td>
                                 <td>{{ ap_data.ap_pickup }} at {{ ap_data.ap_picktime }}</td>
                             </tr>
                             <tr>
-                                <td>Car Type</td>
+                                <td>Trip Type:</td>
+                                <td>{{ ap_data.ap_trip }}</td>
+                            </tr>
+                            <tr>
+                                <td>Car Type:</td>
                                 <td>{{ car }}</td>
                             </tr>
                             <tr>
@@ -55,8 +59,8 @@
                                 <td>{{ l_data.l_city }}</td>
                             </tr>
                             <tr>
-                                <td>Trip Type:</td>
-                                <td>None</td>
+                                <td>Trip for:</td>
+                                <td>{{ l_data.l_trip_for }}</td>
                             </tr>
                             <tr>
                                 <td>Pickup Date:</td>
@@ -88,6 +92,10 @@
                             <tr>
                                 <td>Return Date:</td>
                                 <td>{{ os_data.os_return}}</td>
+                            </tr>
+                            <tr>
+                                <td>Trip Type</td>
+                                <td>{{ os_data.os_trip_type }}</td>
                             </tr>
                             <tr>
                                 <td>Car Type</td>

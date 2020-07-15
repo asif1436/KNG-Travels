@@ -19,11 +19,10 @@ from . import views
 
 urlpatterns = [
     path('home/', views.Outstation, name='home'),
-    path('demo/', views.demo,)
-    # path('edit/student/<int:p_id>/', views.Employe_edit, name='edit_student'),
-    # path('delete/student/<int:p_id>/', views.delete_employ, name='delete_student'),
-    # path('accounts/', include('django.contrib.auth.urls')),
-    # path('student/login/', views.login, name='student_login'),
-    # path('student/register/', views.register, name='student_register'),
+    path('demo/', views.demo,),
+    path('callback/', views.callback, name='callback'),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('cust/login/', views.login, name='cust_login'),
+    path('cust/register/', views.register, name='cust_register'),
     
     ]

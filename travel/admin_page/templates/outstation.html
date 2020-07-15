@@ -33,15 +33,15 @@
                                 <div class="form-card " style="padding-top: 0px; padding-left: 7px; padding-right: 7px;">
                                     <div class="card-head">
                                         <div class="row">                               
-                                            <div id="outstation" class="col-4 col border">
+                                            <div id="outstation" class="col-4 col p-2 border">
                                                 <i class=" fas fa-map-marked-alt"></i><br>
                                                 <span>OUTSTASION</span>                                              
                                             </div>
-                                            <div id="local" class="col-4 col border">
+                                            <div id="local" class="col-4 col p-2 border">
                                                 <i class="fa fa-map-marker" ></i><br>
                                                 <span>LOCAL</span>
                                             </div>
-                                            <div id="airport" class="col-4 col border ">
+                                            <div id="airport" class="col-4 col p-2 border ">
                                                 <i class="fas fa-plane-departure fa-orange"></i><br>
                                                 <span>AIRPORT</span>
                                             </div>
@@ -69,12 +69,12 @@
                                             <div class="col-md-4">
                                                 {% bootstrap_field os_form.os_return show_label=False %}
                                             </div>
-                                            <!-- <div class="col-md-4">
-                                                {% bootstrap_field os_form.os_car show_label=False %}
-                                            </div>                                          -->
                                         </div>
                                         <div id="localinfo" class="row">
-                                            <div class="col-md-12">                                                
+                                            {% for tt in l_form.l_trip_for %}                                              
+                                            <div class="col-6 border rounded-lg">{{ tt }}</div>
+                                            {% endfor %}
+                                            <div class="col-md-12" style="padding-top: 15px;">                                                
                                                 <div>{% bootstrap_field l_form.l_city show_label=False  %}</div>                                     		                                                                                    
                                             </div> 
                                             <div class="col-md-12">
@@ -85,11 +85,11 @@
                                             </div>                                            
                                         </div>
                                         <div id="airportinfo" class="row">
-                                            <div class="col-md-12">                                                
+                                            {% for tt in ap_form.ap_trip %}                                              
+                                            <div class="col-6 border rounded-lg">{{ tt }}</div>
+                                            {% endfor %}
+                                            <div class="col-md-12" style="padding-top: 15px;">                                                
                                                 <div>{% bootstrap_field ap_form.ap_city show_label=False  %}</div>                                     		                                                                                    
-                                            </div>
-                                            <div class="col-md-12">                                                
-                                                <div>{% bootstrap_field ap_form.ap_trip show_label=False  %}</div>                                     		                                                                                    
                                             </div>
                                             <div class="col-md-12">                                                
                                                 <div>{% bootstrap_field ap_form.ap_pic_add show_label=False  %}</div>                                     		                                                                                    
@@ -111,7 +111,7 @@
                                             <!-- <div class="col-md-12" >
                                                 {% bootstrap_field car_form.c_car show_label=False %}                                                
                                             </div><br> -->
-                                            {% for car in os_form.os_car %}
+                                            {% for car in car_form.c_car %}
                                             <div class="col-4">
                                                 {{ car }}
                                             </div>
@@ -234,20 +234,22 @@
                                             {% bootstrap_field pi_form.p_address show_label=False %}
                                         </div>
                                     </div>
-                                </div><input type="button" name="previous" class="previous action-button-previous" value="Previous" /> <input type="submit" name="make_payment" class="next action-button" value="Confirm" />
+                                </div><input type="button" name="previous" class="previous action-button-previous" value="Previous" /> <input type="button" name="next" class="next action-button" value="payment" />
                             </fieldset>
                             <fieldset>
                                 <div class="form-card">
-                                    <h2 class="fs-title text-center">Success !</h2> <br><br>
-                                    <div class="row justify-content-center">
-                                        <div class="col-3"> <img src="https://img.icons8.com/color/96/000000/ok--v2.png" class="fit-image"> </div>
-                                    </div> <br><br>
-                                    <div class="row justify-content-center">
-                                        <div class="col-7 text-center">
-                                            <h5>You Have Successfully Booked a Car</h5>
+                                    <h2 class="fs-title">Payment Home</h2>
+                                    {% if error %}
+                                    <h3>{{ error }}</h3>
+                                    {% endif %} 
+                                    <div class="row">
+                                        <div class="col-md-12 ">
+                                            <p> <span style="color: red;" >NOTE:</span> pay <i class="fas fa-rupee-sign"></i> <span style="font-weight: 900;">500</span> in advance to book a trip</p>
+                                            <input type="number" name="amount" value="500">
                                         </div>
                                     </div>
-                                </div>
+                                </div>                                
+                                <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> <input type="submit" name="make_payment" class="next action-button" value="Confirm" />
                             </fieldset>                    
                         </form>
                     </div>
@@ -255,8 +257,5 @@
             </div>
         </div>
     </div>
-</div>
-<div>
-    {{ os_form.as_form }}
 </div>
 {% endblock %}

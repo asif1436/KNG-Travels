@@ -161,7 +161,7 @@ select.list-dt:focus {
 #progressbar #account:before {
     font-family: FontAwesome ;
     content: "\f1b9" ;
-}
+} 
 
 #progressbar #personal:before {
     font-family: FontAwesome;

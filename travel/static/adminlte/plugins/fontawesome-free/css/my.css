@@ -164,11 +164,13 @@ select.list-dt:focus {
 }
 
 #progressbar #personal:before {
-    content: "\f2b9";
+    font-family: FontAwesome;
+    content: "\f007";
 }
 
 #progressbar #payment:before {
-    content: "\f2b9";
+    font-family: FontAwesome;
+    content: "\f09d"
 }
 
 #progressbar #confirm:before {

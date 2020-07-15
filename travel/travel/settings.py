@@ -139,3 +139,15 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# payment gateway
+
+PAYTM_MERCHANT_ID = 'pHBXNV46791119289209'
+PAYTM_SECRET_KEY = 'v%CMrh1H!0mdLeF@'
+PAYTM_WEBSITE = 'WEBSTAGING'
+PAYTM_CHANNEL_ID = 'WEB'
+PAYTM_INDUSTRY_TYPE_ID = 'Retail'
+
+
+LOGIN_REDIRECT_URL='/home/'
+LOGOUT_REDIRECT_URL='/accounts/login/'

@@ -18,8 +18,8 @@
   <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'adminlte/plugins/fontawesome-free/css/all.css' %}">
   <link rel="stylesheet" href="{% static 'adminlte/plugins/fontawesome-free/css/my.css' %}">
-  <link rel="stylesheet" href="{% static 'adminlte/plugins/fontawesome-free/css/all.min.css' %}">
  
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -41,46 +41,45 @@
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
   <!-- <link href="{% static 'assets/css/my.css' %}" rel="stylesheet" > -->
-  <style type="text/css">
+  <style type="text/css">   
     
-    
-      .show-content{
-          
-        display: block !important;
-      }
-
-      .hide-content{
-        content: "" !important ;
-        display: none !important;
-      } 
-    /* label {
-      width:auto;
-      height: auto;
-      display: inline-block;
-    } */
-
-    [type=radio] { 
-      position: absolute;
-      opacity: 0;
-      width: 0;
-      height: 0;
+    .show-content{
+        
+      display: block !important;
     }
 
-    /* IMAGE STYLES */
-    [type=radio] + img {
-      cursor: pointer;
-    }
+    .hide-content{
+      content: "" !important ;
+      display: none !important;
+    } 
+  /* label {
+    width:auto;
+    height: auto;
+    display: inline-block;
+  } */
 
-    /* CHECKED STYLES */
-    [type=radio]:checked + img {
-      outline: 2px solid #f666;
-    }
-    img.round-circule {
-      border-radius: 50px;
-      border: 2px solid #73AD21; 
-      width: 150px;
-      height: 150px; 
-    }
+  [type=radio] { 
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  /* IMAGE STYLES */
+  [type=radio] + img {
+    cursor: pointer;
+  }
+
+  /* CHECKED STYLES */
+  [type=radio]:checked + img {
+    outline: 2px solid #f666;
+  }
+  img.round-circule {
+    border-radius: 50px;
+    border: 2px solid #73AD21; 
+    width: 150px;
+    height: 150px; 
+  }
 
   </style>
 
@@ -89,16 +88,16 @@
 <div class="wrapper">
 
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+  <nav class="main-header navbar navbar-expand navbar-light ">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
-      <li class="nav-item">
+    <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-      </li>
+    </li>
+    <li class="nav-item d-sm">
+        <a href="{% url 'home' %}" class="nav-link  font-weight-bolder">KNG Travels</a>
+    </li>
     </ul> 
-    <nav class="navbar navbar-light">
-      <span class="navbar-brand mb-0 h1">KNG Travels</span>
-    </nav>  
     
 
     <!-- SEARCH FORM -->
@@ -115,21 +114,16 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      <!-- Messages Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class='d-flex fas fa-phone-volume justify-content-end' style='font-size:24px'>9666817780</i>
-          <!-- <span class="badge  navbar-badge">9666146101</span> -->
-        </a>        
+      <!-- <li class="nav-item">
+          <a class="nav-link" href="{% url 'cust_register' %}">Singup</a>
+      </li> -->
+      <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout' %}">Logout</a>
       </li>
-      <!-- Notifications Dropdown Menu -->
-      <!-- <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
-        </a>        
-      </li> 
-    </ul> -->
+      <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">Login</a>
+      </li>
+    </ul>
   </nav>
   <!-- /.navbar -->
 
@@ -150,7 +144,7 @@
           <img src="{% static 'adminlte/dist/img/user2-160x160.jpg' %}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block">{% firstof request.user.get_full_name request.user.username %}</a>
         </div>
       </div>
 
@@ -184,6 +178,26 @@
     <section class="content" >
       
       {% block messages %}
+      <!-- {% if messages %}
+          {% for message in messages %}
+              {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+              <div class="alert alert-success alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  {{ message }}
+              </div>
+              {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+              <div class="alert alert-danger alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  {{ message }}
+              </div>
+              {% else %}
+              <div class="alert alert-info alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  {{ message }}
+              </div>
+              {% endif %}
+          {% endfor %}
+      {% endif %} -->
      
       {% endblock %}
 
@@ -254,11 +268,11 @@
 
 <script>
   $(document).ready(function(){
-  $("#id_os_car_0").before('<img src="{% static "assets/img/zest-front-view.jpg" %}" class="form-inline" style=" border-radius: 50px; border: 2px solid #73AD21; width: 50px; height: 50px;">')  
+  $("#id_c_car_0").before('<img src="{% static "assets/img/zest2.jpg" %}" class="form-inline" style=" border-radius: 50px; border: 2px solid #73AD21; width: 50px; height: 50px;">')  
   
-  $("#id_os_car_1").before('<img src="{% static "assets/img/indica1.jpg" %}" class="form-inline" style=" border-radius: 50px; border: 2px solid #73AD21; width: 50px; height: 50px;">')
+  $("#id_c_car_1").before('<img src="{% static "assets/img/indica1.jpg" %}" class="form-inline" style=" border-radius: 50px; border: 2px solid #73AD21; width: 50px; height: 50px;">')
   
-  $("#id_os_car_2").before('<img src="{% static "assets/img/sumo1.jpg" %}" class="form-inline" style=" border-radius: 50px; border: 2px solid #73AD21; width: 50px; height: 50px;">')
+  $("#id_c_car_2").before('<img src="{% static "assets/img/sumo1.jpg" %}" class="form-inline" style=" border-radius: 50px; border: 2px solid #73AD21; width: 50px; height: 50px;">')
   
 });
 
@@ -267,8 +281,12 @@
 <script>
 $(document).ready(function(){
   $("#id_os_trip_type_0").prop("checked", true);
-  $("#id_os_car_0").prop("checked", true);
+  $("#id_l_trip_for_0").prop("checked", true);
+  $("#id_ap_trip_0").prop("checked", true);
+  $("#id_c_car_0").prop("checked", true);
   $("#id_os_trip_type_0").parents('div.col-6.border.rounded-lg').addClass('bg-cyan');
+  $("#id_l_trip_for_0").parents('div.col-6.border.rounded-lg').addClass('bg-cyan');
+  $("#id_ap_trip_0").parents('div.col-6.border.rounded-lg').addClass('bg-cyan');
   $("#indicainfo").addClass("hide-content")
   $('#id_c_car_1').addClass("border")
   $("#sumoinfo").addClass("hide-content")
@@ -301,17 +319,17 @@ $(document).ready(function(){
     $("#localinfo").hide()
     $("#airportinfo").show()
   });
-  $('#id_os_car_0').click(function(){
+  $('#id_c_car_0').click(function(){
   $("#zestinfo").removeClass("hide-content");
   $("#indicainfo").addClass("hide-content");
   $("#sumoinfo").addClass("hide-content");
   });
-  $('#id_os_car_1').click(function(){
+  $('#id_c_car_1').click(function(){
   $("#zestinfo").addClass("hide-content")
   $("#indicainfo").removeClass("hide-content")
   $("#sumoinfo").addClass("hide-content")
   });
-  $('#id_os_car_2').click(function(){
+  $('#id_c_car_2').click(function(){
   $("#zestinfo").addClass("hide-content")
   $("#indicainfo").addClass("hide-content")
   $("#sumoinfo").removeClass("hide-content")
@@ -325,6 +343,22 @@ $(document).ready(function(){
     $(this).parents('div.col-6.border.rounded-lg').addClass("bg-cyan");
     $('#id_os_trip_type_0').parents('div.col-6.border.rounded-lg').removeClass('bg-cyan')
     $("input#id_os_return.form-control").hide();
+  });
+  $('#id_l_trip_for_0').click(function(){
+    $(this).parents('div.col-6.border.rounded-lg').addClass('bg-cyan');
+    $('#id_l_trip_for_1').parents('div.col-6.border.rounded-lg').removeClass('bg-cyan')
+  });
+  $('#id_l_trip_for_1').click(function(){
+    $(this).parents('div.col-6.border.rounded-lg').addClass("bg-cyan");
+    $('#id_l_trip_for_0').parents('div.col-6.border.rounded-lg').removeClass('bg-cyan')
+  });
+  $('#id_ap_trip_0').click(function(){
+    $(this).parents('div.col-6.border.rounded-lg').addClass('bg-cyan');
+    $('#id_ap_trip_1').parents('div.col-6.border.rounded-lg').removeClass('bg-cyan')
+  });
+  $('#id_ap_trip_1').click(function(){
+    $(this).parents('div.col-6.border.rounded-lg').addClass("bg-cyan");
+    $('#id_ap_trip_0').parents('div.col-6.border.rounded-lg').removeClass('bg-cyan')
   });
   $("select#id_ap_trip.form-control option[value='']").html('<option>Selcet Trip Type</option>');
   $("select#id_os_trip_type.form-control option[value='']").html('<option>Selcet Trip Type</option>');
