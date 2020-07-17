@@ -102,7 +102,7 @@
                                             </div>                                            
                                         </div>
                                     </div>
-                                </div> <input type="button" name="next" class="next action-button" value="Select Car" />
+                                </div> <input id="mybutton" type="button" name="next" class="next action-button" value="Select Car" />
                             </fieldset>
                             <fieldset>
                                 <div class="form-card text-center" style="padding-top: 7px; padding-left: 7px; padding-right: 7px;">
@@ -119,102 +119,160 @@
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <div id="zestinfo" class="d-md-flex">
+                                        <div id="zestinfo" class="d-flex">
                                             <div class="p-1 flex-fill" style="overflow: hidden">
                                               <!-- Map will be created here -->
-                                              <div  style="height: 200px; border: 2px;">
-                                                <div class="map"><img src="{% static 'assets/img/zest2.jpg' %}" class="rounded mx-auto" width="249" height="180"></div>
+                                              <div class="row">
+                                                <div class="responsive-img"><img src="{% static 'assets/img/zest2.jpg' %}" class="mx-auto" width="250" height="180"></div>
                                               </div>
                                               <div class="row">
                                                 <div class="col-4" style="overflow: hidden">
-                                                    <img src="{% static 'assets/img/seat.png' %}" width="50" height="50">
+                                                    <img src="{% static 'assets/img/seat.png' %}" width="30" height="30">
                                                     <p>4 Seater</p>    
                                                   </div>
                                                   <div class="col-4" style="overflow: hidden">
-                                                    <img src="{% static 'assets/img/bag.png' %}" width="50" height="50">
+                                                    <img src="{% static 'assets/img/bag.png' %}" width="30" height="30">
                                                     <p>2 Bags</p>                                                       
                                                   </div>
                                                   <div class="col-4" style="overflow: hidden">
-                                                    <img src="{% static 'assets/img/ac1.png' %}" width="50" height="50">
-                                                    <p>AC</p>                                                                                                    
-                    
+                                                    <img src="{% static 'assets/img/ac1.png' %}" width="30" height="30">
+                                                    <p>AC</p>           
                                                   </div>
                                               </div>                                             
                                             </div>
-                                            <div class="card-pane-right  pt-2 pb-2 pl-4 pr-4">
-                                              <div class="description-block mb-4">                                                
-                                                <h5 class="description-header">TATA ZEST</h5>
-                                                <p>10/km</p>
+                                            <div class="card-pane-right  pt-2 pb-2">
+                                              <div class="description-block mb-4"><br><br>                                                
+                                                <h5 class="description-header">TATA ZEST</h5><br>                                                
+                                                <span style="color: darkturquoise;"><i id=in_price class="fas fa-rupee-sign in_price"> None</i></span><br>                                                
                                               </div>
                                             </div>
                                         </div>
-                                        <div id="indicainfo" class="d-md-flex">
+                                        <div id="indicainfo" class="d-flex">
                                             <div class="p-1 flex-fill" style="overflow: hidden">
                                               <!-- Map will be created here -->
-                                              <div  style="height: 200px; overflow: hidden">
-                                                <div class="map"><img src="{% static 'assets/img/indica1.jpg' %}" class="rounded mx-auto" width="249" height="180"></div>
+                                              <div class="row">
+                                                <div class="responsive"><img src="{% static 'assets/img/indica1.jpg' %}" class="rounded mx-auto" width="220" height="150"></div>
                                               </div>
                                               <div class="row">
                                                 <div class="col-4" style="overflow: hidden">
-                                                    <img src="{% static 'assets/img/seat.png' %}" width="50" height="50">
-                                                    <p>4 Seater</p>
-    
+                                                    <img src="{% static 'assets/img/seat.png' %}" width="30" height="30">
+                                                    <p>4 Seater</p>    
                                                   </div>
                                                   <div class="col-4" style="overflow: hidden">
-                                                    <img src="{% static 'assets/img/bag.png' %}" width="50" height="50">
-                                                    <p>2 Bags</p>
-    
+                                                    <img src="{% static 'assets/img/bag.png' %}" width="30" height="30">
+                                                    <p>2 Bags</p>    
                                                   </div>
                                                   <div class="col-4" style="overflow: hidden">
-                                                    <img src="{% static 'assets/img/ac1.png' %}" width="50" height="50">
-                                                    <p>AC</p>
-    
+                                                    <img src="{% static 'assets/img/ac1.png' %}" width="30" height="30">
+                                                    <p>AC</p>    
                                                   </div>
-
-                                              </div>
-                                             
+                                              </div>                                             
                                             </div>
-                                            <div class="card-pane-right  pt-2 pb-2 pl-4 pr-4">
-                                              <div class="description-block mb-4">                                                
-                                                <h5 class="description-header">TATA INDICA</h5>
-                                                <p>10/km</p>
+                                            <div class="card-pane-right ">
+                                              <div class="description-block mb-4"><br><br>                                                
+                                                <h5 class="description-header">TATA INDICA</h5><br>
+                                                <span style="color: darkturquoise;"><i id=in_price class="fas fa-rupee-sign in_price"> None</i></span><br>
                                               </div>
                                             </div>
                                         </div> 
-                                        <div id="sumoinfo" class="d-md-flex">
+                                        <div id="sumoinfo" class="d-flex">
                                             <div class="p-1 flex-fill" style="overflow: hidden">
                                               <!-- Map will be created here -->
                                               <div  style="height: 200px; overflow: hidden">
-                                                <div class="map"><img src="{% static 'assets/img/sumo1.jpg' %}" class="rounded mx-auto" width="249" height="180"></div>
+                                                <div class="map"><img src="{% static 'assets/img/sumo1.jpg' %}" class="rounded mx-auto" width="220" height="150"></div>
                                               </div>
                                               <div class="row">
                                                 <div class="col-4" style="overflow: hidden">
-                                                    <img src="{% static 'assets/img/seat.png' %}" width="50" height="50">
-                                                    <p>7 Seater</p>
-    
+                                                    <img src="{% static 'assets/img/seat.png' %}" width="30" height="30">
+                                                    <p>7 Seater</p>    
                                                   </div>
                                                   <div class="col-4" style="overflow: hidden">
-                                                    <img src="{% static 'assets/img/bag.png' %}" width="50" height="50">
-                                                    <p>3 Bags</p>
-    
+                                                    <img src="{% static 'assets/img/bag.png' %}" width="30" height="30">
+                                                    <p>3 Bags</p>    
                                                   </div>
                                                   <div class="col-4" style="overflow: hidden">
-                                                    <img src="{% static 'assets/img/ac1.png' %}" width="50" height="50">
-                                                    <p>AC</p>
-    
+                                                    <img src="{% static 'assets/img/ac1.png' %}" width="30" height="30">
+                                                    <p>AC</p>    
                                                   </div>
-
                                               </div>
                                              
                                             </div>
-                                            <div class="card-pane-right  pt-2 pb-2 pl-4 pr-4">
-                                              <div class="description-block mb-4">                                                
-                                                <h5 class="description-header">TATA SUMO</h5>
-                                                <p>10/km</p>
+                                            <div class="card-pane-right"><br><br>
+                                              <div class="description-block mb-4">                                                                                               
+                                                <h5 class="description-header">TATA SUMO</h5><br>
+                                                <span style="color: darkturquoise;"><i id=in_price class="fas fa-rupee-sign in_price"> None</i></span><br>
                                               </div>
                                             </div>
                                         </div>                                             
+                                    </div>                                    
+                                </div>
+                                <div class="mycard">
+                                    <div class="row">
+                                        <div class="col-4 in_kilo" id="in_kilo">None</div>
+                                        <div class="col-4" id="duration_text">None</div>
+                                        <div class="col-4">₹ 10/km</div>
+                                    </div>                                    
+                                </div>
+                                <div class="card card-warning collapsed-card">
+                                    <div class="card-header">
+                                      <h3 class="card-title">Fare Details</h3>
+                      
+                                      <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+                                        </button>
+                                      </div>
+                                      <!-- /.card-tools -->
                                     </div>
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        <div class="form-card " style="padding-top: 0px; padding-left: 7px; padding-right: 7px;">
+                                            <div class="card-head">
+                                                <div class="row">                               
+                                                    <div id="exclusion" class="col-6 col p-2 border">
+                                                        <span>Exclusions</span>                                              
+                                                    </div>
+                                                    <div id="inclusion" class="col-6 col p-2 border">
+                                                        <span>Inclusions</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body" style="margin-top: 0px;">
+                                                <div id='exclusion_info' class="row text-left">                                                     
+                                                    <div class="col-md-12">
+                                                        <img src="{% static 'assets/img/exclusions_icon1.png' %}" width="30" height="30">
+                                                        Pay ₹ 10/km ofter <span class="in_kilo">None</span> km
+                                                    </div><br><br>
+                                                    <div class="col-md-12 ">
+                                                        <img src="{% static 'assets/img/exclusions_icon2.png' %}" width="30" height="30">
+                                                        Toll / State tax (₹ 750 - ₹ 900)
+                                                    </div><br><br>
+                                                    <div class="col-md-12">
+                                                        <img src="{% static 'assets/img/inclusions_icon4.png' %}" width="30" height="30">
+                                                        Night Allowance                                                      
+                                                    </div><br><br>
+                                                    <div class="col-md-12">
+                                                        <img src="{% static 'assets/img/exclusions_icon3.png' %}" width="30" height="30">
+                                                        Parking
+                                                    </div>
+                                                </div>
+                                                <div id='inclusion_info' class="row text-left">                                                     
+                                                    <div class="col-md-12">
+                                                        <img src="{% static 'assets/img/inclusions_icon1.png' %}" width="30" height="30">
+                                                        Fuel Charges
+                                                    </div><br><br>
+                                                    <div class="col-md-12 ">
+                                                        <img src="{% static 'assets/img/inclusions_icon2.png' %}" width="30" height="30">
+                                                        Driver Allowance
+                                                    </div><br><br>
+                                                    <div class="col-md-12">
+                                                        <img src="{% static 'assets/img/inclusions_icon3.png' %}" width="30" height="30">
+                                                        GST (0%)                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  <!-- /.card -->
                                 </div> <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> <input type="button" name="next" class="next action-button" value="Next Step" />
                             </fieldset>
                             <fieldset>
@@ -244,7 +302,7 @@
                                     {% endif %} 
                                     <div class="row">
                                         <div class="col-md-12 ">
-                                            <p> <span style="color: red;" >NOTE:</span> pay <i class="fas fa-rupee-sign"></i> <span style="font-weight: 900;">500</span> in advance to book a trip</p>
+                                            <p> <span style="color: red;" >NOTE:</span> Pay <span style="font-weight: 900;">₹ 500</span> in advance to Book a Trip</p>
                                             <input type="number" name="amount" value="500">
                                         </div>
                                     </div>

@@ -41,7 +41,20 @@
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
   <!-- <link href="{% static 'assets/css/my.css' %}" rel="stylesheet" > -->
-  <style type="text/css">   
+  <style type="text/css">
+    .mycard {
+    background: white;
+    border: 0 none;
+    border-radius: 0px;
+    box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    box-sizing: border-box;
+    width: 94%;
+    margin: 0 3% 20px 3%;
+    position: relative;
+    text-align: center;
+    color: #9E9E9E
+}   
     
     .show-content{
         
@@ -131,9 +144,7 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="{% url 'home' %}" class="brand-link">
-      <img src="{% static 'assets/img/kng3.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-           style="opacity: .8">
-      <span class="brand-text font-weight-light">KNG Travels</span>
+      <img src="{% static 'assets/img/kng3.png' %}" alt="KNG Travels Logo">
     </a>
 
     <!-- Sidebar -->
@@ -265,6 +276,79 @@
 <script src="{% static 'adminlte/dist/js/adminlte.js' %}"></script>
 <!-- bootstrab form wizard js file -->
 <script src="{% static 'assets/js/my.js' %}" type="text/javascript"></script>
+<!-- <script  defer src="https://maps.googleapis.com/maps/api/js?libraries=places&language=en&key=AIzaSyCx4tmnmH-zPGBnkLPEFIi3Ff8OkG_fths "  type="text/javascript"></script> -->
+<script>
+  $(function() {
+      // add input listeners
+      google.maps.event.addDomListener(window, 'load', function () {
+          var from_places = new google.maps.places.Autocomplete(document.getElementById('id_os_from'));
+          var to_places = new google.maps.places.Autocomplete(document.getElementById('id_os_to'));
+
+          google.maps.event.addListener(from_places, 'place_changed', function () {
+              var from_place = from_places.getPlace();
+              var from_address = from_place.formatted_address;
+              $('#id_os_from').val(from_address);
+          });
+
+          google.maps.event.addListener(to_places, 'place_changed', function () {
+              var to_place = to_places.getPlace();
+              var to_address = to_place.formatted_address;
+              $('#id_os_to').val(to_address);
+          });
+
+      });
+      // calculate distance
+      function calculateDistance() {
+          var origin = $('#id_os_from').val();
+          var destination = $('#id_os_to').val();
+          var service = new google.maps.DistanceMatrixService();
+          service.getDistanceMatrix(
+              {
+                  origins: [origin],
+                  destinations: [destination],
+                  travelMode: google.maps.TravelMode.DRIVING,
+                  // unitSystem: google.maps.UnitSystem.IMPERIAL, // miles and feet.
+                  unitSystem: google.maps.UnitSystem.metric, // kilometers and meters.
+                  avoidHighways: false,
+                  avoidTolls: false
+              }, callback);
+      }
+      // get distance results
+      function callback(response, status) {
+          if (status != google.maps.DistanceMatrixStatus.OK) {
+              $('#result').html(err);
+          } else {
+              var origin = response.originAddresses[0];
+              var destination = response.destinationAddresses[0];
+              if (response.rows[0].elements[0].status === "ZERO_RESULTS") {
+                  $('#result').html("Better get on a plane. There are no roads between "  + origin + " and " + destination);
+              } else {
+                  var distance = response.rows[0].elements[0].distance;
+                  var duration = response.rows[0].elements[0].duration;
+                  console.log(response.rows[0].elements[0].distance);
+                  var distance_in_price = (distance.value / 1000) * 10; // the kilom price
+                  var distance_in_kilo = distance.value / 1000; // the kilom
+                  var distance_in_mile = distance.value / 1609.34; // the mile
+                  var duration_text = duration.text;
+                  var duration_value = duration.value;
+                  $('.in_price').text(distance_in_price.toFixed(2));
+                  $('.in_kilo').text(distance_in_kilo.toFixed(2));
+                  $('#duration_text').text(duration_text);
+                  $('#duration_value').text(duration_value);
+                  $('#from').text(origin);
+                  $('#to').text(destination);
+              }
+          }
+      }
+      // print results on submit the form
+      $('#mybutton').click(function(e){
+          e.preventDefault();
+          calculateDistance();
+      });
+
+  });
+
+</script>
 
 <script>
   $(document).ready(function(){
@@ -294,7 +378,23 @@ $(document).ready(function(){
   $("#outstationinfo").show()
   $("#localinfo").hide()
   $("#airportinfo").hide()
-});
+  $("#inclusion_info").hide()
+  $("#exclusion").addClass("bg-gray")
+  });
+
+  $("#inclusion").click(function(){
+    $(this).addClass("bg-gray");
+    $("#exclusion").removeClass("bg-gray");
+    $("#exclusion_info").hide();
+    $("#inclusion_info").show();
+  });
+  $("#exclusion").click(function(){
+    $(this).addClass("bg-gray")
+    $("#inclusion").removeClass("bg-gray");
+    $("#exclusion_info").show();
+    $("#inclusion_info").hide();
+  });
+  
   $("#outstation").click(function(){
     $(this).addClass("bg-primary")   
     $("#local").removeClass("bg-primary")
@@ -368,17 +468,18 @@ $(document).ready(function(){
     if(val == "ONE WAY" ) $("input#id_os_return.form-control").hide();
     if(val == "Round Trip" ) $("input#id_os_return.form-control").show();
   });
+  
 
 </script>
-<script>
+<!-- <script>
   var onLoaded = function() {
      // I am assuming your field has id of where_load, it might be different
       var location_input = document.getElementById('id_os_from');
       var autocomplete = new google.maps.places.Autocomplete(location_input);
 
   }
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYh7xWxA24jJxOlIU7QP3HklAtuJ-Jf5s&libraries=places&callback=onLoaded" async defer></script>
+</script> -->
+<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYh7xWxA24jJxOlIU7QP3HklAtuJ-Jf5s&libraries=places&callback=onLoaded" async defer></script> -->
 
 </body>
 </html>

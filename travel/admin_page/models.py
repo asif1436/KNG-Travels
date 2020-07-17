@@ -48,9 +48,9 @@ class Local(models.Model):
 
 class AirPort(models.Model):
     ap_user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
-    ap_city = models.CharField(max_length=100, null=True, blank=True, verbose_name="Start typing city -e.g. Hyderabad")    
+    ap_city = models.CharField(max_length=100, null=True, blank=True, verbose_name="Enter Airport Address -e.g. Hyderabad")    
     ap_trip = models.CharField(max_length=50, null=True, blank=True, verbose_name="Trip Type")
-    ap_pic_add = models.CharField(max_length=100, null=True, blank=True, verbose_name="Enter your address -e.g. Hyderabad")
+    ap_pic_add = models.CharField(max_length=100, null=True, blank=True, verbose_name="Enter Your Address -e.g. Wankidi")
     ap_pickup = models.DateField(null=True, blank=True, verbose_name="PICK UP")
     ap_picktime = models.TimeField(null=True, blank=True, verbose_name="PICK UP AT")
 
