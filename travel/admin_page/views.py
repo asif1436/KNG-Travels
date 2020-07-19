@@ -50,7 +50,10 @@ def Outstation(request):
         messages.error(request, 'Your Password or Username is incorrect', extra_tags='red')
         return HttpResponseRedirect('cust_login')
     if request.method == "POST":
-        amount = int(request.POST['amount'])
+        amount = float(request.POST['amount'])
+        fare = (request.POST['fare'])
+        print(fare)
+        print("################")
         os_form = OutstationForm(request.POST )
         l_form= LocalForm(request.POST)
         ap_form = AirPortForm(request.POST)
@@ -62,19 +65,19 @@ def Outstation(request):
                 os_data = os_form.cleaned_data
                 os = os_form.save(commit=False)
                 os.os_user = request.user
-                os.save()
+                #os.save()
 
                 car = car_form.cleaned_data.get("c_car")
                 cr = car_form.save(commit=False)
                 cr.c_user = request.user
-                cr.save()
+                #cr.save()
                 
                 name = pi_form.cleaned_data.get("p_name")
                 mail = pi_form.cleaned_data.get("p_emai")
                 contact = pi_form.cleaned_data.get("p_Phone")
                 pi = pi_form.save(commit=False)
                 pi.p_user = request.user
-                pi.save()
+                #pi.save()
 
                 ############### payment gateway ####################
 
@@ -82,38 +85,49 @@ def Outstation(request):
       
                 #return render(request, 'payments/pay.html', context={'error': 'Wrong Accound Details or amount'})
 
-                transaction = Transaction.objects.create(made_by=request.user, amount=amount)
-                transaction.save()
-                merchant_key = settings.PAYTM_SECRET_KEY
+                # transaction = Transaction.objects.create(made_by=request.user, amount=amount)
+                # transaction.save()
+                # merchant_key = settings.PAYTM_SECRET_KEY
 
-                params = (
-                    ('MID', settings.PAYTM_MERCHANT_ID),
-                    ('ORDER_ID', str(transaction.order_id)),
-                    ('CUST_ID', str(transaction.made_by.email)),
-                    ('TXN_AMOUNT', str(transaction.amount)),
-                    ('CHANNEL_ID', settings.PAYTM_CHANNEL_ID),
-                    ('WEBSITE', settings.PAYTM_WEBSITE),
-                    ('EMAIL', mail),
-                    ('MOBILE_N0', contact),
-                    ('INDUSTRY_TYPE_ID', settings.PAYTM_INDUSTRY_TYPE_ID),                  
-                    ('CALLBACK_URL', 'http://127.0.0.1:8000/callback/'),
-                    # ('PAYMENT_MODE_ONLY', 'NO'),
-                )
+                # params = (
+                #     ('MID', settings.PAYTM_MERCHANT_ID),
+                #     ('ORDER_ID', str(transaction.order_id)),
+                #     ('CUST_ID', str(transaction.made_by.email)),
+                #     ('TXN_AMOUNT', str(transaction.amount)),
+                #     ('CHANNEL_ID', settings.PAYTM_CHANNEL_ID),
+                #     ('WEBSITE', settings.PAYTM_WEBSITE),
+                #     ('EMAIL', mail),
+                #     ('MOBILE_N0', contact),
+                #     ('INDUSTRY_TYPE_ID', settings.PAYTM_INDUSTRY_TYPE_ID),                  
+                #     ('CALLBACK_URL', 'http://127.0.0.1:8000/callback/'),
+                #     # ('PAYMENT_MODE_ONLY', 'NO'),
+                # )
 
-                paytm_params = dict(params)
-                checksum = generate_checksum(paytm_params, merchant_key)
+                # paytm_params = dict(params)
+                # checksum = generate_checksum(paytm_params, merchant_key)
 
-                transaction.checksum = checksum
-                transaction.save()
+                # transaction.checksum = checksum
+                # transaction.save()
 
-                paytm_params['CHECKSUMHASH'] = checksum
-                print('SENT: ', checksum)
+                # paytm_params['CHECKSUMHASH'] = checksum
+                # print('SENT: ', checksum)
+                context = {
+                    'name' : name,
+                    'car' : car,
+                    'os_data' : os_data,
+                    'fare' : fare,
+                    'amount' : amount,
+                    'balance' : float(fare)-amount,
+                }
 
-                message1 = ('New Booking', 'Dear ' + name +',\n Thank for Booking With KNG Travles. \n You booked a '+ str(car) + ' for ' + os_data['os_from'] + ' on '+ str(os_data['os_pickup']) +' at '+ str(os_data['os_picktime'])+'. \n We wish you a very happy and safe Journey, \n if you have any query contact on 9666817780 .' , 'itsmak100@gmail.com', [mail,])
-                message2 = ('New Booking', 'Dear ' + name +',\n Booked a '+ str(car) + ' for ' + os_data['os_from'] + ' on '+ str(os_data['os_pickup']) +' at '+ str(os_data['os_picktime'])+'. \n his Contact No : ' + contact + ' and Mail id ' + mail + '.', 'itsmak100@gmail.com', [mail,])
-                send_mass_mail((message1, message2), fail_silently=False)
+                # message1 = ('New Booking', 'Dear ' + name +',\n Thank for Booking With KNG Travles. \n You booked a '+ str(car) + ' for ' + os_data['os_from'] + ' on '+ str(os_data['os_pickup']) +' at '+ str(os_data['os_picktime'])+'. \n We wish you a very happy and safe Journey, \n if you have any query contact on 9666817780 .' , settings.EMAIL_HOST_USER, [mail,])
+                # message2 = ('New Booking', 'Dear Nithish, \n Your '+ str(car) + 'Booked for ' + os_data['os_from'] + ' on '+ str(os_data['os_pickup']) +' at '+ str(os_data['os_picktime'])+'. \n his Contact No : ' + contact + ' and Mail id ' + mail + '.', settings.EMAIL_HOST_USER, [settings.EMAIL_HOST_USER,])
+                # send_mass_mail((message1, message2), fail_silently=False)
+                # pi.save()
+                # os.save()
+                # cr.save()
 
-                return render(request, 'payments/redirect.html', context=paytm_params)
+                return render(request, 'thankq.html', context)
                 
         elif l_form.data["l_city"]:
             if l_form.is_valid() and car_form.is_valid() and pi_form.is_valid():
@@ -139,6 +153,8 @@ def Outstation(request):
                     'name' : name,
                     'car' : car,
                     'l_data' : l_data,
+                    'fare' : fare,
+                    'amount' : amount,
                 }
                 ########### to send multiple sms's  ###############
 
@@ -175,6 +191,9 @@ def Outstation(request):
                     'name' : name,
                     'car' : car,
                     'ap_data' : ap_data,
+                    'fare' : fare,
+                    'amount' : amount,
+                    'balance' : fare-amount,
                 }
 
                 ########### to send multiple sms's  ###############

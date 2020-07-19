@@ -30,9 +30,6 @@ html {
     position: relative
 }
 
-div.card-head{
-    font-size: 15px !important; }
-
 #msform fieldset {
     background: white;
     border: 0 none;
@@ -68,8 +65,9 @@ div.card-head{
     font-size: 16px;
     letter-spacing: 1px
 }
-
-
+div.card-head{
+    font-size: 15px !important;
+}
 
 #msform input:focus,
 #msform textarea:focus {
@@ -78,7 +76,7 @@ div.card-head{
     box-shadow: none !important;
     border: none;
     font-weight: bold;
-    border-bottom: 2px solid #fd7e14 !important;
+    border-bottom: 2px solid #fd7e14;
     outline-width: 0
 }
 
@@ -150,7 +148,7 @@ select.list-dt:focus {
 }
 
 #progressbar .active {
-    color: #000000
+    color: #fd7e14
 }
 
 #progressbar li {
@@ -162,23 +160,22 @@ select.list-dt:focus {
 }
 
 #progressbar #account:before {
-    font-family: FontAwesome ;
-    content: "\f1b9" ;
-} 
+    content: "";
+}
 
 #progressbar #personal:before {
     font-family: FontAwesome;
-    content: "\f007";
+    content: ""
 }
 
 #progressbar #payment:before {
     font-family: FontAwesome;
-    content: "\f09d"
-}
+    content: "";
 
+}
 #progressbar #confirm:before {
     font-family: FontAwesome;
-    content: "\f00c"
+    content: "";
 }
 
 #progressbar li:before {
@@ -207,12 +204,24 @@ select.list-dt:focus {
 
 #progressbar li.active:before,
 #progressbar li.active:after {
-    background: #fd7e14
+    background: #ffc107
 }
-
-
 
 .fit-image {
     width: 100%;
     object-fit: cover
+}
+
+.mycard {
+    background: white;
+    border: 0 none;
+    border-radius: 0px;
+    box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    box-sizing: border-box;
+    width: 94%;
+    margin: 0 3% 20px 3%;
+    position: relative;
+    text-align: left;
+    color: #9E9E9E
 }

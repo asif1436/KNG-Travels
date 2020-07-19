@@ -13,13 +13,16 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 3 | Dashboard</title>
+  <title>KNG | Travels</title>
   <!-- Tell the browser to be responsive to screen width -->
   <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="{% static 'adminlte/plugins/fontawesome-free/css/all.css' %}">
-  <link rel="stylesheet" href="{% static 'adminlte/plugins/fontawesome-free/css/my.css' %}">
+  
+  <link rel="stylesheet" href="{% static 'adminlte/plugins/fontawesome-free/css/all.min.css' %}">
+  <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css'>  
+  <link rel="stylesheet" href="{% static 'adminlte/dist/css/my.css' %}">
+  <!-- <link href="{% static 'assets/css/my.css' %}" rel="stylesheet" > -->
  
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -40,7 +43,7 @@
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
-  <!-- <link href="{% static 'assets/css/my.css' %}" rel="stylesheet" > -->
+
   <style type="text/css">
     .mycard {
     background: white;
@@ -54,8 +57,8 @@
     position: relative;
     text-align: center;
     color: #9E9E9E
-}   
-    
+} 
+  
     .show-content{
         
       display: block !important;
@@ -64,7 +67,11 @@
     .hide-content{
       content: "" !important ;
       display: none !important;
-    } 
+    }
+    .border-orange{
+      border-color: #fd7e14 !important;
+    }
+     
   /* label {
     width:auto;
     height: auto;
@@ -89,7 +96,7 @@
   }
   img.round-circule {
     border-radius: 50px;
-    border: 2px solid #73AD21; 
+    border: 2px solid #fd7e14; 
     width: 150px;
     height: 150px; 
   }
@@ -167,7 +174,7 @@
   </aside>
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper" id="grad1">
+  <div class="content-wrapper" id="grad1" >
     <!-- <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -221,7 +228,7 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  <footer class="main-footer">
+  <footer class="main-footer" style="height: auto;">
     <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
@@ -276,29 +283,43 @@
 <script src="{% static 'adminlte/dist/js/adminlte.js' %}"></script>
 <!-- bootstrab form wizard js file -->
 <script src="{% static 'assets/js/my.js' %}" type="text/javascript"></script>
-<!-- <script  defer src="https://maps.googleapis.com/maps/api/js?libraries=places&language=en&key=AIzaSyCx4tmnmH-zPGBnkLPEFIi3Ff8OkG_fths "  type="text/javascript"></script> -->
+<script  defer src="https://maps.googleapis.com/maps/api/js?libraries=places&language=en&key=AIzaSyCx4tmnmH-zPGBnkLPEFIi3Ff8OkG_fths "  type="text/javascript"></script>
+
 <script>
   $(function() {
       // add input listeners
-      google.maps.event.addDomListener(window, 'load', function () {
-          var from_places = new google.maps.places.Autocomplete(document.getElementById('id_os_from'));
-          var to_places = new google.maps.places.Autocomplete(document.getElementById('id_os_to'));
+      // google.maps.event.addDomListener(window, 'load', function () {
+      //   var option = {
+      //     bounds :new google.maps.LatLngBounds(
+      //       new google.maps.LatLng(20.593684, 78.96288)
+      //     ),
+      //     "types" : [ "geocode"],
+      //   };
+      //   var os_from = (document.getElementById('id_os_from'));
+      //   var l_city = (document.getElementById('id_l_city'));
+      //   var ap_from = (document.getElementById('id_ap_city'));
+      //   var ap_to = (document.getElementById('id_ap_pic_add'));
+      //   var os_to = (document.getElementById('id_os_to'));
 
-          google.maps.event.addListener(from_places, 'place_changed', function () {
-              var from_place = from_places.getPlace();
-              var from_address = from_place.formatted_address;
-              $('#id_os_from').val(from_address);
-          });
+      //   var from_places = new google.maps.places.Autocomplete(os_from, option);
+      //   var to_places = new google.maps.places.Autocomplete(os_to, option);
 
-          google.maps.event.addListener(to_places, 'place_changed', function () {
-              var to_place = to_places.getPlace();
-              var to_address = to_place.formatted_address;
-              $('#id_os_to').val(to_address);
-          });
+      //   google.maps.event.addListener(from_places, 'place_changed', function () {
+      //       var from_place = from_places.getPlace();
+      //       var from_address = from_place.formatted_address;
+      //       $('#id_os_from').val(from_address);
+      //   });
 
-      });
+      //   google.maps.event.addListener(to_places, 'place_changed', function () {
+      //       var to_place = to_places.getPlace();
+      //       var to_address = to_place.formatted_address;
+      //       $('#id_os_to').val(to_address);
+      //   });
+
+      // });
       // calculate distance
       function calculateDistance() {
+          if ($('#id_os_from').val())
           var origin = $('#id_os_from').val();
           var destination = $('#id_os_to').val();
           var service = new google.maps.DistanceMatrixService();
@@ -326,24 +347,26 @@
                   var distance = response.rows[0].elements[0].distance;
                   var duration = response.rows[0].elements[0].duration;
                   console.log(response.rows[0].elements[0].distance);
-                  var distance_in_price = (distance.value / 1000) * 10; // the kilom price
-                  var distance_in_kilo = distance.value / 1000; // the kilom
-                  var distance_in_mile = distance.value / 1609.34; // the mile
+                  var distance_in_price = (distance.value / 1000) * 20; // the kilom price
+                  var distance_in_kilo = (distance.value / 1000) * 2; // the kilom
+                  //var distance_in_mile = distance.value / 1609.34; // the mile
                   var duration_text = duration.text;
                   var duration_value = duration.value;
-                  $('.in_price').text(distance_in_price.toFixed(2));
+                  $('.in_price').text(distance_in_price.toFixed(2));                  
                   $('.in_kilo').text(distance_in_kilo.toFixed(2));
                   $('#duration_text').text(duration_text);
                   $('#duration_value').text(duration_value);
                   $('#from').text(origin);
                   $('#to').text(destination);
+                  $('#fare').val(distance_in_price.toFixed(2));
               }
           }
       }
       // print results on submit the form
-      $('#mybutton').click(function(e){
-          e.preventDefault();
-          calculateDistance();
+      
+      $('#mybutton').click(function(e){        
+        e.preventDefault();
+        calculateDistance();
       });
 
   });
@@ -352,14 +375,14 @@
 
 <script>
   $(document).ready(function(){
-  $("#id_c_car_0").before('<img src="{% static "assets/img/zest2.jpg" %}" class="form-inline" style=" border-radius: 50px; border: 2px solid #73AD21; width: 50px; height: 50px;">')  
+  $("#id_c_car_0").before('<img src="{% static "assets/img/zest2.jpg" %}" class="form-inline" style=" border-radius: 50px; border: 2px solid; width: 50px; height: 50px;">')  
   
-  $("#id_c_car_1").before('<img src="{% static "assets/img/indica1.jpg" %}" class="form-inline" style=" border-radius: 50px; border: 2px solid #73AD21; width: 50px; height: 50px;">')
+  $("#id_c_car_1").before('<img src="{% static "assets/img/indica1.jpg" %}" class="form-inline" style=" border-radius: 50px; border: 2px solid; width: 50px; height: 50px;">')
   
-  $("#id_c_car_2").before('<img src="{% static "assets/img/sumo1.jpg" %}" class="form-inline" style=" border-radius: 50px; border: 2px solid #73AD21; width: 50px; height: 50px;">')
+  $("#id_c_car_2").before('<img src="{% static "assets/img/sumo1.jpg" %}" class="form-inline" style=" border-radius: 50px; border: 2px solid; width: 50px; height: 50px;">')
+
   
 });
-
 
 </script>
 <script>
@@ -368,100 +391,111 @@ $(document).ready(function(){
   $("#id_l_trip_for_0").prop("checked", true);
   $("#id_ap_trip_0").prop("checked", true);
   $("#id_c_car_0").prop("checked", true);
-  $("#id_os_trip_type_0").parents('div.col-6.border.rounded-lg').addClass('bg-cyan');
-  $("#id_l_trip_for_0").parents('div.col-6.border.rounded-lg').addClass('bg-cyan');
-  $("#id_ap_trip_0").parents('div.col-6.border.rounded-lg').addClass('bg-cyan');
+  $('#id_c_car_0').parents("div.col-4").addClass("text-orange");
+  $("#id_os_trip_type_0").parents('div.col-6.border.rounded-lg').addClass('bg-orange');
+  $("#id_l_trip_for_0").parents('div.col-6.border.rounded-lg').addClass('bg-orange');
+  $("#id_ap_trip_0").parents('div.col-6.border.rounded-lg').addClass('bg-orange');
   $("#indicainfo").addClass("hide-content")
   $('#id_c_car_1').addClass("border")
   $("#sumoinfo").addClass("hide-content")
-  $("#outstation").addClass("bg-primary")
+  $("#outstation").addClass("bg-orange")
   $("#outstationinfo").show()
   $("#localinfo").hide()
   $("#airportinfo").hide()
   $("#inclusion_info").hide()
-  $("#exclusion").addClass("bg-gray")
+  $("#exclusion").addClass("bg-orange")
   });
 
   $("#inclusion").click(function(){
-    $(this).addClass("bg-gray");
-    $("#exclusion").removeClass("bg-gray");
+    $(this).addClass("bg-orange");
+    $("#exclusion").removeClass("bg-orange");
     $("#exclusion_info").hide();
-    $("#inclusion_info").show();
+    $("#inclusion_info").show("slow");
   });
   $("#exclusion").click(function(){
-    $(this).addClass("bg-gray")
-    $("#inclusion").removeClass("bg-gray");
-    $("#exclusion_info").show();
+    $(this).addClass("bg-orange")
+    $("#inclusion").removeClass("bg-orange");
+    $("#exclusion_info").show("slow");
     $("#inclusion_info").hide();
   });
   
   $("#outstation").click(function(){
-    $(this).addClass("bg-primary")   
-    $("#local").removeClass("bg-primary")
-    $("#airport").removeClass("bg-primary")
+    $(this).addClass("bg-orange")   
+    $("#local").removeClass("bg-orange")
+    $("#airport").removeClass("bg-orange")
     $("#outstationinfo").show()
     $("#localinfo").hide()
     $("#airportinfo").hide()
   });
   $("#local").click(function(){
-    $(this).addClass("bg-primary")
-    $("#outstation").removeClass("bg-primary")
-    $("#airport").removeClass("bg-primary")
+    $(this).addClass("bg-orange")
+    $("#outstation").removeClass("bg-orange")
+    $("#airport").removeClass("bg-orange")
     $("#outstationinfo").hide()
     $("#localinfo").show()
     $("#airportinfo").hide()
   });
   $("#airport").click(function(){
-    $(this).addClass("bg-primary")
-    $("#outstation").removeClass("bg-primary")
-    $("#local").removeClass("bg-primary")
+    $(this).addClass("bg-orange")
+    $("#outstation").removeClass("bg-orange")
+    $("#local").removeClass("bg-orange")
     $("#outstationinfo").hide()
     $("#localinfo").hide()
     $("#airportinfo").show()
   });
   $('#id_c_car_0').click(function(){
-  $("#zestinfo").removeClass("hide-content");
-  $("#indicainfo").addClass("hide-content");
-  $("#sumoinfo").addClass("hide-content");
+    $(this).parents("div.col-4").addClass("text-orange")
+    //$(this).prev().addClass("border-orange"); just add to circule
+    $('#id_c_car_1').parents("div.col-4").removeClass("text-orange")
+    $('#id_c_car_2').parents("div.col-4").removeClass("text-orange")
+    $("#zestinfo").removeClass("hide-content");
+    $("#indicainfo").addClass("hide-content");
+    $("#sumoinfo").addClass("hide-content");
   });
   $('#id_c_car_1').click(function(){
-  $("#zestinfo").addClass("hide-content")
-  $("#indicainfo").removeClass("hide-content")
-  $("#sumoinfo").addClass("hide-content")
+    $(this).parents("div.col-4").addClass("text-orange");
+    $('#id_c_car_0').parents("div.col-4").removeClass("text-orange");
+    $('#id_c_car_2').parents("div.col-4").removeClass("text-orange");
+    $("#zestinfo").addClass("hide-content");
+    $("#indicainfo").removeClass("hide-content");
+    $("#sumoinfo").addClass("hide-content");
   });
   $('#id_c_car_2').click(function(){
-  $("#zestinfo").addClass("hide-content")
-  $("#indicainfo").addClass("hide-content")
-  $("#sumoinfo").removeClass("hide-content")
+    $(this).parents("div.col-4").addClass("text-orange");
+    $('#id_c_car_0').parents("div.col-4").removeClass("text-orange");
+    $('#id_c_car_1').parents("div.col-4").removeClass("text-orange");
+    $("#zestinfo").addClass("hide-content");
+    $("#indicainfo").addClass("hide-content");
+    $("#sumoinfo").removeClass("hide-content");
   });
   $('#id_os_trip_type_0').click(function(){
-    $(this).parents('div.col-6.border.rounded-lg').addClass('bg-cyan');
-    $('#id_os_trip_type_1').parents('div.col-6.border.rounded-lg').removeClass('bg-cyan')
+    $(this).parents('div.col-6.border.rounded-lg').addClass('bg-orange');
+    $('#id_os_trip_type_1').parents('div.col-6.border.rounded-lg').removeClass('bg-orange')
     $("input#id_os_return.form-control").show();
   });
   $('#id_os_trip_type_1').click(function(){
-    $(this).parents('div.col-6.border.rounded-lg').addClass("bg-cyan");
-    $('#id_os_trip_type_0').parents('div.col-6.border.rounded-lg').removeClass('bg-cyan')
+    $(this).parents('div.col-6.border.rounded-lg').addClass("bg-orange");
+    $('#id_os_trip_type_0').parents('div.col-6.border.rounded-lg').removeClass('bg-orange')
     $("input#id_os_return.form-control").hide();
   });
   $('#id_l_trip_for_0').click(function(){
-    $(this).parents('div.col-6.border.rounded-lg').addClass('bg-cyan');
-    $('#id_l_trip_for_1').parents('div.col-6.border.rounded-lg').removeClass('bg-cyan')
+    $(this).parents('div.col-6.border.rounded-lg').addClass('bg-orange');
+    $('#id_l_trip_for_1').parents('div.col-6.border.rounded-lg').removeClass('bg-orange')
   });
   $('#id_l_trip_for_1').click(function(){
-    $(this).parents('div.col-6.border.rounded-lg').addClass("bg-cyan");
-    $('#id_l_trip_for_0').parents('div.col-6.border.rounded-lg').removeClass('bg-cyan')
+    $(this).parents('div.col-6.border.rounded-lg').addClass("bg-orange");
+    $('#id_l_trip_for_0').parents('div.col-6.border.rounded-lg').removeClass('bg-orange')
   });
   $('#id_ap_trip_0').click(function(){
-    $(this).parents('div.col-6.border.rounded-lg').addClass('bg-cyan');
-    $('#id_ap_trip_1').parents('div.col-6.border.rounded-lg').removeClass('bg-cyan')
+    $(this).parents('div.col-6.border.rounded-lg').addClass('bg-orange');
+    $('#id_ap_trip_1').parents('div.col-6.border.rounded-lg').removeClass('bg-orange')
   });
   $('#id_ap_trip_1').click(function(){
-    $(this).parents('div.col-6.border.rounded-lg').addClass("bg-cyan");
-    $('#id_ap_trip_0').parents('div.col-6.border.rounded-lg').removeClass('bg-cyan')
+    $(this).parents('div.col-6.border.rounded-lg').addClass("bg-orange");
+    $('#id_ap_trip_0').parents('div.col-6.border.rounded-lg').removeClass('bg-orange')
   });
-  $("select#id_ap_trip.form-control option[value='']").html('<option>Selcet Trip Type</option>');
-  $("select#id_os_trip_type.form-control option[value='']").html('<option>Selcet Trip Type</option>');
+ // $("select#id_ap_trip.form-control option[value='']").html('<option>Selcet Trip Type</option>');
+ // $("select#id_os_trip_type.form-control option[value='']").html('<option>Selcet Trip Type</option>');
   
   $('select#id_os_trip_type.form-control').change(function() {
     val = $(this).val();

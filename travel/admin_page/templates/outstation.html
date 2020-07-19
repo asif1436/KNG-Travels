@@ -33,15 +33,15 @@
                                 <div class="form-card " style="padding-top: 0px; padding-left: 7px; padding-right: 7px;">
                                     <div class="card-head">
                                         <div class="row">                               
-                                            <div id="outstation" class="col-4 col p-2 border">
+                                            <div id="outstation" class="col-4 col p-2 border text-warning justify-content-center">
                                                 <i class=" fas fa-map-marked-alt"></i><br>
                                                 <span>OUTSTASION</span>                                              
                                             </div>
-                                            <div id="local" class="col-4 col p-2 border">
+                                            <div id="local" class="col-4 col p-2 border text-warning">
                                                 <i class="fa fa-map-marker" ></i><br>
                                                 <span>LOCAL</span>
                                             </div>
-                                            <div id="airport" class="col-4 col p-2 border ">
+                                            <div id="airport" class="col-4 col p-2 border text-warning">
                                                 <i class="fas fa-plane-departure fa-orange"></i><br>
                                                 <span>AIRPORT</span>
                                             </div>
@@ -56,10 +56,10 @@
                                             <div class="col-md-12" style="padding-top: 15px;">
                                                 {% bootstrap_field os_form.os_from show_label=False %}
                                             </div>
-                                            <div class="col-md-12 ">
+                                            <div class="col-md-12">
                                                 {% bootstrap_field os_form.os_to show_label=False %}
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-4">                                                
                                                 {% bootstrap_field os_form.os_pickup show_label=False %}
                                                 
                                             </div>
@@ -122,54 +122,54 @@
                                         <div id="zestinfo" class="d-flex">
                                             <div class="p-1 flex-fill" style="overflow: hidden">
                                               <!-- Map will be created here -->
-                                              <div class="row">
-                                                <div class="responsive-img"><img src="{% static 'assets/img/zest2.jpg' %}" class="mx-auto" width="250" height="180"></div>
+                                              <div  style="height: 100px; width: 75%; overflow: hidedn">
+                                                <div class="responsive-img"><img src="{% static 'assets/img/zest2.jpg' %}" class="mx-auto"></div>
                                               </div>
                                               <div class="row">
                                                 <div class="col-4" style="overflow: hidden">
                                                     <img src="{% static 'assets/img/seat.png' %}" width="30" height="30">
-                                                    <p>4 Seater</p>    
-                                                  </div>
-                                                  <div class="col-4" style="overflow: hidden">
+                                                    <p>4 Seater</p>
+                                                </div>
+                                                <div class="col-4" style="overflow: hidden">
                                                     <img src="{% static 'assets/img/bag.png' %}" width="30" height="30">
                                                     <p>2 Bags</p>                                                       
-                                                  </div>
-                                                  <div class="col-4" style="overflow: hidden">
+                                                </div>
+                                                <div class="col-4" style="overflow: hidden">
                                                     <img src="{% static 'assets/img/ac1.png' %}" width="30" height="30">
                                                     <p>AC</p>           
-                                                  </div>
+                                                </div>
                                               </div>                                             
                                             </div>
-                                            <div class="card-pane-right  pt-2 pb-2">
-                                              <div class="description-block mb-4"><br><br>                                                
+                                            <div style="width: 25%; overflow: hidden;">
+                                              <div class="description-block mb-4">
                                                 <h5 class="description-header">TATA ZEST</h5><br>                                                
-                                                <span style="color: darkturquoise;"><i id=in_price class="fas fa-rupee-sign in_price"> None</i></span><br>                                                
+                                                <span style="color: darkturquoise;"><i id=in_price class="fas fa-rupee-sign in_price"> None </i></span><br>                                                
                                               </div>
                                             </div>
                                         </div>
                                         <div id="indicainfo" class="d-flex">
                                             <div class="p-1 flex-fill" style="overflow: hidden">
                                               <!-- Map will be created here -->
-                                              <div class="row">
-                                                <div class="responsive"><img src="{% static 'assets/img/indica1.jpg' %}" class="rounded mx-auto" width="220" height="150"></div>
+                                              <div  style="height: 100px; width: 75%; overflow: hidedn">
+                                                <div class="responsive"><img src="{% static 'assets/img/indica4.jpg' %}" class=" mx-auto" ></div>
                                               </div>
                                               <div class="row">
                                                 <div class="col-4" style="overflow: hidden">
                                                     <img src="{% static 'assets/img/seat.png' %}" width="30" height="30">
                                                     <p>4 Seater</p>    
-                                                  </div>
-                                                  <div class="col-4" style="overflow: hidden">
+                                                </div>
+                                                <div class="col-4" style="overflow: hidden">
                                                     <img src="{% static 'assets/img/bag.png' %}" width="30" height="30">
                                                     <p>2 Bags</p>    
-                                                  </div>
-                                                  <div class="col-4" style="overflow: hidden">
+                                                </div>
+                                                <div class="col-4" style="overflow: hidden">
                                                     <img src="{% static 'assets/img/ac1.png' %}" width="30" height="30">
                                                     <p>AC</p>    
-                                                  </div>
+                                                </div>
                                               </div>                                             
                                             </div>
-                                            <div class="card-pane-right ">
-                                              <div class="description-block mb-4"><br><br>                                                
+                                            <div style="width: 25%; overflow: hidden;">
+                                              <div class="description-block mb-4">
                                                 <h5 class="description-header">TATA INDICA</h5><br>
                                                 <span style="color: darkturquoise;"><i id=in_price class="fas fa-rupee-sign in_price"> None</i></span><br>
                                               </div>
@@ -178,26 +178,26 @@
                                         <div id="sumoinfo" class="d-flex">
                                             <div class="p-1 flex-fill" style="overflow: hidden">
                                               <!-- Map will be created here -->
-                                              <div  style="height: 200px; overflow: hidden">
-                                                <div class="map"><img src="{% static 'assets/img/sumo1.jpg' %}" class="rounded mx-auto" width="220" height="150"></div>
+                                              <div  style="height: 100px; width: 75%; overflow: hidedn">
+                                                <div class="map"><img src="{% static 'assets/img/sumo1.jpg' %}" class="mx-auto" ></div>
                                               </div>
                                               <div class="row">
                                                 <div class="col-4" style="overflow: hidden">
                                                     <img src="{% static 'assets/img/seat.png' %}" width="30" height="30">
                                                     <p>7 Seater</p>    
-                                                  </div>
-                                                  <div class="col-4" style="overflow: hidden">
+                                                </div>
+                                                <div class="col-4" style="overflow: hidden">
                                                     <img src="{% static 'assets/img/bag.png' %}" width="30" height="30">
                                                     <p>3 Bags</p>    
-                                                  </div>
-                                                  <div class="col-4" style="overflow: hidden">
+                                                </div>
+                                                <div class="col-4" style="overflow: hidden">
                                                     <img src="{% static 'assets/img/ac1.png' %}" width="30" height="30">
                                                     <p>AC</p>    
-                                                  </div>
+                                                </div>
                                               </div>
                                              
                                             </div>
-                                            <div class="card-pane-right"><br><br>
+                                            <div style="width: 25%; overflow: hidden;">
                                               <div class="description-block mb-4">                                                                                               
                                                 <h5 class="description-header">TATA SUMO</h5><br>
                                                 <span style="color: darkturquoise;"><i id=in_price class="fas fa-rupee-sign in_price"> None</i></span><br>
@@ -208,7 +208,7 @@
                                 </div>
                                 <div class="mycard">
                                     <div class="row">
-                                        <div class="col-4 in_kilo" id="in_kilo">None</div>
+                                        <div class="col-4 in_kilo" >None</div>
                                         <div class="col-4" id="duration_text">None</div>
                                         <div class="col-4">₹ 10/km</div>
                                     </div>                                    
@@ -303,11 +303,25 @@
                                     <div class="row">
                                         <div class="col-md-12 ">
                                             <p> <span style="color: red;" >NOTE:</span> Pay <span style="font-weight: 900;">₹ 500</span> in advance to Book a Trip</p>
-                                            <input type="number" name="amount" value="500">
+                                            <input id="text" type="number" name="amount" value="500">
+                                            <input id="fare" type="hidden" name="fare" value="000">
                                         </div>
                                     </div>
                                 </div>                                
                                 <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> <input type="submit" name="make_payment" class="next action-button" value="Confirm" />
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-card">
+                                    <h2 class="fs-title text-center">Success !</h2> <br><br>
+                                    <div class="row justify-content-center">
+                                        <div class="col-3"> <img src="https://img.icons8.com/color/96/000000/ok--v2.png" class="fit-image"> </div>
+                                    </div> <br><br>
+                                    <div class="row justify-content-center">
+                                        <div class="col-7 text-center">
+                                            <h5>You Have Successfully Booked</h5>
+                                        </div>
+                                    </div>
+                                </div>
                             </fieldset>                    
                         </form>
                     </div>

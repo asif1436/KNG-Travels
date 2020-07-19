@@ -13,16 +13,26 @@
 
 {% block content %}
 <div class="shadow p-4 mb-4 bg-white">
-    <h1> Dear {{name}},</h1>
-    <h2> Thank You for Booking With KNG Travels </h2>
-    <h4> soon you will get a call from our side ....</h4>
+    <div class="card-body d-flex">
+        <div class="p-1 flex-fill">
+            <div >
+                <h1> Dear {{name}},</h1>
+                <h2> Thank You for Booking With KNG Travels. </h2>
+                <h4> soon you will get a call from our side ....</h4>
+            </div>
+            <div >
+                <img src="{% static 'assets/img/thanks.png' %}" class="mx-auto">
+            </div>
+        </div>
+    </div>
+    
 </div>
 <div class="content">
     <div class="container-fluid">
-        <div class="row">
+        <div class="row justify-content-center">
             <div class="card">
-                <div class="card-head border-bottom">
-                    <h2>Your Booking Details</h2>
+                <div class="card-head border-bottom text-center">
+                    <h3>Your Booking Details</h3>
                 </div>
                 {% if ap_data %}
                     <div class="card-body p-0">
@@ -103,7 +113,15 @@
                             </tr>
                             <tr>
                                 <td>Total Fare:</td>
-                                <td>$$$$$$</td>
+                                <td>{{ fare }}</td>                             
+                            </tr>
+                            <tr>
+                                <td>You Paid:</td>
+                                <td>{{ amount }}</td>
+                            </tr>
+                            <tr>
+                                <td>Balance:</td>
+                                <td>{{ balance }}</td>
                             </tr>
                             </tbody>
                         </table>

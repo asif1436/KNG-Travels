@@ -60,8 +60,8 @@ MIDDLEWARE = [
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST= 'smtp.gmail.com'
 EMAIL_PORT= 587
-EMAIL_HOST_USER= 'itsmak100@gmail.com'
-EMAIL_HOST_PASSWORD= 'm@k12345'
+EMAIL_HOST_USER= 'itskngtravels@gmail.com'
+EMAIL_HOST_PASSWORD= 'kng4travels'
 EMAIL_USE_TLS= True
 
 
