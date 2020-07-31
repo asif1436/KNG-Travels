@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect , HttpResponseRedirect, reverse
+from django.shortcuts import render, redirect , HttpResponseRedirect, reverse, HttpResponse
 from admin_page.models import *
 from admin_page.forms import *
 from django.contrib import messages
@@ -11,6 +11,10 @@ from .paytm import generate_checksum, verify_checksum
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
+import numpy as np
+from django.utils import timezone
+from django.db.models import Q
 
 # Create your views here.
 
@@ -45,15 +49,16 @@ def register(request):
     return render(request, 'register.html', {'signup': signup})
 
 @login_required
-def Outstation(request):
+def Home(request):
     if not is_admin(request):
         messages.error(request, 'Your Password or Username is incorrect', extra_tags='red')
         return HttpResponseRedirect('cust_login')
     if request.method == "POST":
-        amount = float(request.POST['amount'])
-        fare = (request.POST['fare'])
-        print(fare)
-        print("################")
+        advance = float(request.POST['amount'])
+        ac_amount = float(request.POST['ac_price'])
+        in_amount = float(request.POST['in_price'])
+        su_ac_amount = float(request.POST['su_ac_price'])
+        su_in_amount = float(request.POST['su_price'])
         os_form = OutstationForm(request.POST )
         l_form= LocalForm(request.POST)
         ap_form = AirPortForm(request.POST)
@@ -62,22 +67,38 @@ def Outstation(request):
         if os_form.data["os_from"]:
             if os_form.is_valid() and car_form.is_valid() and pi_form.is_valid():
 
-                os_data = os_form.cleaned_data
-                os = os_form.save(commit=False)
-                os.os_user = request.user
-                #os.save()
-
                 car = car_form.cleaned_data.get("c_car")
+                car_ac = car_form.cleaned_data.get("c_ac_type")
+                car_id = car_form.cleaned_data.get("id")
+                print(car , car_ac, car_id)
                 cr = car_form.save(commit=False)
                 cr.c_user = request.user
+                cr.c_amount = ac_amount
+                cr.c_advance = advance
+                ##cr.c_outstation = os
                 #cr.save()
                 
-                name = pi_form.cleaned_data.get("p_name")
-                mail = pi_form.cleaned_data.get("p_emai")
+                name    = pi_form.cleaned_data.get("p_name")
+                mail    = pi_form.cleaned_data.get("p_email")
                 contact = pi_form.cleaned_data.get("p_Phone")
+                p_id    = pi_form.cleaned_data.get("id")
+                p_creat = pi_form.cleaned_data.get("p_created_on")
+                p_or    = pi_form.cleaned_data.get("p_order_id")
+                print(p_id , p_creat , p_or)
                 pi = pi_form.save(commit=False)
                 pi.p_user = request.user
+                #pi.p_outstation = os
                 #pi.save()
+
+                os_data = os_form.cleaned_data
+                
+                os = os_form.save(commit=False)
+                os.os_user = request.user
+                os.os_car = cr
+                os.os_persional_info = pi
+                #os.save()
+
+                
 
                 ############### payment gateway ####################
 
@@ -115,17 +136,20 @@ def Outstation(request):
                     'name' : name,
                     'car' : car,
                     'os_data' : os_data,
-                    'fare' : fare,
-                    'amount' : amount,
-                    'balance' : float(fare)-amount,
+                    'fare' : ac_amount,
+                    'amount' : advance,
+                    'balance' : ac_amount-advance,
                 }
 
                 # message1 = ('New Booking', 'Dear ' + name +',\n Thank for Booking With KNG Travles. \n You booked a '+ str(car) + ' for ' + os_data['os_from'] + ' on '+ str(os_data['os_pickup']) +' at '+ str(os_data['os_picktime'])+'. \n We wish you a very happy and safe Journey, \n if you have any query contact on 9666817780 .' , settings.EMAIL_HOST_USER, [mail,])
                 # message2 = ('New Booking', 'Dear Nithish, \n Your '+ str(car) + 'Booked for ' + os_data['os_from'] + ' on '+ str(os_data['os_pickup']) +' at '+ str(os_data['os_picktime'])+'. \n his Contact No : ' + contact + ' and Mail id ' + mail + '.', settings.EMAIL_HOST_USER, [settings.EMAIL_HOST_USER,])
                 # send_mass_mail((message1, message2), fail_silently=False)
-                # pi.save()
-                # os.save()
-                # cr.save()
+                pi.save()
+                if pi.p_order_id is None and pi.p_created_on and pi.id:
+                    pi.p_order_id = pi.p_created_on.strftime('KNG%Y%m%dODR') + str(pi.id)
+                    pi.save()
+                cr.save()
+                os.save()
 
                 return render(request, 'thankq.html', context)
                 
@@ -143,7 +167,7 @@ def Outstation(request):
                 cr.save() 
 
                 name = pi_form.cleaned_data.get("p_name")
-                mail = pi_form.cleaned_data.get("p_emai")
+                mail = pi_form.cleaned_data.get("p_email")
                 contact = pi_form.cleaned_data.get("p_Phone")
                 pi = pi_form.save(commit=False)
                 pi.p_user = request.user
@@ -181,7 +205,7 @@ def Outstation(request):
                 cr.save() 
 
                 name = pi_form.cleaned_data.get("p_name")
-                mail = pi_form.cleaned_data.get("p_emai")
+                mail = pi_form.cleaned_data.get("p_email")
                 contact = pi_form.cleaned_data.get("p_Phone")
                 pi = pi_form.save(commit=False)
                 pi.p_user = request.user.username
@@ -214,22 +238,52 @@ def Outstation(request):
                 messages.error(request, 'Somthing went Wrong!', extra_tags='red')
                 return redirect('home')
     else:
+        car_data = Cardemo.objects.all()
+        #car_json = serializers.serialize("json",  Cardemo.objects.all())
+        json_serializer = serializers.get_serializer("json")()
+        companies = json_serializer.serialize(Cardemo.objects.all(), ensure_ascii=False)
+       
         context = {
             'os_form' : OutstationForm(),
             'car_form' : CarForm(),
             'pi_form' : PersionInfoForm(),
             'l_form' : LocalForm(),
-            'ap_form' : AirPortForm()
+            'ap_form' : AirPortForm(),
+            'car_data' : car_data,
+            'companies' : companies
         }
         
-        return render(request, 'outstation.html', context)
+        return render(request, 'home.html', context)
 
 
 
 
 
-def demo(request):
-    return render(request, 'thankq.html')
+def Oustation_view(request):
+    if not is_admin(request):
+        return HttpResponseRedirect('cust_login')
+    else :
+        os_data = OutStation.objects.filter(os_user=request.user.id)
+        
+    return render(request, 'outstation.html', {"os_data":os_data, 'name':request.user.username})
+
+def Local_view(request):
+    if not is_admin(request):
+        return HttpResponseRedirect('cust_login')
+    else :
+        l_data = Local.objects.filter(l_user=request.user.id)
+        
+    return render(request, 'local.html', {"l_data":l_data, 'name':request.user.username})
+
+def Airport_view(request):
+    if not is_admin(request):
+        return HttpResponseRedirect('cust_login')
+    else :
+        ap_data = AirPort.objects.filter(ap_user=request.user.id)
+        
+    return render(request, 'airport.html', {"ap_data":ap_data, 'name':request.user.username})
+
+
 
 
 
@@ -301,3 +355,67 @@ def callback(request):
             received_data['message'] = "Checksum Mismatched"
 
         return render(request, 'payments/callback.html', context=received_data)
+
+# def Check_date(request, from_date=None, to_date=None):
+    if request.method == "GET":
+        f_date = request.GET.get("from_date")
+        t_date = request.GET.get("to_date")
+        outStation_pickup = OutStation.objects.filter(os_pickup__gte=timezone.now()).order_by("os_pickup")
+        outStation_return = OutStation.objects.filter(os_return__gte=timezone.now()).order_by("os_return")
+        print(outStation_pickup, outStation_return)
+        # local_dates = Local.objects.filter(l_return__lte=timezone.now())
+        # airport_dates = AirPort.objects.filter(ap_return__lte=timezone.now())
+        r_dates = list()
+        p_dates = list()
+        for x in outStation_pickup:
+            xy = x.os_pickup
+            p_dates.append("{}-{}-{}".format(xy.year, xy.month, xy.day))
+        for y in outStation_return:
+            yx = y.os_return
+            r_dates.append("{}-{}-{}".format(yx.year, yx.month, yx.day))
+        # for x in local_dates:
+        #     xy = x.l_return
+        #     dates.add("{}-{}-{}".format(xy.year, xy.month, xy.day))
+        # for x in airport_dates:
+        #     xy = x.ap_return
+        #     dates.add("{}-{}-{}".format(xy.year, xy.month, xy.day))
+
+        # return_dates = list(r_dates)
+        # pickup_dates = list(p_dates)
+        print(p_dates, r_dates)
+        # date_from =  OutStation.objects.filter(os_pickup=from_date).exists()
+        # print(date_from)
+        # date_to =  OutStation.objects.filter(os_return= to_date).exists()
+        # print(date_to)
+        # if date_from  and date_to:
+        # for x in return_dates:
+        #     print(x)
+        #     if from_date > x and to_date > x:
+        #         meg = "u can book"
+        #     else:
+        #         meg = "u can't book"
+        # for start, end in zip(p_dates, r_dates):
+        #     print(start,"start")
+        #     print(end,"end")
+        #     print(f_date, t_date)
+        #     #if  (start>f_date and end<t_date) or (start<f_date and end>t_date)  or (start<t_date and end>t_date) or (start<f_date and end>f_date):
+        #     if (f_date>=start and f_date<=end) and (t_date>=start and t_date<=end):
+        #         print("in")
+        #         print("##############################")               
+        #         break   
+import datetime
+def Check_date(request):
+    if request.method == "GET":
+        f_date = request.GET.get("from_date")
+        t_date = request.GET.get("to_date")
+        car_id = request.GET.get("c_id")
+        print(car_id)
+        start = datetime.datetime.strptime(f_date, '%Y-%m-%d')
+        end = datetime.datetime.strptime(t_date, '%Y-%m-%d') 
+        o =OutStation.objects.values('os_car').filter(Q(Q(os_pickup__gte=timezone.now()) & Q(os_car_id__c_car_id=car_id)) & Q(Q(Q(os_return__gte=start) & Q(os_return__lte=end)) | Q(Q(os_pickup__lte=end) & Q(os_pickup__gte=start)) | Q(Q(os_pickup__lte=end) & Q(os_return__gte=end)) | Q(Q(os_pickup__lte=start) & Q(os_return__gte=start))))
+        print(o)
+        result = o.count()
+        print(result)
+        return HttpResponse(result)
+
+

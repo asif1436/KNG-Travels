@@ -18,8 +18,11 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path('home/', views.Outstation, name='home'),
-    path('demo/', views.demo,),
+    path('home/', views.Home, name='home'),
+    path('checkdate/', views.Check_date, name='checkdate'),
+    path('outstation/', views.Oustation_view, name='outstation'),
+    path('local/', views.Local_view, name='local'),
+    path('airport/', views.Airport_view, name='airport'),
     path('callback/', views.callback, name='callback'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('cust/login/', views.login, name='cust_login'),

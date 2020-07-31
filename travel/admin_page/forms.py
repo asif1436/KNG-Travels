@@ -6,23 +6,50 @@ from tempus_dominus.widgets import DatePicker, TimePicker, DateTimePicker
 from django.forms.widgets import RadioSelect
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.utils import timezone
+import numpy as np
 
 
 
 CHOICES=[('ONE WAY', 'One way'),
   ('Round Trip', 'Round Trip')]
+
+
+outStation_dates = OutStation.objects.filter(os_return__gte=timezone.now())
+local_dates = Local.objects.filter(l_return__lte=timezone.now())
+airport_dates = AirPort.objects.filter(ap_return__lte=timezone.now())
+dates = set()
+for x in outStation_dates:
+    xy = x.os_return
+    dates.add("{}-{}-{}".format(xy.year, xy.month, xy.day))
+for x in local_dates:
+    xy = x.l_return
+    dates.add("{}-{}-{}".format(xy.year, xy.month, xy.day))
+for x in airport_dates:
+    xy = x.ap_return
+    dates.add("{}-{}-{}".format(xy.year, xy.month, xy.day))
+
+dates = list(dates)
+
+
+
 class  OutstationForm(ModelForm):
+    print("yes it's print ")
     class Meta:
         model = OutStation
-        exclude = ['os_user', 'os_status', 'os_created_on', 'os_updated_on']
+        exclude = ['os_user', 'os_status', 'os_created_on', 'os_updated_on', 'os_order_id', 'os_amount','os_persional_info', 'os_car']
         widgets = {
             #'os_trip_type': RadioSelect(),            
             'os_pickup': DatePicker(),
-            'os_return': DatePicker(),
             'os_picktime': TimePicker(),
+            'os_return': DatePicker(
+                options={
+                    'disabledDates': dates,
+                },
+            ),
+            
         }
-    
-    os_trip_type =  forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'form-check-inline'}), choices=(('Round Trip', 'Round Trip'), ('ONE WAY', 'One way')))
+    os_trip_type =  forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'form-check-inline'}), choices=(('Round Trip', 'Round Trip'), ('One Way', 'One Way')))
     
 
 
@@ -33,10 +60,11 @@ class  LocalForm(ModelForm):
         widgets = {
         'l_pickup': DatePicker(),
         'l_picktime': TimePicker(),
+        'l_return': DatePicker(),
 
         }
 
-    l_trip_for =  forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'form-check-inline'}), choices=(('8hrs/80kms', '8 hrs | 80 kms'), ('12hrs/120kms', '12 hrs | 120 kms')))
+    l_trip_for =  forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'form-check-inline'}), choices=(('8hrs/100kms', '8 hrs | 100 kms'), ('12hrs/200kms', '12 hrs | 200 kms')))
 class  AirPortForm(ModelForm):
     class Meta:
         model = AirPort
@@ -44,6 +72,7 @@ class  AirPortForm(ModelForm):
         widgets = {
         'ap_pickup': DatePicker(),
         'ap_picktime': TimePicker(),
+        'ap_return': DatePicker(),
 
         }
     ap_trip =  forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'form-check-inline'}), choices=(('CFA', 'From The Airport'), ('CTA', 'To The Airport')))
@@ -61,11 +90,16 @@ class CarForm(ModelForm):
         'c_car': RadioSelect(),
 
         }
-
+    c_ac_type =  forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'form-check-inline'}), choices=(('Without Ac', 'W/O AC'),('With Ac', 'WITH AC')))
     #c_car = forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'form-check form-check-inline '}), choices=(('zest','ZEST'), ('indica','INDICA'),('Sumo', 'SUMO'),))
 
 
 class Student_SignUpForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['username', 'password1', 'password2', 'email'] 
+        fields = ['username', 'password1', 'password2', 'email']
+
+class CardemoForm(ModelForm):
+    class Meta:
+        model = Cardemo
+        fields = ['cars', 'img', 'ac_price', 'without_ac_price', 'advance']  

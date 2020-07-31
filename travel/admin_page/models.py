@@ -2,80 +2,32 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
-
-
-
-class OutStation(models.Model):
-    os_user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
-    os_trip_type = models.CharField(max_length=50, null=True, blank=True, verbose_name="Trip Type")
-    os_from = models.CharField(max_length=100, null=True, blank=True , verbose_name="FROM city -e.g. Wankidi" )
-    os_to = models.CharField(max_length=100, null=True, blank=True, verbose_name="TO city -e.g. Hyderabad")
-    os_pickup = models.DateField(null=True, blank=True, verbose_name="PICK UP")
-    os_return = models.DateField(null=True, blank=True, verbose_name="RETURN")
-    os_picktime = models.TimeField(null=True, blank=True, verbose_name="PICK UP AT")
-
-
-    status = models.BooleanField(default=True)
-    created_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        verbose_name_plural = "OutStations"
-        verbose_name = "OutStation"
-
-    def __str__(self):
-        return self.os_trip_type
-
-
-class Local(models.Model):
-    l_user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
-    l_trip_for = models.CharField(max_length=50, null=True, blank=True, verbose_name="Trip Type")
-    l_city = models.CharField(max_length=100, null=True, blank=True, verbose_name="Start typing city -e.g. Wankidi")
-    l_pickup = models.DateField(null=True, blank=True, verbose_name="PICK UP")
-    l_picktime = models.TimeField(null=True, blank=True, verbose_name="PICK UP AT")
-    
-
-    status = models.BooleanField(default=True)
-    created_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        verbose_name_plural = "Locals"
-        verbose_name = "Local"
-
-    def __str__(self):
-        return self.l_city
-
-class AirPort(models.Model):
-    ap_user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
-    ap_city = models.CharField(max_length=100, null=True, blank=True, verbose_name="Enter Airport Address -e.g. Hyderabad")    
-    ap_trip = models.CharField(max_length=50, null=True, blank=True, verbose_name="Trip Type")
-    ap_pic_add = models.CharField(max_length=100, null=True, blank=True, verbose_name="Enter Your Address -e.g. Wankidi")
-    ap_pickup = models.DateField(null=True, blank=True, verbose_name="PICK UP")
-    ap_picktime = models.TimeField(null=True, blank=True, verbose_name="PICK UP AT")
-
-    status = models.BooleanField(default=True)
-    created_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        verbose_name_plural = "AirPorts"
-        verbose_name = "AirPort"
-
-    def __str__(self):
-        return self.ap_city
+advance=[('25', '25'), ('50', '50'), ('75', '75'), ('100', '100'),]
 
 
 class PersionInfo(models.Model):
-    p_user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)    
+    p_user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
+    # p_outstation = models.ForeignKey(OutStation, null=True, blank=True, on_delete=models.CASCADE)
+    # p_local = models.ForeignKey(Local, null=True, blank=True, on_delete=models.CASCADE)
+    # p_airport = models.ForeignKey(AirPort, null=True, blank=True, on_delete=models.CASCADE)    
     p_name = models.CharField(max_length=50, null=True, verbose_name="Name")
     p_Phone = models.CharField(max_length=50, null=True, verbose_name="Mobile Number")
-    p_emai = models.EmailField(null=True, blank=True, verbose_name="Demo@gmail.com")
+    p_email = models.EmailField(null=True, blank=True, verbose_name="Demo@gmail.com")
     p_address = models.CharField(max_length=100, null=True, blank=True, verbose_name="Exact Drop Location")
+    p_order_id = models.CharField(unique=True, max_length=100, null=True, blank=True)
 
     
-    created_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True)
+    p_created_on = models.DateTimeField(auto_now_add=True)
+    P_updated_on = models.DateTimeField(auto_now=True)
+    
+    # def save(self, *args, **kwargs):
+    #     print(self.id)
+    #     print(self.p_order_id)
+    #     print(self.p_created_on)
+    #     print(self.p_name)
+    #     if self.p_order_id is None and self.p_created_on and self.id:
+    #         self.p_order_id = self.p_created_on.strftime('KNG%Y%m%dODR') + str(self.id)
+    #         super(PersionInfo, self).save(*args, **kwargs) 
 
     class Meta:
         verbose_name_plural = "PersionInfos"
@@ -83,17 +35,31 @@ class PersionInfo(models.Model):
     
     def __str__(self):
         return str(self.p_name)
+    
+    
+    
 
+    
 class Cardemo(models.Model):
     cars = models.CharField(max_length=50, null=True, verbose_name="car name")
     img = models.ImageField(upload_to='4wheeler/Images/', null=True, blank=True, verbose_name="Car Image")
+    ac_price = models.FloatField(null=True, blank=True, verbose_name="Car Ac Price")
+    without_ac_price = models.FloatField(null=True, blank=True, verbose_name="Car Without Ac Price")
+    advance = models.CharField(max_length=50, null=True, blank=True, choices=advance, verbose_name="Adavnce Payment")
 
     def __str__(self):
         return self.cars
 
 class Car(models.Model):
     c_user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
+    # c_outstation = models.ForeignKey(OutStation, null=True, blank=True, on_delete=models.CASCADE)
+    # c_local = models.ForeignKey(Local, null=True, blank=True, on_delete=models.CASCADE)
+    # c_airport = models.ForeignKey(AirPort, null=True, blank=True, on_delete=models.CASCADacE)
     c_car = models.ForeignKey(Cardemo, default=0, null=True, on_delete=models.CASCADE)
+    c_ac_type = models.CharField(max_length=50, null=True, blank=True, verbose_name="AC Type")    
+    c_amount = models.FloatField( null=True, blank=True)
+    c_advance = models.FloatField( null=True, blank=True)
+
     
     class Meta:
         verbose_name_plural = "Cars"
@@ -115,3 +81,75 @@ class Transaction(models.Model):
         if self.order_id is None and self.made_on and self.id:
             self.order_id = self.made_on.strftime('PAY2ME%Y%m%dODR') + str(self.id)
         return super().save(*args, **kwargs)
+
+class OutStation(models.Model):
+    print("model called")
+    os_user = models.ForeignKey(User, related_name='os', null=True, blank=True, on_delete=models.CASCADE)
+    os_trip_type = models.CharField(max_length=50, null=True, blank=True, verbose_name="Trip Type")
+    os_from = models.CharField(max_length=100, null=True, blank=True , verbose_name="FROM city -e.g. Wankidi" )
+    os_to = models.CharField(max_length=100, null=True, blank=True, verbose_name="TO city -e.g. Hyderabad")
+    os_pickup = models.DateField(null=True, blank=True, verbose_name="PICK UP")
+    os_return = models.DateField(null=True, blank=True, verbose_name="RETURN")
+    os_picktime = models.TimeField(null=True, blank=True, verbose_name="PICK UP AT")
+    os_car = models.ForeignKey(Car, null=True, blank=True, on_delete=models.CASCADE)
+    os_persional_info = models.ForeignKey(PersionInfo, null=True, blank=True, on_delete=models.CASCADE)
+    
+
+    os_status = models.BooleanField(default=True)
+    os_created_on = models.DateTimeField(auto_now_add=True)
+    os_updated_on = models.DateTimeField(auto_now=True)
+
+    
+    class Meta:
+        verbose_name_plural = "OutStations"
+        verbose_name = "OutStation"
+    
+    def __str__(self):
+        return str(self.os_user)
+    
+class Local(models.Model):
+    l_user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
+    l_trip_for = models.CharField(max_length=50, null=True, blank=True, verbose_name="Trip Type")
+    l_from = models.CharField(max_length=100, null=True, blank=True, verbose_name="From -e.g. Wankidi")
+    l_to = models.CharField(max_length=100, null=True, blank=True, verbose_name="To -e.g. Mancherial")
+    l_pickup = models.DateField(null=True, blank=True, verbose_name="PICK UP")
+    l_picktime = models.TimeField(null=True, blank=True, verbose_name="PICK UP AT")
+    l_return = models.DateField(null=True, blank=True, verbose_name="RETURN")
+    l_car = models.ForeignKey(Car, null=True, blank=True, on_delete=models.CASCADE)
+    l_persional_info = models.ForeignKey(PersionInfo, null=True, blank=True, on_delete=models.CASCADE)
+    
+
+    status = models.BooleanField(default=True)
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural = "Locals"
+        verbose_name = "Local"
+
+    def __str__(self):
+        return str(self.l_user)
+
+class AirPort(models.Model):
+    ap_user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
+    ap_city = models.CharField(max_length=100, null=True, blank=True, verbose_name="Airport Address -e.g. (RGIA) Rajiv Gandhi International Airport")    
+    ap_trip = models.CharField(max_length=50, null=True, blank=True, verbose_name="Trip Type")
+    ap_pic_add = models.CharField(max_length=100, null=True, blank=True, verbose_name="Your Address -e.g. Wankidi")
+    ap_pickup = models.DateField(null=True, blank=True, verbose_name="PICK UP")
+    ap_picktime = models.TimeField(null=True, blank=True, verbose_name="PICK UP AT")
+    ap_return = models.DateField(null=True, blank=True, verbose_name="RETURN")
+    ap_car = models.ForeignKey(Car, null=True, blank=True, on_delete=models.CASCADE)
+    ap_persional_info = models.ForeignKey(PersionInfo, null=True, blank=True, on_delete=models.CASCADE)
+
+    status = models.BooleanField(default=True)
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural = "AirPorts"
+        verbose_name = "AirPort"
+
+    def __str__(self):
+        return str(self.ap_user)
+    
+    

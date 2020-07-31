@@ -1,0 +1,367 @@
+{% extends 'base.html' %}
+{% load static %}
+{# Load the tag library #}
+{% load bootstrap4 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+
+{% block content %}
+<!-- MultiStep Form -->
+
+<div class="container-fluid" >
+    <div class="row justify-content-center mt-0">        
+        <div class="col-12 col-sm-9 col-md-7 col-lg-6 text-center p-0 mt-3 mb-2">
+            <div class="card px-0 pt-0 pb-0 mt-3 mb-3">
+                <div class="row">
+                    <div class="col-md-12 mx-0">
+                        <form method="POST" id="msform">
+                            {% csrf_token %}
+                            <!-- progressbar -->
+                            <ul id="progressbar">
+                                <i ></i>
+                                <li class="active" id="account"><strong ></strong></li>
+                                <li id="personal"><strong ></strong></li>
+                                <li id="payment"><strong ></strong></li>
+                                <li id="confirm"><strong ></strong></li>
+                            </ul> <!-- fieldsets -->
+                            <fieldset id="resetClick">
+                                <div class="form-card " style="padding-top: 0px; padding-left: 7px; padding-right: 7px;">
+                                    <div class="card-head">
+                                        <div class="row">                               
+                                            <div id="outstation" class="col-4 col p-2 border text-warning justify-content-center">
+                                                <i class=" fas fa-map-marked-alt"></i><br>
+                                                <span>OUTSTASION</span>                                              
+                                            </div>
+                                            <div id="local" class="col-4 col p-2 border text-warning">
+                                                <i class="fa fa-map-marker" ></i><br>
+                                                <span>LOCAL</span>
+                                            </div>
+                                            <div id="airport" class="col-4 col p-2 border text-warning">
+                                                <i class="fas fa-plane-departure fa-orange"></i><br>
+                                                <span>AIRPORT</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" style="margin-top: 0px;">
+                                        <div id='outstationinfo' class="row ">
+                                            
+                                            {% for tt in os_form.os_trip_type %}                                              
+                                            <div class="col-6 border rounded-lg">{{ tt }}</div>
+                                            {% endfor %}
+                                            <div class="col-md-12 .fa-ad" style="padding-top: 15px;">
+                                                {% bootstrap_field os_form.os_from show_label=False %}
+                                            </div>
+                                            <div class="col-md-12">
+                                                {% bootstrap_field os_form.os_to show_label=False %}
+                                            </div>
+                                            <div class="col-md-4">                                                
+                                                {% bootstrap_field os_form.os_pickup show_label=False %}
+                                                
+                                            </div>
+                                            <div class="col-md-4">
+                                                {% bootstrap_field os_form.os_picktime show_label=False %}
+                                            </div>
+                                            <div class="col-md-4">
+                                                {% bootstrap_field os_form.os_return show_label=False %}
+                                            </div>
+                                        </div>
+                                        <div id="localinfo" class="row">
+                                            <div class="mycard m-0" style="background-color: lightyellow;">
+                                                <div class="row">
+                                                    <div class="col-12" id="result6"><span class="text-danger border-warning">Note : </span>Under 200 kms Only</div>                                                    
+                                                </div>                                    
+                                            </div>
+                                            <div class="col-md-12" style="padding-top: 15px;">                                                
+                                                <div>{% bootstrap_field l_form.l_from show_label=False  %}</div>                                     		                                                                                    
+                                            </div>
+                                            <div class="col-md-12">                                                
+                                                <div>{% bootstrap_field l_form.l_to show_label=False  %}</div>                                     		                                                                                    
+                                            </div> 
+                                            <div class="col-md-12">
+                                                {% bootstrap_field l_form.l_pickup show_label=False %}
+                                            </div>
+                                            <div class="col-md-12 ">
+                                                {% bootstrap_field l_form.l_picktime show_label=False %}
+                                            </div>
+                                            <div class="col-md-12">                                                
+                                                <div>{% bootstrap_field l_form.l_return show_label=False  %}</div>                                     		                                                                                    
+                                            </div>                                            
+                                        </div>
+                                        <div id="airportinfo" class="row">
+                                            {% for tt in ap_form.ap_trip %}                                              
+                                            <div class="col-6 border rounded-lg">{{ tt }}</div>
+                                            {% endfor %}
+                                            <div class="col-md-12" style="padding-top: 15px;">                                                
+                                                <div>{% bootstrap_field ap_form.ap_city show_label=False  %}</div>                                     		                                                                                    
+                                            </div>
+                                            <div class="col-md-12">                                                
+                                                <div>{% bootstrap_field ap_form.ap_pic_add show_label=False  %}</div>                                     		                                                                                    
+                                            </div> 
+                                            <div class="col-md-12">
+                                                {% bootstrap_field ap_form.ap_pickup show_label=False %}
+                                            </div>
+                                            <div class="col-md-12 ">
+                                                {% bootstrap_field ap_form.ap_picktime show_label=False %}
+                                            </div>
+                                            <div class="col-md-12 ">
+                                                {% bootstrap_field ap_form.ap_return show_label=False %}
+                                            </div>                                             
+                                        </div>
+                                    </div>
+                                </div> <input id="SubmitForm" type="button" name="next" class="next action-button" value="Select Car" />
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-card text-center" style="padding-top: 7px; padding-left: 7px; padding-right: 7px;">
+                                    <div class="card-head border-bottom ">
+                                        <div class="row">
+                                            <!-- <div class="col-md-12" >
+                                                {% bootstrap_field car_form.c_car show_label=False %}                                                
+                                            </div><br> -->
+                                            <!-- {% for car_image in car_data %}
+                                            <div class="col-4">                                               
+                                                <img src="../media/{{ car_image.img }}" style=" border-radius: 50px; border: 2px solid; width: 50px; height: 50px; margin: auto;">
+                                            </div> 
+                                            {% endfor %} -->
+                                            {% for car in car_form.c_car %}
+                                            <div class="col-4 carclick">
+                                                {{ car }}
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="zestinfo" class="d-flex">
+                                            <div class="p-1 flex-fill" style="overflow: hidden">
+                                              <!-- Map will be created here -->
+                                              <div  style="height: 100px; width: 75%; overflow: hidedn">
+                                                <div class="responsive-img"><img src="{% static 'assets/img/zest2.jpg' %}" class="mx-auto"><img src="{% static 'assets/img/booked4.jpg' %}" class="bookedimg"></div>
+                                              </div>
+                                              <div class="row">
+                                                <div class="col-4" style="overflow: hidden">
+                                                    <p class="id_seat" style="font-size: 14px;">4 Seater</p>
+                                                </div>
+                                                <div class="col-4" style="overflow: hidden">
+                                                    <p class="id_bag" style="font-size: 14px;">2 Bags</p>                                                       
+                                                </div>
+                                                <div class="col-4" style="overflow: hidden">
+                                                    <p class="id_ac" style="font-size: 14px;">AC</p>           
+                                                </div>
+                                              </div>
+                                              <div class="row m-0">
+                                                <div class="col-6 border rounded border-warning id_c_ac_type_0" style="font-size: 14px;">W/O AC ₹ {{car_data.0.without_ac_price }}</div>                                              
+                                                <div class="col-6 border rounded border-warning id_c_ac_type_1" style="font-size: 14px;">AC ₹ {{car_data.0.ac_price }}</div>                                                                                                                               
+                                            </div>
+                                                                                           
+                                            </div>
+                                            <div style="width: 25%; overflow: hidden;">
+                                              <div class="description-block mb-4">
+                                                <h5 class="description-header">TATA ZEST</h5><br>                                                
+                                                <span style="color: darkturquoise;"><i class="fas fa-rupee-sign ac_without in_price"> None</i><i  class="fas fa-rupee-sign ac_with ac_price"> None</i></span><br>
+                                                <input type="hidden" class="ac_with ac_price" name="ac_price" value=None> 
+                                                <input type="hidden" class="ac_without in_price" name="in_price" value=None1>
+                                                                                                
+                                              </div>
+                                            </div>                                            
+                                        </div>
+                                        <div id="indicainfo" class="d-flex">
+                                            <div class="p-1 flex-fill" style="overflow: hidden">
+                                              <!-- Map will be created here -->
+                                              <div  style="height: 100px; width: 75%; overflow: hidedn">
+                                                <div class="responsive"><img src="{% static 'assets/img/indica4.jpg' %}" class=" mx-auto" ><img src="{% static 'assets/img/booked4.jpg' %}" class="bookedimg"></div>
+                                              </div>
+                                              <div class="row">
+                                                <div class="col-4" style="overflow: hidden">
+                                                    <p class="id_seat" style="font-size: 14px;">4 Seater</p>    
+                                                </div>
+                                                <div class="col-4" style="overflow: hidden">
+                                                    <p class="id_bag" style="font-size: 14px;">2 Bags</p>    
+                                                </div>
+                                                <div class="col-4" style="overflow: hidden">
+                                                    <p class="id_ac" style="font-size: 14px;">AC</p>    
+                                                </div>
+                                              </div>
+                                              <div class="row m-0">
+                                                <div class="col-6 border rounded border-warning id_c_ac_type_0" style="font-size: 14px;">W/O AC ₹ {{car_data.1.without_ac_price }}</div>                                              
+                                                <div class="col-6 border rounded border-warning id_c_ac_type_1" style="font-size: 14px;">AC ₹ {{car_data.1.ac_price }}</div>                                                                                                                               
+                                            </div>                                             
+                                            </div>
+                                            <div style="width: 25%; overflow: hidden;">
+                                              <div class="description-block mb-4">
+                                                <h5 class="description-header">TATA INDICA</h5><br>
+                                                <span style="color: darkturquoise;"><i  class="fas fa-rupee-sign ac_without in_price"> None</i><i  class="fas fa-rupee-sign ac_with ac_price "> None</i></span><br>
+                                                <!-- <input type="hidden" class="ac_with ac_price " name={{car_data.0.ac_price}} value=None> 
+                                                <input type="hidden" class="ac_without in_price" name={{car_data.0.without_ac_price}} value=None1> -->
+                                              </div>
+                                            </div>
+                                        </div> 
+                                        <div id="sumoinfo" class="d-flex">
+                                            <div class="p-1 flex-fill" style="overflow: hidden">
+                                              <!-- Map will be created here -->
+                                              <div  style="height: 100px; width: 75%; overflow: hidedn">
+                                                <div class="map"><img src="{% static 'assets/img/sumo1.jpg' %}" class="mx-auto" ><img src="{% static 'assets/img/booked4.jpg' %}" class="bookedimg"></div>
+                                              </div>
+                                              <div class="row">
+                                                <div class="col-4" style="overflow: hidden">
+                                                    <p class="id_seat" style="font-size: 14px;">7 Seater</p>    
+                                                </div>
+                                                <div class="col-4" style="overflow: hidden">
+                                                    <p class="id_bag" style="font-size: 14px;">3 Bags</p>    
+                                                </div>
+                                                <div class="col-4" style="overflow: hidden">
+                                                    <p class="id_ac" style="font-size: 14px;">AC</p>    
+                                                </div>
+                                              </div>
+                                              <div class="row m-0">
+                                                <div class="col-6 border rounded border-warning id_c_ac_type_0" style="font-size: 14px;">W/O AC ₹ {{car_data.2.without_ac_price }}</div>                                              
+                                                <div class="col-6 border rounded border-warning id_c_ac_type_1" style="font-size: 14px;">AC ₹ {{car_data.2.ac_price }}</div>                                                                                                                               
+                                            </div>
+                                             
+                                            </div>
+                                            <div style="width: 25%; overflow: hidden;">
+                                              <div class="description-block mb-4">                                                                                               
+                                                <h5 class="description-header">TATA SUMO</h5><br>
+                                                <span style="color: darkturquoise;"><i  class="fas fa-rupee-sign su_ac_price ac_with "> None</i><i  class="fas fa-rupee-sign su_price ac_without "> None</i></span><br>
+                                                <input type="hidden" class="su_ac_price " name="su_ac_price" value=None> 
+                                                <input type="hidden" class="su_price fas " name="su_price" value=None><br>
+                                              </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="row" style="display: none;">
+                                            {% for ac_type in car_form.c_ac_type %}                                              
+                                            <div class="col-6 border rounded-lg">{{ ac_type }}</div>
+                                            {% endfor %}                                                                                 
+                                        </div>                                              
+                                    </div>                                    
+                                </div>
+                                <div class="mycard">
+                                    <div class="row">
+                                        <div class="col-6 " ><span class="in_kilo">None</span><span> / KM</span></div>
+                                        <div class="col-6" id="duration_text">None</div>
+                                        <!-- {% for car in car_data %}                                        
+                                        <div class="col-4">₹ {{ car.ac_price }}</div>
+                                        {% endfor %} -->
+                                    </div>                                    
+                                </div>
+                                <div class="card card-warning collapsed-card">
+                                    <div class="card-header">
+                                      <h3 class="card-title">Fare Details</h3>
+                      
+                                      <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+                                        </button>
+                                      </div>
+                                      <!-- /.card-tools -->
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        <div class="form-card " style="padding-top: 0px; padding-left: 7px; padding-right: 7px;">
+                                            <div class="card-head">
+                                                <div class="row">                               
+                                                    <div id="exclusion" class="col-6 col p-2 border">
+                                                        <span>Exclusions</span>                                              
+                                                    </div>
+                                                    <div id="inclusion" class="col-6 col p-2 border">
+                                                        <span>Inclusions</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body" style="margin-top: 0px;">
+                                                <div id='exclusion_info' class="row text-left">                                                     
+                                                    <div class="col-md-12">
+                                                        <img src="{% static 'assets/img/exclusions_icon1.png' %}" width="30" height="30">
+                                                        Pay ₹ 10/km ofter <span class="in_kilo">None</span> km
+                                                    </div><br><br>
+                                                    <div class="col-md-12 ">
+                                                        <img src="{% static 'assets/img/exclusions_icon2.png' %}" width="30" height="30">
+                                                        Toll / State tax (₹ 750 - ₹ 900)
+                                                    </div><br><br>
+                                                    <div class="col-md-12">
+                                                        <img src="{% static 'assets/img/inclusions_icon4.png' %}" width="30" height="30">
+                                                        Night Allowance                                                      
+                                                    </div><br><br>
+                                                    <div class="col-md-12">
+                                                        <img src="{% static 'assets/img/exclusions_icon3.png' %}" width="30" height="30">
+                                                        Parking
+                                                    </div>
+                                                </div>
+                                                <div id='inclusion_info' class="row text-left">                                                     
+                                                    <div class="col-md-12">
+                                                        <img src="{% static 'assets/img/inclusions_icon1.png' %}" width="30" height="30">
+                                                        Fuel Charges
+                                                    </div><br><br>
+                                                    <div class="col-md-12 ">
+                                                        <img src="{% static 'assets/img/inclusions_icon2.png' %}" width="30" height="30">
+                                                        Driver Allowance
+                                                    </div><br><br>
+                                                    <div class="col-md-12">
+                                                        <img src="{% static 'assets/img/inclusions_icon3.png' %}" width="30" height="30">
+                                                        GST (0%)                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  <!-- /.card -->
+                                </div> <input  type="button" name="previous" class="previous action-button-previous" value="Previous" /> <input id="carbutton" type="button" name="next" class="next action-button" value="Next Step" />
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-card">
+                                    <h2 class="fs-title">Personal Information</h2> 
+                                    <div class="row">                                        
+                                        <div class="col-md-12">
+                                            {% bootstrap_field pi_form.p_name show_label=False %}
+                                        </div>
+                                        <div class="col-md-12 ">
+                                            {% bootstrap_field pi_form.p_Phone show_label=False %}
+                                        </div>
+                                        <div class="col-md-12">
+                                            {% bootstrap_field pi_form.p_email show_label=False %} 
+                                        </div>
+                                        <div class="col-md-12">
+                                            {% bootstrap_field pi_form.p_address show_label=False %}
+                                        </div>
+                                    </div>
+                                </div><input type="button" name="previous" class="previous action-button-previous" value="Previous" /> <input type="button" name="next" class="next action-button" value="payment" />
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-card">
+                                    <h2 class="fs-title">Payment Home</h2>
+                                    {% if error %}
+                                    <h3>{{ error }}</h3>
+                                    {% endif %} 
+                                    <div class="row">
+                                        <div class="col-md-12 ">
+                                            <p> <span style="color: red;" >NOTE:</span> Pay <span style="font-weight: 900;">₹ 500</span> in advance to Book a Trip</p>
+                                            <input id="text" type="number" name="amount" value="500">
+                                        </div>
+                                    </div>
+                                </div>                                
+                                <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> <input type="submit" name="make_payment" class="next action-button" value="Confirm" />
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-card">
+                                    <h2 class="fs-title text-center">Success !</h2> <br><br>
+                                    <div class="row justify-content-center">
+                                        <div class="col-3"> <img src="https://img.icons8.com/color/96/000000/ok--v2.png" class="fit-image"> </div>
+                                    </div> <br><br>
+                                    <div class="row justify-content-center">
+                                        <div class="col-7 text-center">
+                                            <h5>You Have Successfully Booked</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>                    
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

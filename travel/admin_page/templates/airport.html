@@ -16,45 +16,46 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row justify-content-center">
-            {% for x in os_data %}            
+            {% for x in ap_data %}            
             <div class="card card-outline card-warning m-1">
                 <div class="card-head border-bottom text-center">
-                    <h4>{{  x.os_persional_info.p_order_id }} || {{  x.os_created_on }}</h4>
+                    <h6>{{  x.os_order_id }} {{  x.created_on }}</h6>
                 </div>
                 <div class="card-body p-0">
                     <table class="table table-striped">
                         <tr>
                             <td>NAME :</td>
-                            <td>{{ x.os_persional_info.p_name }}</td>
+                            <td>{{ x.ap_persional_info.p_name }}</td>
                         </tr>
                         <tr>
                             <td>PHONE NO. :</td>
-                            <td>{{  x.os_persional_info.p_Phone }}</td>
+                            <td>{{  x.ap_persional_info.p_Phone }}</td>
                         </tr>
                         <tr>
                             <td>EMAIL ID :</td>
-                            <td>{{  x.os_persional_info.p_email }}</td>
+                            <td>{{  x.ap_persional_info.p_emai }}</td>
                         </tr>
+                        <tr>
+                            <td>Itinerary:</td>
+                             <td>{{ x.ap_city }}>>{{ x.ap_pic_add }}>>{{ x.ap_city }}</td>
+                         </tr> 
                         <tr>
                             <td>Pickup Date :</td>
-                            <td>{{ x.os_pickup }} at {{ x.os_picktime }}</td>
+                            <td>{{ x.ap_pickup }} at {{ x.ap_picktime }}</td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td>Return Date :</td>
-                            <td>{{ x.os_return}}</td>
-                        </tr>
+                            <td>{{ x.ap_return}}</td>
+                        </tr> -->
                         <tr>
                             <td>Trip Type :</td>
-                            <td>{{ x.os_trip_type }}</td>
+                            <td>{{ x.ap_trip_type }}</td>
                         </tr>
                         <tr>
                             <td>Car Type :</td>
-                            <td>{{ x.os_car.c_car }}</td>
+                            <td>{{ x.ap_car.c_car }}</td>
                         </tr>
-                        <tr>
-                            <td>Total Fare :</td>
-                            <td>{{ x.os_car.c_amount }}</td>                             
-                        </tr>
+                        
                         
                         </tbody>
                     </table>
@@ -67,7 +68,7 @@
                     <div class="p-1 flex-fill">
                         <div >
                             <h1> Dear {{ name|title }},</h1>
-                            <h2> Sorry You Don't Have Any Outstation bookings... </h2>
+                            <h2> Sorry You Don't Have Any Airport bookings... </h2>
                         </div>
                     </div>
                 </div>                

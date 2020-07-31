@@ -7,6 +7,7 @@ $(".next").click(function(){
 current_fs = $(this).parent();
 next_fs = $(this).parent().next();
 
+
 //Add Class Active
 $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
 

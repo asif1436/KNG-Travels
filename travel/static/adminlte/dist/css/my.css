@@ -160,25 +160,26 @@ select.list-dt:focus {
 }
 
 #progressbar #account:before {
-    content: "";
+    font-family: FontAwesome;
+    content: "Trip For";
 }
 
 #progressbar #personal:before {
     font-family: FontAwesome;
-    content: ""
+    content: "Selcet Car"
 }
 
 #progressbar #payment:before {
     font-family: FontAwesome;
-    content: "";
+    content: "Persional Info";
 
 }
 #progressbar #confirm:before {
     font-family: FontAwesome;
-    content: "";
+    content: "Payment";
 }
 
-#progressbar li:before {
+/* #progressbar li:before {
     width: 50px;
     height: 50px;
     line-height: 65px;
@@ -189,6 +190,42 @@ select.list-dt:focus {
     border-radius: 50%;
     margin: 0 auto 10px auto;
     padding: 2px
+} */
+#progressbar li:before {
+    width: 70px;
+    height: 50px;
+    line-height:4;
+    display: block;
+    animation-name: example;
+    font-size: 12px;
+    color: #001f3f;
+    background: lightgray;
+    border-radius: 10%;
+    margin: 0 auto 10px auto;
+    padding: 2px
+    
+}
+/* #progressbar li:before {
+    position: absolute;
+    text-align: center;
+    padding: 12px;
+    font-size: 12px;
+    text-transform: uppercase;
+    -webkit-font-smoothing: subpixel-antialiased;
+    background-color: #f44336;
+    top: -4px;
+    left: 0px;
+    border-radius: 4px;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-weight: 500;
+    box-shadow: 0 16px 26px -10px rgba(244, 67, 54, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(244, 67, 54, 0.2);
+  } */
+
+@keyframes example{
+    25% {left:20px; top:0px;}
+    25% {left:0px; top:0px;}
+
 }
 
 #progressbar li:after {

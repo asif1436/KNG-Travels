@@ -32,6 +32,7 @@ class CarAdmin(admin.ModelAdmin):
 
 admin.site.register(Car, CarAdmin)
 
+
 class CardemoAdmin(admin.ModelAdmin):
     display = "__all__"
 
