@@ -19,7 +19,7 @@
             {% for x in l_data %}            
             <div class="card card-outline card-warning m-1">
                 <div class="card-head border-bottom text-center">
-                    <h6> KNG/20200721ORD36 || {{  x.created_on }}</h6>
+                    <h6> {{ x.l_persional_info.p_order_id }} || {{  x.created_on }}</h6>
                 </div>
                 <div class="card-body p-0">
                     <table class="table table-striped">
@@ -33,11 +33,11 @@
                         </tr>
                         <tr>
                             <td>EMAIL ID :</td>
-                            <td>{{  x.l_persional_info.p_emai }}</td>
+                            <td>{{  x.l_persional_info.p_email }}</td>
                         </tr>
                         <tr>
                            <td>Itinerary:</td>
-                            <td>{{ x.l_city }}>>{{ x.l_return }}>>{{ x.l_city }}</td>
+                            <td>{{ x.l_from }}>>{{ x.l_to }}>>{{ x.l_from }}</td>
                         </tr> 
                         <tr>
                             <td>Pickup Date :</td>
@@ -49,16 +49,16 @@
                         </tr>
                         <tr>
                             <td>Trip Type :</td>
-                            <td>{{ x.l_trip_type }}</td>
+                            <td> Local </td>
                         </tr>
                         <tr>
                             <td>Car Type :</td>
                             <td>{{ x.l_car.c_car }}</td>
                         </tr>
-                        <!-- <tr>
+                        <tr>
                             <td>Total Fare :</td>
-                            <td>{{ x.l_amount }}</td>                             
-                        </tr> -->
+                            <td>{{ x.l_car.c_amount }}</td>                             
+                        </tr>
                         
                         </tbody>
                     </table>

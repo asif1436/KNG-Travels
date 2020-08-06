@@ -65,7 +65,26 @@ t_date = '2020-08-16'
 # js=serializers.serialize("json",obj)
 # return HttpResponse(js)
 
-cars = Car.objects.all()
-out = OutStation.objects.filter(id__in=cars)
-js=serializers.serialize("json",out)
-HttpResponse(js)
+# cars = Car.objects.all()
+# out = OutStation.objects.filter(id__in=cars)
+# js=serializers.serialize("json",out)
+# HttpResponse(js)
+
+# import requests
+
+# url = "https://www.fast2sms.com/dev/bulk"
+
+# payload = {"sender_id"="FSTSMS",
+# "message"="This%20is%20a%20test%20message",
+# "language"="english",
+# "route"='p',
+# "numbers"="9666146101",}
+# headers = {
+#     'authorization': "F1t5krIUSpe6Vf0mCQ7zZuBJqGcdglhbAMjv9XNToK2PnYRE344HMxXnYkiyDN0wRKlTsFeCaVhZEmjB",
+#     'Content-Type': "application/x-www-form-urlencoded",
+#     'Cache-Control': "no-cache",
+#     }
+
+# response = requests.request("POST", url, data=payload, headers=headers)
+
+# print(response.text)

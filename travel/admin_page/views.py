@@ -1,3 +1,4 @@
+import requests
 from django.shortcuts import render, redirect , HttpResponseRedirect, reverse, HttpResponse
 from admin_page.models import *
 from admin_page.forms import *
@@ -15,6 +16,7 @@ from django.core import serializers
 import numpy as np
 from django.utils import timezone
 from django.db.models import Q
+
 
 # Create your views here.
 
@@ -69,69 +71,25 @@ def Home(request):
 
                 car = car_form.cleaned_data.get("c_car")
                 car_ac = car_form.cleaned_data.get("c_ac_type")
-                car_id = car_form.cleaned_data.get("id")
-                print(car , car_ac, car_id)
                 cr = car_form.save(commit=False)
                 cr.c_user = request.user
                 cr.c_amount = ac_amount
                 cr.c_advance = advance
-                ##cr.c_outstation = os
-                #cr.save()
+                
                 
                 name    = pi_form.cleaned_data.get("p_name")
                 mail    = pi_form.cleaned_data.get("p_email")
                 contact = pi_form.cleaned_data.get("p_Phone")
-                p_id    = pi_form.cleaned_data.get("id")
-                p_creat = pi_form.cleaned_data.get("p_created_on")
-                p_or    = pi_form.cleaned_data.get("p_order_id")
-                print(p_id , p_creat , p_or)
                 pi = pi_form.save(commit=False)
                 pi.p_user = request.user
-                #pi.p_outstation = os
-                #pi.save()
-
-                os_data = os_form.cleaned_data
                 
+
+                os_data = os_form.cleaned_data                
                 os = os_form.save(commit=False)
                 os.os_user = request.user
                 os.os_car = cr
                 os.os_persional_info = pi
-                #os.save()
 
-                
-
-                ############### payment gateway ####################
-
-                
-      
-                #return render(request, 'payments/pay.html', context={'error': 'Wrong Accound Details or amount'})
-
-                # transaction = Transaction.objects.create(made_by=request.user, amount=amount)
-                # transaction.save()
-                # merchant_key = settings.PAYTM_SECRET_KEY
-
-                # params = (
-                #     ('MID', settings.PAYTM_MERCHANT_ID),
-                #     ('ORDER_ID', str(transaction.order_id)),
-                #     ('CUST_ID', str(transaction.made_by.email)),
-                #     ('TXN_AMOUNT', str(transaction.amount)),
-                #     ('CHANNEL_ID', settings.PAYTM_CHANNEL_ID),
-                #     ('WEBSITE', settings.PAYTM_WEBSITE),
-                #     ('EMAIL', mail),
-                #     ('MOBILE_N0', contact),
-                #     ('INDUSTRY_TYPE_ID', settings.PAYTM_INDUSTRY_TYPE_ID),                  
-                #     ('CALLBACK_URL', 'http://127.0.0.1:8000/callback/'),
-                #     # ('PAYMENT_MODE_ONLY', 'NO'),
-                # )
-
-                # paytm_params = dict(params)
-                # checksum = generate_checksum(paytm_params, merchant_key)
-
-                # transaction.checksum = checksum
-                # transaction.save()
-
-                # paytm_params['CHECKSUMHASH'] = checksum
-                # print('SENT: ', checksum)
                 context = {
                     'name' : name,
                     'car' : car,
@@ -140,10 +98,7 @@ def Home(request):
                     'amount' : advance,
                     'balance' : ac_amount-advance,
                 }
-
-                # message1 = ('New Booking', 'Dear ' + name +',\n Thank for Booking With KNG Travles. \n You booked a '+ str(car) + ' for ' + os_data['os_from'] + ' on '+ str(os_data['os_pickup']) +' at '+ str(os_data['os_picktime'])+'. \n We wish you a very happy and safe Journey, \n if you have any query contact on 9666817780 .' , settings.EMAIL_HOST_USER, [mail,])
-                # message2 = ('New Booking', 'Dear Nithish, \n Your '+ str(car) + 'Booked for ' + os_data['os_from'] + ' on '+ str(os_data['os_pickup']) +' at '+ str(os_data['os_picktime'])+'. \n his Contact No : ' + contact + ' and Mail id ' + mail + '.', settings.EMAIL_HOST_USER, [settings.EMAIL_HOST_USER,])
-                # send_mass_mail((message1, message2), fail_silently=False)
+                
                 pi.save()
                 if pi.p_order_id is None and pi.p_created_on and pi.id:
                     pi.p_order_id = pi.p_created_on.strftime('KNG%Y%m%dODR') + str(pi.id)
@@ -151,73 +106,132 @@ def Home(request):
                 cr.save()
                 os.save()
 
+                ########## email gateway ############
+
+                message1 = ('New Booking', 'Dear ' + name +',\nThank for Booking With KNG Travles. \nYour ID: '+ pi.p_order_id + ' You booked a '+ str(car) + ' for ' + os_data['os_from'] + ' to ' + os_data['os_to'] + ', ' + car_ac + ' on '+ str(os_data['os_pickup']) +' at '+ str(os_data['os_picktime'])+'. \nWe wish you a very happy and safe Journey, \nIf you have any query contact on 9666817780 .' , settings.EMAIL_HOST_USER, [mail,])
+                message2 = ('New Booking', 'Dear Nithish, \nYour '+ str(car) + ' Booked for ' + os_data['os_from'] + ' to ' + os_data['os_to'] + ', ' + car_ac + ' on '+ str(os_data['os_pickup']) +' at '+ str(os_data['os_picktime'])+'. \nHis Contact No : ' + contact + ' and Mail id : ' + mail + '.', settings.EMAIL_HOST_USER, ['kondanithishgoud1436@gmail.com',])
+                send_mass_mail((message1, message2), fail_silently=False)
+                
+                ######### sms gatway ###########
+
+                url = "https://www.fast2sms.com/dev/bulk"
+
+                text_message = ('Dear ' + name +',\nThank for Booking With KNG Travels. \nYour ID: '+ pi.p_order_id + ' You booked a '+ str(car) + ' for ' + os_data['os_from'] + ' to ' + os_data['os_to'] + ', ' + car_ac + ' on '+ str(os_data['os_pickup']) +' at '+ str(os_data['os_picktime'])+'. \nWe wish you a very happy and safe Journey, \nIf you have any query contact on 9666817780.')
+
+                payload1 = {"sender_id":"FSTSMS",
+                    "message":text_message,
+                    "language":"english",
+                    "route":'p',
+                    "numbers":contact,
+                    }
+                text_sms = ('Dear Nithish, \nYour '+ str(car) + ' Booked for ' + os_data['os_from'] + ' to ' + os_data['os_to'] + ', ' + car_ac + ' on '+ str(os_data['os_pickup']) +' at '+ str(os_data['os_picktime'])+'. \nHis Contact No : ' + contact + ' and Mail id : ' + mail + '.')
+
+                payload2 = {"sender_id":"FSTSMS",
+                    "message":text_sms,
+                    "language":"english",
+                    "route":'p',
+                    "numbers":"9666817780",
+                    }
+                headers = {
+                    'authorization': "F1t5krIUSpe6Vf0mCQ7zZuBJqGcdglhbAMjv9XNToK2PnYRE344HMxXnYkiyDN0wRKlTsFeCaVhZEmjB",
+                    'Content-Type': "application/x-www-form-urlencoded",
+                    'Cache-Control': "no-cache",
+                    }
+
+                #response = requests.request("POST", url, data=payload1, headers=headers)
+                #response = requests.request("POST", url, data=payload2, headers=headers)
+
+                #print(response.text)
+
                 return render(request, 'thankq.html', context)
                 
-        elif l_form.data["l_city"]:
+        elif l_form.data["l_from"]:
             if l_form.is_valid() and car_form.is_valid() and pi_form.is_valid():
 
-                l_data = l_form.cleaned_data
-                l = l_form.save(commit=False)
-                l.l_user = request.user
-                l.save()
-                
+                car = car_form.cleaned_data.get("c_car")
+                car_ac = car_form.cleaned_data.get("c_ac_type")
+                car_id = car_form.cleaned_data.get("id")
                 car = car_form.cleaned_data.get("c_car")
                 cr = car_form.save(commit=False)
                 cr.c_user = request.user
-                cr.save() 
+                cr.c_amount = ac_amount
+                cr.c_advance = advance
 
-                name = pi_form.cleaned_data.get("p_name")
-                mail = pi_form.cleaned_data.get("p_email")
+                name    = pi_form.cleaned_data.get("p_name")
+                mail    = pi_form.cleaned_data.get("p_email")
                 contact = pi_form.cleaned_data.get("p_Phone")
+                p_id    = pi_form.cleaned_data.get("id")
+                p_creat = pi_form.cleaned_data.get("p_created_on")
+                orderid    = pi_form.cleaned_data.get("p_order_id")
                 pi = pi_form.save(commit=False)
                 pi.p_user = request.user
-                pi.save()
+
+                l_data = l_form.cleaned_data
+                l = l_form.save(commit=False)
+                l.os_user = request.user
+                l.os_car = cr
+                l.os_persional_info = pi
 
                 context = {
                     'name' : name,
                     'car' : car,
                     'l_data' : l_data,
-                    'fare' : fare,
-                    'amount' : amount,
+                    'fare' : ac_amount,
+                    'amount' : advance,
+                    'balance' : ac_amount-advance,
                 }
                 ########### to send multiple sms's  ###############
 
                 # message1 = ('Subject here', 'Here is the message', 'from@example.com', ['first@example.com', 'other@example.com'])
                 # message2 = ('Another Subject', 'Here is another message', 'from@example.com', ['second@test.com'])
                 # send_mass_mail((message1, message2), fail_silently=False)
-                message1 = ('New Booking', 'Dear ' + name +',\n Thank for Booking With KNG Travles. \n You booked a '+ str(car) + ' for ' + l_data['l_city'] + ' on '+ str(l_data['l_pickup']) +' at '+ str(l_data['l_picktime'])+'. \n We wish you a very happy and safe Journey, \n if you have any query contact on 9666817780 .' , 'itsmak100@gmail.com', [mail,])
-                message2 = ('New Booking', 'Dear ' + name +',\n Booked a '+ str(car) + ' for ' + l_data['l_city'] + ' on '+ str(l_data['l_pickup']) +' at '+ str(l_data['l_picktime'])+'. \n his Contact No : ' + contact + ' and Mail id ' + mail + '.', 'itsmak100@gmail.com', [mail,])
-                send_mass_mail((message1, message2), fail_silently=False)
+                
                 #send_mail('New Booking', 'Dear ' + name +',\n'+ 'Thank for Booking With KNG Travles. \n You booked '+ car + ' for ' + l_data['l_city'] + ' on '+ str(l_data['l_pickup']) +' at '+ str(l_data['l_picktime'])+'. \n We wish you a very happy and safe Journey, \n if you have any query contact on 9666817780 .' , 'itsmak100@gmail.com', [mail,], fail_silently=False)
+                pi.save()
+                if pi.p_order_id is None and pi.p_created_on and pi.id:
+                    pi.p_order_id = pi.p_created_on.strftime('KNG%Y%m%dODR') + str(pi.id)
+                    pi.save()
+                cr.save()
+                l.save()
+                message1 = ('New Booking', 'Dear ' + name +',\nThank for Booking With KNG Travles. \nYour ID: '+ pi.p_order_id + ' You booked a '+ str(car) + ' for ' + l_data['l_from'] + ' on '+ str(l_data['l_pickup']) +' at '+ str(l_data['l_picktime'])+'. \nWe wish you a very happy and safe Journey, \nIf you have any query contact on 9666817780 .' , settings.EMAIL_HOST_USER, [mail,])
+                message2 = ('New Booking', 'Dear Nithish, \nYour '+ str(car) + 'Booked for ' + l_data['l_from'] + ' on '+ str(l_data['l_pickup']) +' at '+ str(l_data['l_picktime'])+'. \nHis Contact No : ' + contact + ' and Mail id ' + mail + '.', settings.EMAIL_HOST_USER, [settings.EMAIL_HOST_USER,])
+                send_mass_mail((message1, message2), fail_silently=False)
                 return render(request, 'thankq.html', context)
             
         elif ap_form.data["ap_city"]:
             if ap_form.is_valid() and car_form.is_valid() and pi_form.is_valid():
 
+                car = car_form.cleaned_data.get("c_car")
+                car_ac = car_form.cleaned_data.get("c_ac_type")
+                cr = car_form.save(commit=False)
+                cr.cr_user = request.user
+                cr.c_amount = ac_amount
+                cr.c_advance = advance
+
+                name    = pi_form.cleaned_data.get("p_name")
+                mail    = pi_form.cleaned_data.get("p_email")
+                contact = pi_form.cleaned_data.get("p_Phone")
+                p_id    = pi_form.cleaned_data.get("id")
+                p_creat = pi_form.cleaned_data.get("p_created_on")
+                orderid    = pi_form.cleaned_data.get("p_order_id")
+                pi = pi_form.save(commit=False)
+                pi.p_user = request.user
+
+
                 ap_data = ap_form.cleaned_data                
                 ap = ap_form.save(commit=False)
-                ap.save()
-
-
-                car = car_form.cleaned_data.get("c_car")
-                cr = car_form.save(commit=False)
-                cr.cr_user = request.user.username
-                cr.save() 
-
-                name = pi_form.cleaned_data.get("p_name")
-                mail = pi_form.cleaned_data.get("p_email")
-                contact = pi_form.cleaned_data.get("p_Phone")
-                pi = pi_form.save(commit=False)
-                pi.p_user = request.user.username
-                pi.save()
+                ap.ap_user = request.user
+                ap.ap_car = cr
+                ap.ap_persional_info = pi
 
                 context = {
                     'name' : name,
                     'car' : car,
                     'ap_data' : ap_data,
-                    'fare' : fare,
-                    'amount' : amount,
-                    'balance' : fare-amount,
+                    'fare' : ac_amount,
+                    'amount' : advance,
+                    'car_ac' : car_ac,
+                    'balance' : ac_amount-advance,
                 }
 
                 ########### to send multiple sms's  ###############
@@ -225,10 +239,17 @@ def Home(request):
                 # message1 = ('Subject here', 'Here is the message', 'from@example.com', ['first@example.com', 'other@example.com'])
                 # message2 = ('Another Subject', 'Here is another message', 'from@example.com', ['second@test.com'])
                 # send_mass_mail((message1, message2), fail_silently=False)
-                message1 = ('New Booking', 'Dear ' + name +',\n Thank for Booking With KNG Travles. \n You booked a '+ car + ' for ' + l_data['l_city'] + ' on '+ str(l_data['l_pickup']) +' at '+ str(l_data['l_picktime'])+'. \n We wish you a very happy and safe Journey, \n if you have any query contact on 9666817780 .' , 'itsmak100@gmail.com', [mail,])
-                message2 = ('New Booking', 'Dear ' + name +',\n Booked a '+ car + ' for ' + l_data['l_city'] + ' on '+ str(l_data['l_pickup']) +' at '+ str(l_data['l_picktime'])+'. \n his Contact No : ' + contact + ' and Mail id ' + mail + '.', 'itsmak100@gmail.com', [mail,])
-                send_mass_mail((message1, message2), fail_silently=False)
+                
                 #send_mail('New Booking', 'Dear ' + name +',\n'+ 'Thank for Booking With KNG Travles. \n You booked '+ car + ' for ' + l_data['l_city'] + ' on '+ str(l_data['l_pickup']) +' at '+ str(l_data['l_picktime'])+'. \n We wish you a very happy and safe Journey, \n if you have any query contact on 9666817780 .' , 'itsmak100@gmail.com', [mail,], fail_silently=False)
+                pi.save()
+                if pi.p_order_id is None and pi.p_created_on and pi.id:
+                    pi.p_order_id = pi.p_created_on.strftime('KNG%Y%m%dODR') + str(pi.id)
+                    pi.save()
+                cr.save()
+                ap.save()
+                message1 = ('New Booking', 'Dear ' + name +',\nThank for Booking With KNG Travles. \nYour ID: '+  pi.p_order_id + ' You booked a '+ str(car) + ' for ' + ap_data['ap_city'] + ' on '+ str(ap_data['ap_pickup']) +' at '+ str(ap_data['ap_picktime'])+'. \nWe wish you a very happy and safe Journey, \nIf you have any query contact on 9666817780 .' , settings.EMAIL_HOST_USER, [mail,])
+                message2 = ('New Booking', 'Dear Nithish, \nYour '+ str(car) + 'Booked for ' + ap_data['ap_city'] + ' on '+ str(ap_data['ap_pickup']) +' at '+ str(ap_data['ap_picktime'])+'. \nHis Contact No : ' + contact + ' and Mail id ' + mail + '.', settings.EMAIL_HOST_USER, [settings.EMAIL_HOST_USER,])
+                send_mass_mail((message1, message2), fail_silently=False)
                 return render(request, 'thankq.html', context)
         
    
@@ -412,9 +433,12 @@ def Check_date(request):
         print(car_id)
         start = datetime.datetime.strptime(f_date, '%Y-%m-%d')
         end = datetime.datetime.strptime(t_date, '%Y-%m-%d') 
-        o =OutStation.objects.values('os_car').filter(Q(Q(os_pickup__gte=timezone.now()) & Q(os_car_id__c_car_id=car_id)) & Q(Q(Q(os_return__gte=start) & Q(os_return__lte=end)) | Q(Q(os_pickup__lte=end) & Q(os_pickup__gte=start)) | Q(Q(os_pickup__lte=end) & Q(os_return__gte=end)) | Q(Q(os_pickup__lte=start) & Q(os_return__gte=start))))
-        print(o)
-        result = o.count()
+        o = OutStation.objects.values('os_car').filter(Q(Q(os_pickup__gte=timezone.now()) & Q(os_car_id__c_car_id=car_id)) & Q(Q(Q(os_return__gte=start) & Q(os_return__lte=end)) | Q(Q(os_pickup__lte=end) & Q(os_pickup__gte=start)) | Q(Q(os_pickup__lte=end) & Q(os_return__gte=end)) | Q(Q(os_pickup__lte=start) & Q(os_return__gte=start))))
+        l = Local.objects.values('l_car').filter(Q(Q(l_pickup__gte=timezone.now()) & Q(l_car_id__c_car_id=car_id)) & Q(Q(Q(l_return__gte=start) & Q(l_return__lte=end)) | Q(Q(l_pickup__lte=end) & Q(l_pickup__gte=start)) | Q(Q(l_pickup__lte=end) & Q(l_return__gte=end)) | Q(Q(l_pickup__lte=start) & Q(l_return__gte=start))))
+        ap = AirPort.objects.values('ap_car').filter(Q(Q(ap_pickup__gte=timezone.now()) & Q(ap_car_id__c_car_id=car_id)) & Q(Q(Q(ap_return__gte=start) & Q(ap_return__lte=end)) | Q(Q(ap_pickup__lte=end) & Q(ap_pickup__gte=start)) | Q(Q(ap_pickup__lte=end) & Q(ap_return__gte=end)) | Q(Q(ap_pickup__lte=start) & Q(ap_return__gte=start))))
+        
+        print(o, l, ap)
+        result = o.count()+l.count()+ap.count()
         print(result)
         return HttpResponse(result)
 

@@ -16,9 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from . import views
-
+from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('home/', views.Home, name='home'),
+    #path('autofill/', views.Home, name='autofill'),
     path('checkdate/', views.Check_date, name='checkdate'),
     path('outstation/', views.Oustation_view, name='outstation'),
     path('local/', views.Local_view, name='local'),
@@ -27,5 +28,21 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('cust/login/', views.login, name='cust_login'),
     path('cust/register/', views.register, name='cust_register'),
-    
+    path('accounts/', include('allauth.urls')),
+
+    path('reset_password/',
+     auth_views.PasswordResetView.as_view(template_name="registration/forgot-password.html"),
+     name="reset_password"),
+
+    path('reset_password_sent/', 
+        auth_views.PasswordResetDoneView.as_view(template_name="registration/password_reset_sent.html"), 
+        name="password_reset_done"),
+
+    path('reset/<uidb64>/<token>/',
+     auth_views.PasswordResetConfirmView.as_view(template_name="registration/recover-password.html"),
+     name="password_reset_confirm"),
+
+    path('reset_password_complete/', 
+        auth_views.PasswordResetCompleteView.as_view(template_name="registration/password_done.html"),
+        name="password_reset_complete"),    
     ]

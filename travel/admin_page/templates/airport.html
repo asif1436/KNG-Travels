@@ -19,7 +19,7 @@
             {% for x in ap_data %}            
             <div class="card card-outline card-warning m-1">
                 <div class="card-head border-bottom text-center">
-                    <h6>{{  x.os_order_id }} {{  x.created_on }}</h6>
+                    <h6>{{  x.ap_persional_info.p_order_id }} || {{  x.created_on }}</h6>
                 </div>
                 <div class="card-body p-0">
                     <table class="table table-striped">
@@ -33,7 +33,7 @@
                         </tr>
                         <tr>
                             <td>EMAIL ID :</td>
-                            <td>{{  x.ap_persional_info.p_emai }}</td>
+                            <td>{{  x.ap_persional_info.p_email }}</td>
                         </tr>
                         <tr>
                             <td>Itinerary:</td>
@@ -43,19 +43,22 @@
                             <td>Pickup Date :</td>
                             <td>{{ x.ap_pickup }} at {{ x.ap_picktime }}</td>
                         </tr>
-                        <!-- <tr>
+                        <tr>
                             <td>Return Date :</td>
                             <td>{{ x.ap_return}}</td>
-                        </tr> -->
+                        </tr>
                         <tr>
                             <td>Trip Type :</td>
-                            <td>{{ x.ap_trip_type }}</td>
+                            <td>{{ x.ap_trip }}</td>
                         </tr>
                         <tr>
                             <td>Car Type :</td>
                             <td>{{ x.ap_car.c_car }}</td>
                         </tr>
-                        
+                        <tr>
+                            <td>Total Fare :</td>
+                            <td>{{ x.ap_car.c_amount }}</td>                             
+                        </tr>                       
                         
                         </tbody>
                     </table>

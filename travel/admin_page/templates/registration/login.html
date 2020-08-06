@@ -7,6 +7,8 @@
 {% bootstrap_css  %}
 
 {% bootstrap_javascript jquery='full' %}
+{% load socialaccount %}
+{% providers_media_js %} (ONLY FOR FACEBOOK)
 
 <!-- {# Display django.contrib.messages as Bootstrap alerts #}
 {% bootstrap_messages %} -->
@@ -46,17 +48,17 @@
 
         <div class="social-auth-links text-center mb-3">
           <p>- OR -</p>
-          <a href="#" class="btn btn-block btn-primary">
+          <a href="{% provider_login_url 'facebook' method='oauth2' %}" class="btn btn-block btn-primary">
             <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
           </a>
-          <a href="#" class="btn btn-block btn-danger">
+          <a href="{% url 'google' %}" class="btn btn-block btn-danger">
             <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
           </a>
         </div>
         <!-- /.social-auth-links -->
 
         <p class="mb-1">
-          <a href="forgot-password.html">I forgot my password</a>
+          <a href="{% url 'reset_password' %}">I forgot my password</a>
         </p>
         <p class="mb-0">
           <a href="{% url 'cust_register' %}" class="text-center">Register a new membership</a>

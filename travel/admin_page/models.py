@@ -6,10 +6,7 @@ advance=[('25', '25'), ('50', '50'), ('75', '75'), ('100', '100'),]
 
 
 class PersionInfo(models.Model):
-    p_user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
-    # p_outstation = models.ForeignKey(OutStation, null=True, blank=True, on_delete=models.CASCADE)
-    # p_local = models.ForeignKey(Local, null=True, blank=True, on_delete=models.CASCADE)
-    # p_airport = models.ForeignKey(AirPort, null=True, blank=True, on_delete=models.CASCADE)    
+    p_user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)   
     p_name = models.CharField(max_length=50, null=True, verbose_name="Name")
     p_Phone = models.CharField(max_length=50, null=True, verbose_name="Mobile Number")
     p_email = models.EmailField(null=True, blank=True, verbose_name="Demo@gmail.com")
@@ -52,9 +49,6 @@ class Cardemo(models.Model):
 
 class Car(models.Model):
     c_user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
-    # c_outstation = models.ForeignKey(OutStation, null=True, blank=True, on_delete=models.CASCADE)
-    # c_local = models.ForeignKey(Local, null=True, blank=True, on_delete=models.CASCADE)
-    # c_airport = models.ForeignKey(AirPort, null=True, blank=True, on_delete=models.CASCADacE)
     c_car = models.ForeignKey(Cardemo, default=0, null=True, on_delete=models.CASCADE)
     c_ac_type = models.CharField(max_length=50, null=True, blank=True, verbose_name="AC Type")    
     c_amount = models.FloatField( null=True, blank=True)
@@ -109,7 +103,6 @@ class OutStation(models.Model):
     
 class Local(models.Model):
     l_user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
-    l_trip_for = models.CharField(max_length=50, null=True, blank=True, verbose_name="Trip Type")
     l_from = models.CharField(max_length=100, null=True, blank=True, verbose_name="From -e.g. Wankidi")
     l_to = models.CharField(max_length=100, null=True, blank=True, verbose_name="To -e.g. Mancherial")
     l_pickup = models.DateField(null=True, blank=True, verbose_name="PICK UP")

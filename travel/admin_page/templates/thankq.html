@@ -38,25 +38,54 @@
                     <div class="card-body p-0">
                         <table class="table table-striped">
                             <tr>
-                                <td>Itinerary:</td>
-                                <td>{{ ap_data.ap_pic_add }}>>{{ ap_data.ap_city }}>>{{ ap_data.ap_pic_add }}</td>
+                                <td>NAME :</td>
+                                <td>{{  ap_data.ap_persional_info.p_order_id }}</td>
                             </tr>
                             <tr>
-                                <td>Pickup Date:</td>
+                                <td>NAME :</td>
+                                <td>{{ ap_data.ap_persional_info.p_name }}</td>
+                            </tr>
+                            <tr>
+                                <td>PHONE NO. :</td>
+                                <td>{{  ap_data.ap_persional_info.p_Phone }}</td>
+                            </tr>
+                            <tr>
+                                <td>EMAIL ID :</td>
+                                <td>{{  ap_data.ap_persional_info.p_email }}</td>
+                            </tr>
+                            <tr>
+                                <td>Itinerary:</td>
+                                 <td>{{ ap_data.ap_city }}>>{{ ap_data.ap_pic_add }}>>{{ ap_data.ap_city }}</td>
+                             </tr> 
+                            <tr>
+                                <td>Pickup Date :</td>
                                 <td>{{ ap_data.ap_pickup }} at {{ ap_data.ap_picktime }}</td>
                             </tr>
                             <tr>
-                                <td>Trip Type:</td>
+                                <td>Return Date :</td>
+                                <td>{{ ap_data.ap_return}}</td>
+                            </tr>
+                            <tr>
+                                <td>Trip Type :</td>
                                 <td>{{ ap_data.ap_trip }}</td>
                             </tr>
                             <tr>
-                                <td>Car Type:</td>
-                                <td>{{ car }}</td>
+                                <td>Car Type :</td>
+                                <td>{{ car }} {{ car_ac }}</td>
                             </tr>
                             <tr>
-                                <td>Total Fare:</td>
-                                <td>$$$$$$</td>
+                                <td>Total Fare :</td>
+                                <td>{{ fare }}</td>                             
                             </tr>
+                            <tr>
+                                <td>Advance :</td>
+                                <td>{{ amount }}</td>                             
+                            </tr>
+                            <tr>
+                                <td>Balance :</td>
+                                <td>{{ balance }}</td>                             
+                            </tr>
+                            
                             </tbody>
                         </table>
             

@@ -14,22 +14,23 @@ import numpy as np
 CHOICES=[('ONE WAY', 'One way'),
   ('Round Trip', 'Round Trip')]
 
+################ to bring all dates in list to check avalability ######################
 
-outStation_dates = OutStation.objects.filter(os_return__gte=timezone.now())
-local_dates = Local.objects.filter(l_return__lte=timezone.now())
-airport_dates = AirPort.objects.filter(ap_return__lte=timezone.now())
-dates = set()
-for x in outStation_dates:
-    xy = x.os_return
-    dates.add("{}-{}-{}".format(xy.year, xy.month, xy.day))
-for x in local_dates:
-    xy = x.l_return
-    dates.add("{}-{}-{}".format(xy.year, xy.month, xy.day))
-for x in airport_dates:
-    xy = x.ap_return
-    dates.add("{}-{}-{}".format(xy.year, xy.month, xy.day))
+# outStation_dates = OutStation.objects.filter(os_return__gte=timezone.now())
+# local_dates = Local.objects.filter(l_return__lte=timezone.now())
+# airport_dates = AirPort.objects.filter(ap_return__lte=timezone.now())
+# dates = set()
+# for x in outStation_dates:
+#     xy = x.os_return
+#     dates.add("{}-{}-{}".format(xy.year, xy.month, xy.day))
+# for x in local_dates:
+#     xy = x.l_return
+#     dates.add("{}-{}-{}".format(xy.year, xy.month, xy.day))
+# for x in airport_dates:
+#     xy = x.ap_return
+#     dates.add("{}-{}-{}".format(xy.year, xy.month, xy.day))
 
-dates = list(dates)
+# dates = list(dates)
 
 
 
@@ -42,11 +43,12 @@ class  OutstationForm(ModelForm):
             #'os_trip_type': RadioSelect(),            
             'os_pickup': DatePicker(),
             'os_picktime': TimePicker(),
-            'os_return': DatePicker(
-                options={
-                    'disabledDates': dates,
-                },
-            ),
+            'os_return': DatePicker(),
+            #'os_return': DatePicker(
+            #    options={
+            #        'disabledDates': dates,
+            #    },
+            #),
             
         }
     os_trip_type =  forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'form-check-inline'}), choices=(('Round Trip', 'Round Trip'), ('One Way', 'One Way')))
@@ -64,7 +66,7 @@ class  LocalForm(ModelForm):
 
         }
 
-    l_trip_for =  forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'form-check-inline'}), choices=(('8hrs/100kms', '8 hrs | 100 kms'), ('12hrs/200kms', '12 hrs | 200 kms')))
+    #l_trip_for =  forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'form-check-inline'}), choices=(('8hrs/100kms', '8 hrs | 100 kms'), ('12hrs/200kms', '12 hrs | 200 kms')))
 class  AirPortForm(ModelForm):
     class Meta:
         model = AirPort
@@ -75,7 +77,7 @@ class  AirPortForm(ModelForm):
         'ap_return': DatePicker(),
 
         }
-    ap_trip =  forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'form-check-inline'}), choices=(('CFA', 'From The Airport'), ('CTA', 'To The Airport')))
+    ap_trip =  forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'form-check-inline'}), choices=(('From The Airport', 'From The Airport'), ('To The Airport', 'To The Airport')))
     
 class PersionInfoForm(ModelForm):
     class Meta:
@@ -94,10 +96,11 @@ class CarForm(ModelForm):
     #c_car = forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'form-check form-check-inline '}), choices=(('zest','ZEST'), ('indica','INDICA'),('Sumo', 'SUMO'),))
 
 
-class Student_SignUpForm(UserCreationForm):
+class Cust_SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'password1', 'password2', 'email']
+
 
 class CardemoForm(ModelForm):
     class Meta:

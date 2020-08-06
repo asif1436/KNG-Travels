@@ -47,9 +47,9 @@
   <style type="text/css">
 
   .bookedimg{
-    position: absolute;
-    top: 95;
-    right: 100;
+    position: relative;
+    bottom: 100;
+    left: 88;
   }
 
     
@@ -401,14 +401,14 @@
                   //var distance_in_mile = distance.value / 1609.34; // the mile
                   var duration_text = duration.text;
                   var duration_value = duration.value;
-                  $('.ac_price').text(distance_in_kilo*15);
-                  $('.ac_price').val(distance_in_kilo*15);
-                  $('.in_price').text(distance_in_kilo*12);
-                  $('.in_price').val(distance_in_kilo*15);
-                  $('.su_ac_price').text(distance_in_kilo*18);
-                  $('.su_ac_price').val(distance_in_kilo*18);
-                  $('.su_price').text(distance_in_kilo*15);
-                  $('.su_price').val(distance_in_kilo*15);
+                  $('.ac_price').text(distance_in_kilo.toFixed(2)*15);
+                  $('.ac_price').val(distance_in_kilo.toFixed(2)*15);
+                  $('.in_price').text(distance_in_kilo.toFixed(2)*12);
+                  $('.in_price').val(distance_in_kilo.toFixed(2)*15);
+                  $('.su_ac_price').text(distance_in_kilo.toFixed(2)*18);
+                  $('.su_ac_price').val(distance_in_kilo.toFixed(2)*18);
+                  $('.su_price').text(distance_in_kilo.toFixed(2)*15);
+                  $('.su_price').val(distance_in_kilo.toFixed(2)*15);
                   $('.in_kilo').text(distance_in_kilo.toFixed(2));
                   $('#duration_text').text(duration_text);
                   $('#from').text(origin);
@@ -458,9 +458,13 @@
                   }
                   else if (distance_in_kilo < 200) {
                     $('.ac_price').text(3000);
+                    $('.ac_price').val(3000);
                     $('.in_price').text(2500);
+                    $('.in_price').val(2500);
                     $('.su_ac_price').text(3000);
+                    $('.su_ac_price').val(3000);
                     $('.su_price').text(2500);
+                    $('.su_price').val(2500);
                     $('.in_kilo').text(distance_in_kilo.toFixed(2));
                     $('#duration_text').text(duration_text);
 
@@ -474,35 +478,7 @@
       // print results on submit the form
       
       $('#SubmitForm').click(function(e){
-        var car_id = $("#id_c_car_0").val();
-        console.log(car_id)        
-        var date_from = $("#id_os_pickup").val();
-        var date_to = $("#id_os_return").val();
-        var url = "{% url 'checkdate' %}";
-        $.ajax(
-          {
-            type:"GET",
-            url: url,
-            data:{ 
-              'from_date' : date_from,
-              'to_date' : date_to,
-              'c_id' : car_id
-              },            
-          success: function( data ){
-            if (data==0){
-              console.log("1");
-              $("img.bookedimg").hide()
-              $("#carbutton").attr("disabled", false);
-            }
-            else{
-              console.log("0");
-              $("img.bookedimg").show()
-              $("#carbutton").attr("disabled", true);
-            }
-                    
-          }
-        });
-            
+        e.preventDefault();
         var os_from = $('#id_os_from').val(); 
         var os_to = $('#id_os_to').val();        
         var ap_from = $('#id_ap_city').val(); 
@@ -510,13 +486,11 @@
         if (os_from) {
           var origin = $('#id_os_from').val();
           var destination = $('#id_os_to').val();
-          e.preventDefault();
           calculateDistance(origin, destination);
         } 
         else if (ap_from){
           var origin = $('#id_ap_city').val();
           var destination = $('#id_ap_pic_add').val();
-          e.preventDefault();
           calculateDistance(origin, destination);
 
         }       
@@ -530,11 +504,8 @@
         }               
         
       });
-
- 
-  
-
 </script>
+
 <script>
   $(document).ready(function(){
   $("#id_c_car_0").before('<img src="{% static "assets/img/zest2.jpg" %}" class="form-inline" style=" border-radius: 50px; border: 2px solid; width: 50px; height: 50px;">')  
@@ -547,6 +518,7 @@
 });
 
 </script>
+
 <script>
 $(document).ready(function(){
   $('#id_os_from').addClass("origin_from")
@@ -558,7 +530,6 @@ $(document).ready(function(){
   $(".id_seat").before("<img src='{% static 'assets/img/seat.png' %}'' width='25' height='25'>");
   $("#id_os_trip_type_0").prop("checked", true);
   $("#id_c_ac_type_0").prop("checked", true);
-  $("#id_l_trip_for_0").prop("checked", true);
   $("#id_ap_trip_0").prop("checked", true);
   $("#id_c_car_0").prop("checked", true);
   $('#id_c_car_0').parents("div.col-4").addClass("text-orange");
@@ -576,18 +547,118 @@ $(document).ready(function(){
   $("#airportinfo").hide()
   $("#inclusion_info").hide()
   $("#exclusion").addClass("bg-orange")
+  })
+
+ 
+ // $("select#id_ap_trip.form-control option[value='']").html('<option>Selcet Trip Type</option>');
+ // $("select#id_os_trip_type.form-control option[value='']").html('<option>Selcet Trip Type</option>');
+  
+  $('select#id_os_trip_type.form-control').change(function() {
+    val = $(this).val();
+    if(val == "ONE WAY" ) $("input#id_os_return.form-control").hide();
+    if(val == "Round Trip" ) $("input#id_os_return.form-control").show();
   });
+//   var array = ["2020-06-14 00:00:00","2020-06-15 00:00:00","2020-06-16 00:00:00", "2020-06-25 00:00:00", "2015-06-21 00:00:00"]
+// var trima = []
+// for (i = 0; i < array.length; i++ ) {
+//     trima.push(array[i].substring(10,""))
 
-  // $('#mybutton').click(function(){  
-  //       var local = $('#id_l_city').val();
-  //       if ((local == 'Manchirial') || (local == 'Chandrapur')) {
-  //         $('.in_price').text('2500');
-  //       }
-  //       else {
-  //         $('.in_price').text('None')
-  //       }
-  //     });
 
+</script>
+
+<script type="text/javascript">
+  $(".carClick").click(function(){
+    var car_id = $(this).find("input").val();
+    if (car_id == null){
+      car_id=1
+    }
+    var url = "{% url 'checkdate' %}";
+    var os_pickup = $('#id_os_pickup').val(); 
+    var l_pickup = $('#id_l_pickup').val();        
+    var ap_pickup = $('#id_ap_pickup').val();
+    console.log(os_pickup, l_pickup, ap_pickup)
+    if (os_pickup){
+      var date_from = $("#id_os_pickup").val();
+      var date_to = $("#id_os_return").val();
+      $.ajax(
+      {
+        type:"GET",
+        url: url,
+        data:{ 
+          'from_date' : date_from,
+          'to_date' : date_to,
+          'c_id' : car_id,
+          },            
+      success: function( data ){
+        if (data==0){
+          console.log("1");
+          $("img.bookedimg").hide()
+          $("#carbutton").attr("disabled", false);
+        }
+        else{
+          console.log("0");
+          $("img.bookedimg").show()
+          $("#carbutton").attr("disabled", true);
+        }                
+      }
+    })
+    }
+    else if(l_pickup){
+      var date_from = $("#id_l_pickup").val();
+      var date_to = $("#id_l_return").val();
+      $.ajax(
+      {
+        type:"GET",
+        url: url,
+        data:{ 
+          'from_date' : date_from,
+          'to_date' : date_to,
+          'c_id' : car_id,
+          },            
+      success: function( data ){
+        if (data==0){
+          console.log("1");
+          $("img.bookedimg").hide()
+          $("#carbutton").attr("disabled", false);
+        }
+        else{
+          console.log("0");
+          $("img.bookedimg").show()
+          $("#carbutton").attr("disabled", true);
+        }                
+      }
+    })
+    }
+    else if(ap_pickup){
+      var date_from = $("#id_ap_pickup").val();
+      var date_to = $("#id_ap_return").val();
+      $.ajax(
+      {
+        type:"GET",
+        url: url,
+        data:{ 
+          'from_date' : date_from,
+          'to_date' : date_to,
+          'c_id' : car_id,
+          },            
+      success: function( data ){
+        if (data==0){
+          console.log("1");
+          $("img.bookedimg").hide()
+          $("#carbutton").attr("disabled", false);
+        }
+        else{
+          console.log("0");
+          $("img.bookedimg").show()
+          $("#carbutton").attr("disabled", true);
+        }                
+      }
+    }) 
+    }
+    else{
+      console.log("not given from to")
+    }
+  });
   $("#inclusion").click(function(){
     $(this).addClass("bg-orange");
     $("#exclusion").removeClass("bg-orange");
@@ -603,6 +674,7 @@ $(document).ready(function(){
   
   $("#outstation").click(function(){
     $('#msform')[0].reset();
+    $("#id_os_trip_type_0").prop("checked", true);
     $(this).addClass("bg-orange")
     $("#SubmitForm").attr("disabled", false);  
     $("#local").removeClass("bg-orange")
@@ -622,6 +694,7 @@ $(document).ready(function(){
   });
   $("#airport").click(function(){
     $('#msform')[0].reset();
+    $("#id_ap_trip_0").prop("checked", true);
     $(this).addClass("bg-orange")
     $("#SubmitForm").attr("disabled", false);
     $("#outstation").removeClass("bg-orange")
@@ -695,52 +768,9 @@ $(document).ready(function(){
     $(".ac_with").show();
     $(".ac_without").hide()
 
-  });
- // $("select#id_ap_trip.form-control option[value='']").html('<option>Selcet Trip Type</option>');
- // $("select#id_os_trip_type.form-control option[value='']").html('<option>Selcet Trip Type</option>');
-  
-  $('select#id_os_trip_type.form-control').change(function() {
-    val = $(this).val();
-    if(val == "ONE WAY" ) $("input#id_os_return.form-control").hide();
-    if(val == "Round Trip" ) $("input#id_os_return.form-control").show();
-  });
-//   var array = ["2020-06-14 00:00:00","2020-06-15 00:00:00","2020-06-16 00:00:00", "2020-06-25 00:00:00", "2015-06-21 00:00:00"]
-// var trima = []
-// for (i = 0; i < array.length; i++ ) {
-//     trima.push(array[i].substring(10,""))
+  });     
 
 
-</script>
-<script type="text/javascript">
-  $(".carclick").click(function(){
-    var car_id = $(this).find("input").val();
-    var date_from = $("#id_os_pickup").val();
-    var date_to = $("#id_os_return").val();    
-    var url = "{% url 'checkdate' %}";
-    $.ajax(
-      {
-        type:"GET",
-        url: url,
-        data:{ 
-          'from_date' : date_from,
-          'to_date' : date_to,
-          'c_id' : car_id,
-          },            
-      success: function( data ){
-        if (data==0){
-          console.log("1");
-          $("img.bookedimg").hide()
-          $("#carbutton").attr("disabled", false);
-        }
-        else{
-          console.log("0");
-          $("img.bookedimg").show()
-          $("#carbutton").attr("disabled", true);
-        }
-                
-      }
-   })
-});
 </script>
 <!-- car price -->
 <!-- {{ car_data.0.ac_price }} -->

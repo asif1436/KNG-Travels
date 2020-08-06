@@ -113,7 +113,7 @@
                                             </div>                                             
                                         </div>
                                     </div>
-                                </div> <input id="SubmitForm" type="button" name="next" class="next action-button" value="Select Car" />
+                                </div> <input id="SubmitForm" type="button" name="next" class="next action-button carClick" value="Select Car" />
                             </fieldset>
                             <fieldset>
                                 <div class="form-card text-center" style="padding-top: 7px; padding-left: 7px; padding-right: 7px;">
@@ -128,7 +128,7 @@
                                             </div> 
                                             {% endfor %} -->
                                             {% for car in car_form.c_car %}
-                                            <div class="col-4 carclick">
+                                            <div class="col-4 carClick">
                                                 {{ car }}
                                             </div>
                                             {% endfor %}
@@ -163,7 +163,7 @@
                                                 <h5 class="description-header">TATA ZEST</h5><br>                                                
                                                 <span style="color: darkturquoise;"><i class="fas fa-rupee-sign ac_without in_price"> None</i><i  class="fas fa-rupee-sign ac_with ac_price"> None</i></span><br>
                                                 <input type="hidden" class="ac_with ac_price" name="ac_price" value=None> 
-                                                <input type="hidden" class="ac_without in_price" name="in_price" value=None1>
+                                                <input type="hidden" class="ac_without in_price" name="in_price" value=None>
                                                                                                 
                                               </div>
                                             </div>                                            
@@ -172,7 +172,7 @@
                                             <div class="p-1 flex-fill" style="overflow: hidden">
                                               <!-- Map will be created here -->
                                               <div  style="height: 100px; width: 75%; overflow: hidedn">
-                                                <div class="responsive"><img src="{% static 'assets/img/indica4.jpg' %}" class=" mx-auto" ><img src="{% static 'assets/img/booked4.jpg' %}" class="bookedimg"></div>
+                                                <div class="responsive"><img src="{% static 'assets/img/indica1.jpg' %}" class=" mx-auto" ><img src="{% static 'assets/img/booked4.jpg' %}" class="bookedimg"></div>
                                               </div>
                                               <div class="row">
                                                 <div class="col-4" style="overflow: hidden">
@@ -194,8 +194,8 @@
                                               <div class="description-block mb-4">
                                                 <h5 class="description-header">TATA INDICA</h5><br>
                                                 <span style="color: darkturquoise;"><i  class="fas fa-rupee-sign ac_without in_price"> None</i><i  class="fas fa-rupee-sign ac_with ac_price "> None</i></span><br>
-                                                <!-- <input type="hidden" class="ac_with ac_price " name={{car_data.0.ac_price}} value=None> 
-                                                <input type="hidden" class="ac_without in_price" name={{car_data.0.without_ac_price}} value=None1> -->
+                                                <input type="hidden" class="ac_price " name="ac_price" value=None> 
+                                                <input type="hidden" class="in_price" name="in_price" value=None>
                                               </div>
                                             </div>
                                         </div> 
@@ -227,7 +227,7 @@
                                                 <h5 class="description-header">TATA SUMO</h5><br>
                                                 <span style="color: darkturquoise;"><i  class="fas fa-rupee-sign su_ac_price ac_with "> None</i><i  class="fas fa-rupee-sign su_price ac_without "> None</i></span><br>
                                                 <input type="hidden" class="su_ac_price " name="su_ac_price" value=None> 
-                                                <input type="hidden" class="su_price fas " name="su_price" value=None><br>
+                                                <input type="hidden" class="su_price" name="su_price" value=None><br>
                                               </div>
                                             </div>
                                             
