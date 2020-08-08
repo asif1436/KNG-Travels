@@ -16,6 +16,8 @@ from django.core import serializers
 import numpy as np
 from django.utils import timezone
 from django.db.models import Q
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 
 
 # Create your views here.
@@ -43,12 +45,26 @@ def login(request):
 
 def register(request):
     if request.method == "POST":
-        signup = Student_SignUpForm(request.POST)
+        signup = Cust_SignUpForm(request.POST)
         if signup.is_valid():
             signup.save()
             return HttpResponseRedirect('/home/')
-    signup = Student_SignUpForm()
+    signup = Cust_SignUpForm()
     return render(request, 'register.html', {'signup': signup})
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('change_password')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+        return render(request, 'registration/change_password.html', {'form': form})
 
 @login_required
 def Home(request):
@@ -277,6 +293,26 @@ def Home(request):
         return render(request, 'home.html', context)
 
 
+def Profile_view(request):
+    if not is_admin(request):
+        return HttpResponseRedirect('cust_login')
+    p_data = request.user.profile 
+    if request.method == "POST":
+        user_form1 = UserForm(data=request.POST, instance=request.user)
+        profile_form1 = ProfileForm(request.POST, request.FILES, instance=p_data)
+        print(profile_form1)
+        print(user_form1)
+        if user_form1.is_valid() and profile_form1.is_valid():
+            user_form1.save()
+            profile_form1.save()
+            return redirect('/home')
+        else:
+            return redirect('/home')
+
+    else:
+        user_form = UserForm(instance=request.user)
+        profile_form = ProfileForm(instance=p_data)
+        return render(request, 'profile.html', {"profile_form":profile_form, "user_form":user_form})
 
 
 

@@ -59,6 +59,9 @@
 
           <a href="{% url 'login' %}" class="text-center">I already have a membership</a>
         </div>
+        {% for error in signup.username.errors %}
+         <p class="text-danger">{{ error }}</p>
+        {% endfor %}
         <!-- /.form-box -->
       </div><!-- /.card -->
     </div>

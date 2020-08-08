@@ -15,12 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from . import views
 from django.contrib.auth import views as auth_views
+from . import views
+
+
 urlpatterns = [
     path('home/', views.Home, name='home'),
     #path('autofill/', views.Home, name='autofill'),
     path('checkdate/', views.Check_date, name='checkdate'),
+    path('profile/', views.Profile_view, name='profile'),
     path('outstation/', views.Oustation_view, name='outstation'),
     path('local/', views.Local_view, name='local'),
     path('airport/', views.Airport_view, name='airport'),
@@ -44,5 +47,7 @@ urlpatterns = [
 
     path('reset_password_complete/', 
         auth_views.PasswordResetCompleteView.as_view(template_name="registration/password_done.html"),
-        name="password_reset_complete"),    
+        name="password_reset_complete"),
+
+    path('password_change/', views.change_password, name="password_change"),    
     ]

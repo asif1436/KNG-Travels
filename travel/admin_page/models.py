@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 # Create your models here.
 advance=[('25', '25'), ('50', '50'), ('75', '75'), ('100', '100'),]
@@ -77,7 +79,6 @@ class Transaction(models.Model):
         return super().save(*args, **kwargs)
 
 class OutStation(models.Model):
-    print("model called")
     os_user = models.ForeignKey(User, related_name='os', null=True, blank=True, on_delete=models.CASCADE)
     os_trip_type = models.CharField(max_length=50, null=True, blank=True, verbose_name="Trip Type")
     os_from = models.CharField(max_length=100, null=True, blank=True , verbose_name="FROM city -e.g. Wankidi" )
@@ -144,5 +145,24 @@ class AirPort(models.Model):
 
     def __str__(self):
         return str(self.ap_user)
-    
-    
+
+
+GENDER=[('Male', 'Male'), ('Female', 'Female')]    
+class Profile(models.Model):
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    gender = models.CharField(max_length=50, null=True, blank=True, choices=GENDER, verbose_name="Gender")
+    phone = models.CharField(max_length=10, null=True, blank=True, verbose_name="Phone No.")
+    date_of_birth = models.DateField(null=True, blank=True, verbose_name="Date of Birth")
+    profile_pic = models.ImageField(upload_to='profile/', null=True, blank=True, verbose_name="Profile Image")
+
+@receiver(post_save, sender=User)
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+        print("created")
+        
+@receiver(post_save, sender=User)
+def update_profile(sender, instance, created, **kwargs):
+    if created==False:
+        instance.profile.save()
+        print("updated  ")

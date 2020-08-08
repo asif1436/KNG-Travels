@@ -169,7 +169,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="{% static 'adminlte/dist/img/user2-160x160.jpg' %}" class="img-circle elevation-2" alt="User Image">
+          <img src="{% static 'assets/img/default-avatar.jpg' %}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="{% url 'home' %}" class="d-block">{% firstof request.user.get_full_name request.user.username|title %}</a>
@@ -182,7 +182,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
             <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
+            <a href="{% url 'profile' %}" class="nav-link">
               <i class="nav-icon fas fa-user-cog"></i>
               <p>
                 Profille
@@ -229,55 +229,32 @@
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper" id="grad1" >
-    <!-- <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-6">
-            <img src="{% static 'assets/img/Kng3.png' %}">
-          </div>
-          <div class="col-6">           
-            <i class='d-flex fas fa-phone-volume justify-content-end' style='font-size:24px'>9666817780</i>
-          </div>         
-        </div>
-      </div>
-    </div>  -->
+    
     
     <!-- Content Header (Page header) -->
+    <section class="content">
+
+      <div class="row "><!-- justify-content-center -->
+        <div class="col-md-12">
+          {% block headcontent %}
+          {% endblock %}
+        </div>
+      </div>
+
+    </section>
     
     <!-- /.content-header -->
 
     <!-- Main content -->
     <section class="content" >
-      
-      {% block messages %}
-      <!-- {% if messages %}
-          {% for message in messages %}
-              {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-              <div class="alert alert-success alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                  {{ message }}
-              </div>
-              {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-              <div class="alert alert-danger alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                  {{ message }}
-              </div>
-              {% else %}
-              <div class="alert alert-info alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                  {{ message }}
-              </div>
-              {% endif %}
-          {% endfor %}
-      {% endif %} -->
-     
-      {% endblock %}
 
-      {% block content_block_wrap %}
-          {% block content %}                    
-          {% endblock %}
-      {% endblock %}
-      
+      <div class="row">
+        <div class="col-md-12">
+          {% block content %}                            
+          {% endblock %} 
+        </div>
+      </div>
+
     </section>
     <!-- /.content -->
   </div>
@@ -301,7 +278,6 @@
 
 <!-- jQuery -->
 <script src="{% static 'adminlte/plugins/jquery/jquery.min.js' %}"></script>
-<script src="{% static 'assets/css/datetime.js' %}"></script>
 
 
 <!-- jQuery UI 1.11.4 -->
@@ -504,20 +480,9 @@
         }               
         
       });
-</script>
-
-<script>
-  $(document).ready(function(){
-  $("#id_c_car_0").before('<img src="{% static "assets/img/zest2.jpg" %}" class="form-inline" style=" border-radius: 50px; border: 2px solid; width: 50px; height: 50px;">')  
-  
-  $("#id_c_car_1").before('<img src="{% static "assets/img/indica1.jpg" %}" class="form-inline" style=" border-radius: 50px; border: 2px solid; width: 50px; height: 50px;">')
-  
-  $("#id_c_car_2").before('<img src="{% static "assets/img/sumo1.jpg" %}" class="form-inline" style=" border-radius: 50px; border: 2px solid; width: 50px; height: 50px;">')
-
-  
-});
 
 </script>
+
 
 <script>
 $(document).ready(function(){
@@ -547,6 +512,13 @@ $(document).ready(function(){
   $("#airportinfo").hide()
   $("#inclusion_info").hide()
   $("#exclusion").addClass("bg-orange")
+  $('#setPassword').hide()
+  $("#id_c_car_0").before('<img src="{% static "assets/img/zest2.jpg" %}" class="form-inline" style=" border-radius: 50px; border: 2px solid; width: 50px; height: 50px;">')  
+  
+  $("#id_c_car_1").before('<img src="{% static "assets/img/indica1.jpg" %}" class="form-inline" style=" border-radius: 50px; border: 2px solid; width: 50px; height: 50px;">')
+  
+  $("#id_c_car_2").before('<img src="{% static "assets/img/sumo1.jpg" %}" class="form-inline" style=" border-radius: 50px; border: 2px solid; width: 50px; height: 50px;">')
+
   })
 
  
@@ -564,9 +536,7 @@ $(document).ready(function(){
 //     trima.push(array[i].substring(10,""))
 
 
-</script>
 
-<script type="text/javascript">
   $(".carClick").click(function(){
     var car_id = $(this).find("input").val();
     if (car_id == null){
@@ -767,6 +737,11 @@ $(document).ready(function(){
     $('.id_c_ac_type_0').removeClass('bg-orange');
     $(".ac_with").show();
     $(".ac_without").hide()
+
+  });
+
+  $('#changepwd').click(function(){
+    $('#setPassword').toggle()
 
   });     
 

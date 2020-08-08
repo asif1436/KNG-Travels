@@ -35,7 +35,6 @@ CHOICES=[('ONE WAY', 'One way'),
 
 
 class  OutstationForm(ModelForm):
-    print("yes it's print ")
     class Meta:
         model = OutStation
         exclude = ['os_user', 'os_status', 'os_created_on', 'os_updated_on', 'os_order_id', 'os_amount','os_persional_info', 'os_car']
@@ -95,6 +94,10 @@ class CarForm(ModelForm):
     c_ac_type =  forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'form-check-inline'}), choices=(('Without Ac', 'W/O AC'),('With Ac', 'WITH AC')))
     #c_car = forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'form-check form-check-inline '}), choices=(('zest','ZEST'), ('indica','INDICA'),('Sumo', 'SUMO'),))
 
+class UserForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email']
 
 class Cust_SignUpForm(UserCreationForm):
     class Meta:
@@ -105,4 +108,13 @@ class Cust_SignUpForm(UserCreationForm):
 class CardemoForm(ModelForm):
     class Meta:
         model = Cardemo
-        fields = ['cars', 'img', 'ac_price', 'without_ac_price', 'advance']  
+        fields = ['cars', 'img', 'ac_price', 'without_ac_price', 'advance']
+
+class ProfileForm(ModelForm):
+    class Meta:
+        model = Profile 
+        exclude = ['user','profile_pic']
+        widgets = {
+        'date_of_birth': DatePicker(),
+
+        } 

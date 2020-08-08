@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'admin_page',
     'bootstrap4',
     'tempus_dominus',
-    # The following apps are required:
+    #The following apps are required:
     'django.contrib.sites',
     'allauth',
     'allauth.account',
@@ -170,3 +170,6 @@ LOGIN_REDIRECT_URL='/home/'
 LOGOUT_REDIRECT_URL='/accounts/login/'
 
 TEMPUS_DOMINUS_LOCALIZE:True
+# ACCOUNT_EMAIL_REQUIRED = True
+# ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE =True
+# SOCIALACCOUNT_STORE_TOKENS =True

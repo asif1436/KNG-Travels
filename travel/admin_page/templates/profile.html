@@ -1,0 +1,63 @@
+{% extends 'base.html'  %}
+{% load static %}
+{# Load the tag library #}
+{% load bootstrap4  %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css  %}
+
+{% bootstrap_javascript jquery='full' %}
+
+{% block content %}
+<div class="container row justify-content-center">
+<div class="login-box">
+  <!-- /.login-logo -->
+  <div class="card">
+    <div class="card-head text-center mt-2 border-bottom"> 
+        <h3>Personal Information</h3>
+    </div>
+    <div class="card-body login-card-body">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ user_form.passconfirmation }}
+        <div class="row">
+            {% for field in user_form %}
+            <div class="col-12">                
+                {% bootstrap_field field show_help=false%}
+            </div>
+            {% endfor %}
+            <!-- <div id="setPassword">
+              <div class="col-12">                
+                <div class="form-group"><label for="id_password">Password</label>
+                  <input type="text" name="password" value="" maxlength="150" class="form-control" placeholder="Password" title=""  id="id_password"></div>
+              </div>
+              <div class="col-12">                
+                <div class="form-group"><label for="id_c_password">Conform Password</label>
+                  <input type="text" name="c_password" value="" maxlength="150" class="form-control" placeholder="Conform Password" title="" id="id_c_password"></div>
+              </div>
+            </div>
+            <div class="col-6">
+              <button type="button" class="btn btn-block btn-primary" id="changepwd">Set Pwd</button>
+            </div>
+            <div class="col-6">
+              <a href="{% url 'password_change' %}" class="btn btn-block btn-primary" >
+                <i class="g-signin2 mr-2"></i> Change Pwd
+              </a>
+            </div> -->
+            {% for field in profile_form %}
+            <div class="col-12">
+                {% bootstrap_field field show_help=false%}
+            </div>
+            {% endfor %}
+            <div class="col-12">
+                <input type="submit" class="btn btn-block btn-primary" value="Save">
+            </div>
+        </div>
+        
+      </form>
+    </div>
+    <!-- /.login-card-body -->
+  </div>
+</div>
+</div>
+{% endblock %}

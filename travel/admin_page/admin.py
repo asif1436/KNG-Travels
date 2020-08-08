@@ -38,3 +38,8 @@ class CardemoAdmin(admin.ModelAdmin):
 
 admin.site.register(Cardemo, CardemoAdmin)
 
+class ProfileAdmin(admin.ModelAdmin):
+    display = "__all__"
+
+admin.site.register(Profile, ProfileAdmin)
+
