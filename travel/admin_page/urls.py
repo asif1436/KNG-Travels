@@ -32,6 +32,7 @@ urlpatterns = [
     path('cust/login/', views.login, name='cust_login'),
     path('cust/register/', views.register, name='cust_register'),
     path('accounts/', include('allauth.urls')),
+    path('', include('pwa.urls')),
 
     path('reset_password/',
      auth_views.PasswordResetView.as_view(template_name="registration/forgot-password.html"),

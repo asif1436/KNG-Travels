@@ -8,11 +8,11 @@
 
 {# Display django.contrib.messages as Bootstrap alerts #}
 {% bootstrap_messages %}
+{% load pwa %}
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="utf-8">  
   <title>KNG | Travels</title>
   <!-- Tell the browser to be responsive to screen width -->
   <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
@@ -48,8 +48,8 @@
 
   .bookedimg{
     position: relative;
-    bottom: 100;
-    left: 88;
+    bottom: 105;
+    left: 90;
   }
 
     
@@ -108,11 +108,14 @@
     width: 150px;
     height: 150px; 
   }
+  .content-wrapper{
+    min-height: auto !important;
+  }
 
   </style>
-
+{% progressive_web_app_meta %}
 </head>
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition layout-fixed" style="height: auto;">
 <div class="wrapper">
 
   <!-- Navbar -->
@@ -228,20 +231,20 @@
   </aside>
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper" id="grad1" >
+  <div class="content-wrapper" id="grad1">
     
     
     <!-- Content Header (Page header) -->
-    <section class="content">
+    <!-- <section class="content-header">
 
-      <div class="row "><!-- justify-content-center -->
+      <div class="row ">
         <div class="col-md-12">
           {% block headcontent %}
           {% endblock %}
         </div>
       </div>
 
-    </section>
+    </section> -->
     
     <!-- /.content-header -->
 
@@ -260,7 +263,7 @@
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer" style="height: auto;">
-    <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+    <strong>Copyright &copy; 2019-2020 <a href="#">KNG Travels</a>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
       <b>Version</b> 3.0.6-pre
@@ -377,6 +380,11 @@
                   //var distance_in_mile = distance.value / 1609.34; // the mile
                   var duration_text = duration.text;
                   var duration_value = duration.value;
+                  if (distance_in_kilo < 200){
+                    $("#SubmitForm").attr("disabled", true);
+                    alert("Your Trip From " + origin + " To " + destination + " is under 200 kms You Can't Book. go for Local")
+                  }
+                  else if (distance_in_kilo > 200) {
                   $('.ac_price').text(distance_in_kilo.toFixed(2)*15);
                   $('.ac_price').val(distance_in_kilo.toFixed(2)*15);
                   $('.in_price').text(distance_in_kilo.toFixed(2)*12);
@@ -388,7 +396,12 @@
                   $('.in_kilo').text(distance_in_kilo.toFixed(2));
                   $('#duration_text').text(duration_text);
                   $('#from').text(origin);
-                  $('#to').text(destination);                  
+                  $('#to').text(destination);
+                  
+                  }
+                  else{
+
+                  }
                   
                   //$('#fare').val(distance_in_price.toFixed(2));
               }
@@ -430,7 +443,7 @@
                   var duration_value = duration.value;
                   if (distance_in_kilo > 200){
                     $("#SubmitForm").attr("disabled", true);
-                    $('#result6').html("Your Trip From " + origin + " To " + destination + " is more than 200 kms You Can't Book. go for Outstation")
+                    alert("Your Trip From " + origin + " To " + destination + " is more than 200 kms You Can't Book. go for Outstation")
                   }
                   else if (distance_in_kilo < 200) {
                     $('.ac_price').text(3000);
@@ -453,7 +466,7 @@
       }
       // print results on submit the form
       
-      $('#SubmitForm').click(function(e){
+      $('#SubmitForm, #id_os_pickup, #id_ap_pickup').click(function(e){
         e.preventDefault();
         var os_from = $('#id_os_from').val(); 
         var os_to = $('#id_os_to').val();        
@@ -744,7 +757,11 @@ $(document).ready(function(){
     $('#setPassword').toggle()
 
   });     
+  $('.acclick').click(function(){
+    var v = $(this).find('span').text()
+    $('#ofterpay').text(v)
 
+  });
 
 </script>
 <!-- car price -->
