@@ -20,10 +20,13 @@ from . import views
 
 
 urlpatterns = [
-    path('home/', views.Home, name='home'),
+    path('', views.Home, name='home'),
     #path('autofill/', views.Home, name='autofill'),
     path('checkdate/', views.Check_date, name='checkdate'),
     path('profile/', views.Profile_view, name='profile'),
+    path('upcoming/', views.Live_Bookings, name='upcoming'),
+    path('cancelbooking/<int:c_id>/', views.Cancel_Booking, name='cancelbooking'),
+    path('editbooking/<int:c_id>/', views.Edit_Booking, name='editbooking'),
     path('outstation/', views.Oustation_view, name='outstation'),
     path('local/', views.Local_view, name='local'),
     path('airport/', views.Airport_view, name='airport'),

@@ -76,7 +76,7 @@ class  AirPortForm(ModelForm):
         'ap_return': DatePicker(),
 
         }
-    ap_trip =  forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'form-check-inline'}), choices=(('From The Airport', 'From The Airport'), ('To The Airport', 'To The Airport')))
+    ap_trip =  forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'form-check-inline'}), choices=(('To The Airport', 'To The Airport'), ('From The Airport', 'From The Airport')))
     
 class PersionInfoForm(ModelForm):
     class Meta:

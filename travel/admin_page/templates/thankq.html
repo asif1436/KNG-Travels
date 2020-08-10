@@ -30,60 +30,60 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="card">
-                <div class="card-head border-bottom text-center">
-                    <h3>Your Booking Details</h3>
+            <div class="card card-outline card-warning collapsed-card m-1">
+                <div class="card-header">
+                    <h1 class="card-title" data-card-widget="collapse"> Check Your Booking Details </h1>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool pt-3 " data-card-widget="collapse"><i class="fas fa-plus"></i>
+                        </button>
+                      </div>
                 </div>
                 {% if ap_data %}
                     <div class="card-body p-0">
                         <table class="table table-striped">
                             <tr>
                                 <td>NAME :</td>
-                                <td>{{  ap_data.ap_persional_info.p_order_id }}</td>
-                            </tr>
-                            <tr>
-                                <td>NAME :</td>
-                                <td>{{ ap_data.ap_persional_info.p_name }}</td>
+                                <td>{{ pi_data.p_name }}</td>
                             </tr>
                             <tr>
                                 <td>PHONE NO. :</td>
-                                <td>{{  ap_data.ap_persional_info.p_Phone }}</td>
+                                <td>{{  pi_data.p_Phone }}</td>
                             </tr>
                             <tr>
                                 <td>EMAIL ID :</td>
-                                <td>{{  ap_data.ap_persional_info.p_email }}</td>
+                                <td>{{  pi_data.p_email }}</td>
                             </tr>
                             <tr>
-                                <td>Itinerary:</td>
-                                 <td>{{ ap_data.ap_city }}>>{{ ap_data.ap_pic_add }}>>{{ ap_data.ap_city }}</td>
-                             </tr> 
+                               <td>Itinerary    :</td>
+                                <td>{{ ap_data.ap_city }}>{{ ap_data.ap_pic_add }}>{{ ap_data.ap_city }}</td>
+                            </tr> 
                             <tr>
                                 <td>Pickup Date :</td>
                                 <td>{{ ap_data.ap_pickup }} at {{ ap_data.ap_picktime }}</td>
                             </tr>
                             <tr>
                                 <td>Return Date :</td>
-                                <td>{{ ap_data.ap_return}}</td>
+                                <td>{{ ap_data.ap_return }}</td>
                             </tr>
                             <tr>
                                 <td>Trip Type :</td>
-                                <td>{{ ap_data.ap_trip }}</td>
+                                <td> {{ ap_data.ap_trip }} </td>
                             </tr>
                             <tr>
                                 <td>Car Type :</td>
-                                <td>{{ car }} {{ car_ac }}</td>
+                                <td>{{ car_data.c_car }} ({{ car_data.c_ac_type }})</td>
                             </tr>
                             <tr>
-                                <td>Total Fare :</td>
-                                <td>{{ fare }}</td>                             
+                                <td>Total Fare:</td>
+                                <td>{{total }}</td>                             
                             </tr>
                             <tr>
-                                <td>Advance :</td>
-                                <td>{{ amount }}</td>                             
+                                <td>You Paid:</td>
+                                <td>{{ advance }}</td>
                             </tr>
                             <tr>
-                                <td>Balance :</td>
-                                <td>{{ balance }}</td>                             
+                                <td>Balance:</td>
+                                <td>{{ balance }}</td>
                             </tr>
                             
                             </tbody>
@@ -94,24 +94,48 @@
                     <div class="card-body p-0">
                         <table class="table table-striped">
                             <tr>
-                                <td>Pickup City:</td>
-                                <td>{{ l_data.l_city }}</td>
+                                <td>NAME :</td>
+                                <td>{{ pi_data.p_name }}</td>
                             </tr>
                             <tr>
-                                <td>Trip for:</td>
-                                <td>{{ l_data.l_trip_for }}</td>
+                                <td>PHONE NO. :</td>
+                                <td>{{  pi_data.p_Phone }}</td>
                             </tr>
                             <tr>
-                                <td>Pickup Date:</td>
+                                <td>EMAIL ID :</td>
+                                <td>{{  pi_data.p_email }}</td>
+                            </tr>
+                            <tr>
+                               <td>Itinerary    :</td>
+                                <td>{{ l_data.l_from }}>{{ l_data.l_to }}>{{ l_data.l_from }}</td>
+                            </tr> 
+                            <tr>
+                                <td>Pickup Date :</td>
                                 <td>{{ l_data.l_pickup }} at {{ l_data.l_picktime }}</td>
                             </tr>
                             <tr>
-                                <td>Car Type</td>
-                                <td>{{ car }}</td>
+                                <td>Return Date :</td>
+                                <td>{{ l_data.l_return}}</td>
+                            </tr>
+                            <tr>
+                                <td>Trip Type :</td>
+                                <td> Local </td>
+                            </tr>
+                            <tr>
+                                <td>Car Type :</td>
+                                <td>{{ car_data.c_car }} ({{ car_data.c_ac_type }})</td>
                             </tr>
                             <tr>
                                 <td>Total Fare:</td>
-                                <td>$$$$$</td>
+                                <td>{{total }}</td>                             
+                            </tr>
+                            <tr>
+                                <td>You Paid:</td>
+                                <td>{{ advance }}</td>
+                            </tr>
+                            <tr>
+                                <td>Balance:</td>
+                                <td>{{ balance }}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -120,6 +144,18 @@
                 {% elif os_data %}
                     <div class="card-body p-0">
                         <table class="table table-striped">
+                            <tr>
+                                <td>NAME :</td>
+                                <td>{{ pi_data.p_name }}</td>
+                            </tr>
+                            <tr>
+                                <td>PHONE NO. :</td>
+                                <td>{{  pi_data.p_Phone }}</td>
+                            </tr>
+                            <tr>
+                                <td>EMAIL ID :</td>
+                                <td>{{  pi_data.p_email }}</td>
+                            </tr>
                             <tr>
                                 <td>Itinerary:</td>
                                 <td>{{ os_data.os_from }}>>{{ os_data.os_to }}>>{{ os_data.os_from }}</td>
@@ -138,15 +174,15 @@
                             </tr>
                             <tr>
                                 <td>Car Type</td>
-                                <td>{{ car }}</td>
+                                <td>{{ car_data.c_car }} ({{ car_data.c_ac_type }})</td>
                             </tr>
                             <tr>
                                 <td>Total Fare:</td>
-                                <td>{{ fare }}</td>                             
+                                <td>{{total }}</td>                             
                             </tr>
                             <tr>
                                 <td>You Paid:</td>
-                                <td>{{ amount }}</td>
+                                <td>{{ advance }}</td>
                             </tr>
                             <tr>
                                 <td>Balance:</td>
@@ -160,8 +196,7 @@
                 <h4> Sorry No Data available</h4>
                 {% endif %}
         
-            </div>
-        
+            </div>        
         </div>
     </div>
 </div>
