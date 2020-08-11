@@ -8,10 +8,10 @@
 
 {# Display django.contrib.messages as Bootstrap alerts #}
 {% bootstrap_messages %}
+{% load pwa %}
 
 <!DOCTYPE html>
-<html>
-  {% load pwa %}
+<html>  
 <head>
   <meta charset="utf-8">  
   <title>KNG | Travels</title>
@@ -48,6 +48,9 @@
   <link rel="stylesheet" href="{% static 'adminlte/plugins/summernote/summernote-bs4.css' %}">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+  <!-- <link rel="stylesheet" href="{% static 'assets/css/addtohomescreen.css' %}"> -->
+  
 
 
   <style type="text/css">
@@ -114,9 +117,9 @@
     width: 150px;
     height: 150px; 
   }
-/* .content-wrapper{
-    min-height: auto !important;
-  } */
+section{
+    min-height: 100vh !important;
+  }
 
   td{
     padding-right: 12px !important;
@@ -127,8 +130,10 @@
 
 </head>
 <body class="hold-transition ">
-    
-  <div class="wrapper">
+  <div class="loader-wrapper">
+    <span class="loader"><span class="loader-inner"></span></span>
+  </div>    
+  <div class="wrapper" >
 
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-light ">
@@ -160,12 +165,15 @@
         <!-- <li class="nav-item">
             <a class="nav-link" href="{% url 'cust_register' %}">Singup</a>
         </li> -->
+        {% if request.user %}
         <li class="nav-item">
             <a class="nav-link" href="{% url 'logout' %}">Logout</a>
         </li>
+        {% else %}
         <li class="nav-item">
             <a class="nav-link" href="{% url 'login' %}">Login</a>
         </li>
+        {% endif %}
       </ul>
     </nav>
     <!-- /.navbar -->
@@ -193,6 +201,7 @@
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
+          {% if request.user %}
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
                 with font-awesome or any other icon font library -->
@@ -243,6 +252,7 @@
             </li>
             
           </ul>
+          {% endif %}
         </nav>
         
         <!-- /.sidebar-menu -->
@@ -251,39 +261,42 @@
     </aside>
 
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper" id="grad1">
+    <div class="content-wrapper" id="grad1">   
       
       
-      <!-- Content Header (Page header) -->
-      <!-- <section class="content-header">
+      
+        <!-- Content Header (Page header) -->
+        <!-- <section class="content-header">
 
-        <div class="row ">
-          <div class="col-md-12">
-            {% block headcontent %}
-            {% endblock %}
+          <div class="row ">
+            <div class="col-md-12">
+              {% block headcontent %}
+              {% endblock %}
+            </div>
           </div>
-        </div>
 
-      </section> -->
-      
-      <!-- /.content-header -->
-
-      <!-- Main content -->
-      <section class="content" >
+        </section> -->
         
-        {% block content %}                            
-        {% endblock %} 
-      </section>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <section class="content" >
+          <div class="container-fluid">
+            {% block content %}                            
+            {% endblock %}
+
+          </div>         
+           
+        </section>
+
+        <footer class="main-footer">
+          <strong>Copyright &copy; 2019-2020 <a href="#">KNG Travels</a>.</strong>
+          All rights reserved.
+        </footer>
       <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->
-    <footer class="main-footer">
-      <strong>Copyright &copy; 2019-2020 <a href="#">KNG Travels</a>.</strong>
-      All rights reserved.
-    </footer>
 
-    <!-- Control Sidebar -->
-    <!-- /.control-sidebar -->
+    
   </div>
   
 <!-- ./wrapper -->
@@ -326,8 +339,8 @@
 <!-- bootstrab form wizard js file -->
 <script src="{% static 'assets/js/my.js' %}" type="text/javascript"></script>
 <script  defer src="https://maps.googleapis.com/maps/api/js?libraries=places&language=en&key=AIzaSyCx4tmnmH-zPGBnkLPEFIi3Ff8OkG_fths "  type="text/javascript"></script>
-
-<script>  
+<!-- <script src="{% static 'assets/js/addtohomescreen.js' %}" type="text/javascript"></script> -->
+<script> 
   $(function() {
     const Toast = Swal.mixin({
       toast: true,
@@ -460,8 +473,9 @@
                     $("#SubmitForm").attr("disabled", false);
                     $('.ac_price').text((distance_in_kilo*15).toFixed(2));
                     $('.ac_price').val((distance_in_kilo*15).toFixed(2));
+                    $('#id_c_amount').val((distance_in_kilo*12).toFixed(2));
                     $('.in_price').text((distance_in_kilo*12).toFixed(2));
-                    $('.in_price').val((distance_in_kilo*15).toFixed(2));
+                    $('.in_price').val((distance_in_kilo*12).toFixed(2));
                     $('.su_ac_price').text((distance_in_kilo*18).toFixed(2));
                     $('.su_ac_price').val((distance_in_kilo*18).toFixed(2));
                     $('.su_price').text((distance_in_kilo*15).toFixed(2));
@@ -532,11 +546,12 @@
                     $('.ac_price').text(3000);
                     $('.ac_price').val(3000);
                     $('.in_price').text(2500);
+                    $('#id_c_amount').text(2500);
                     $('.in_price').val(2500);
-                    $('.su_ac_price').text(3000);
-                    $('.su_ac_price').val(3000);
-                    $('.su_price').text(2500);
-                    $('.su_price').val(2500);
+                    $('.su_ac_price').text(3500);
+                    $('.su_ac_price').val(3500);
+                    $('.su_price').text(3000);
+                    $('.su_price').val(3000);
                     $('.in_kilo').text(distance_in_kilo.toFixed(2));
                     $('#duration_text').text(duration_text);
 
@@ -802,14 +817,7 @@ $(document).ready(function(){
     $('#id_os_trip_type_0').parents('div.col-6.border.rounded-lg').removeClass('bg-orange')
     $("input#id_os_return.form-control").hide();
   });
-  $('#id_l_trip_for_0').click(function(){
-    $(this).parents('div.col-6.border.rounded-lg').addClass('bg-orange');
-    $('#id_l_trip_for_1').parents('div.col-6.border.rounded-lg').removeClass('bg-orange')
-  });
-  $('#id_l_trip_for_1').click(function(){
-    $(this).parents('div.col-6.border.rounded-lg').addClass("bg-orange");
-    $('#id_l_trip_for_0').parents('div.col-6.border.rounded-lg').removeClass('bg-orange')
-  });
+    
   $('#id_ap_trip_0').click(function(){
     $(this).parents('div.col-6.border.rounded-lg').addClass('bg-orange');
     $('#id_ap_trip_1').parents('div.col-6.border.rounded-lg').removeClass('bg-orange')
@@ -824,14 +832,13 @@ $(document).ready(function(){
     $('.id_c_ac_type_1').removeClass('bg-orange');
     $(".ac_without").show();
     $(".ac_with").hide()
-  });
+  });  
   $('.id_c_ac_type_1').click(function(){
     $('#id_c_ac_type_1').prop("checked", true)
     $('.id_c_ac_type_1').addClass("bg-orange");
     $('.id_c_ac_type_0').removeClass('bg-orange');
     $(".ac_with").show();
-    $(".ac_without").hide()
-
+    $(".ac_without").hide();
   });
 
   $('#changepwd').click(function(){
@@ -843,24 +850,20 @@ $(document).ready(function(){
     $('#ofterpay').text(v)
 
   });
+  $('#in1, #in2, #in3').click(function(){
+    var amount = $(this).find('input').val()
+    console.log(amount)
+    $('#id_c_amount').val(amount)
+  });
 
-  $('#').click(function(){
-    Swal.fire({
-      title: 'Custom animation with Animate.css',
-      closeOnConfirm: true,
-      showClass: {
-        popup: 'animate__animated animate__fadeInDown'
-      },
-      hideClass: {
-        popup: 'animate__animated animate__fadeOutUp'
-      }
-    })
-  })
-  
+  $('#ac1, #ac2, #ac3').click(function(){
+    var amount = $(this).find('input').val()
+    console.log(amount)
+    $('#id_c_amount').val(amount)
+  });
+
+
 </script>
-<div class="loader-wrapper">
-  <span class="loader"><span class="loader-inner"></span></span>
-</div>
 <script>
   $(window).on("load",function(){
     $(".loader-wrapper").fadeOut("slow");

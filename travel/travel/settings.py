@@ -178,7 +178,7 @@ SOCIALACCOUNT_STORE_TOKENS =True
 PWA_APP_NAME = 'KNG Travels'
 PWA_APP_DESCRIPTION = "Car Rentel"
 PWA_APP_THEME_COLOR = '#0A0302'
-PWA_APP_BACKGROUND_COLOR = '#050505;'
+PWA_APP_BACKGROUND_COLOR = '#050505'
 PWA_APP_DISPLAY = 'standalone'
 PWA_APP_SCOPE = '/'
 PWA_APP_ORIENTATION = 'any'
@@ -188,6 +188,18 @@ PWA_APP_ICONS = [
     {
         'src': '/static/assets/img/logo1.png',
         'sizes': '160x160'
+    },
+    {
+       'src': '/static/assets/img/logo1.png',
+        'sizes': '600x480' 
+    },
+    {
+       'src': '/static/assets/img/logo1.png',
+        "sizes": "192x192" 
+    },
+    {
+       'src': '/static/assets/img/logo1.png',
+        "sizes": "512x512" 
     }
 ]
 PWA_APP_ICONS_APPLE = [

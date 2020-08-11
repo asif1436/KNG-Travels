@@ -12,8 +12,6 @@
 
 {% block content %}
 <!-- MultiStep Form -->
-
-<div class="container-fluid" >
     <div class="row justify-content-center mt-0 mb-0">        
         <div class="col-12 col-sm-9 col-md-7 col-lg-6 text-center p-0 mt-3 mb-2">
             <div class="card px-0 pt-0 pb-0 mt-3 mb-3">
@@ -153,8 +151,10 @@
                                                 </div>
                                               </div>
                                               <div class="row m-0">
-                                                <div class="col-6 border rounded border-warning id_c_ac_type_0 acclick" style="font-size: 14px;">W/O AC ₹ <span>{{car_data.0.without_ac_price }}</span></div>                                              
-                                                <div class="col-6 border rounded border-warning id_c_ac_type_1 acclick" style="font-size: 14px;">AC ₹ <span>{{car_data.0.ac_price }}</span></div>                                                                                                                               
+                                                <div id="in1" class="col-6 border rounded border-warning id_c_ac_type_0 acclick" style="font-size: 14px;"> <input type="hidden" class="in_price" name="in_price" value=None>W/O AC ₹ <span>{{car_data.0.without_ac_price }}</span></div>                                                                                   
+                                                <div id="ac1" class="col-6 border rounded border-warning id_c_ac_type_1 acclick" style="font-size: 14px;"><input type="hidden" class="ac_price" name="ac_price" value=None> AC ₹ <span>{{car_data.0.ac_price }}</span></div>
+                                                
+
                                             </div>
                                                                                            
                                             </div>
@@ -162,8 +162,7 @@
                                               <div class="description-block mb-4">
                                                 <h5 class="description-header">TATA ZEST</h5><br>                                                
                                                 <span style="color: darkturquoise;"><i class="fas fa-rupee-sign ac_without in_price"> None</i><i  class="fas fa-rupee-sign ac_with ac_price"> None</i></span><br>
-                                                <input type="hidden" class="ac_with ac_price" name="ac_price" value=None> 
-                                                <input type="hidden" class="ac_without in_price" name="in_price" value=None>
+                                                
                                                                                                 
                                               </div>
                                             </div>                                            
@@ -186,16 +185,16 @@
                                                 </div>
                                               </div>
                                               <div class="row m-0">
-                                                <div class="col-6 border rounded border-warning id_c_ac_type_0 acclick" style="font-size: 14px;">W/O AC ₹ <span>{{car_data.1.without_ac_price }}</span></div>                                              
-                                                <div class="col-6 border rounded border-warning id_c_ac_type_1 acclick" style="font-size: 14px;">AC ₹ <span>{{car_data.1.ac_price }}</span></div>                                                                                                                               
+                                                <div id="in2" class="col-6 border rounded border-warning id_c_ac_type_0 acclick" style="font-size: 14px;"><input type="hidden" class="in_price" name="in_price" value=None>W/O AC ₹ <span>{{car_data.1.without_ac_price }}</span></div>                                              
+                                                <div id="ac2" class="col-6 border rounded border-warning id_c_ac_type_1 acclick" style="font-size: 14px;"><input type="hidden" class="ac_price " name="ac_price" value=None>AC ₹ <span>{{car_data.1.ac_price }}</span></div>                                                                                                                               
                                             </div>                                             
                                             </div>  
                                             <div style="width: 25%;">
                                               <div class="description-block mb-4">
                                                 <h5 class="description-header">TATA INDICA</h5><br>
                                                 <span style="color: darkturquoise;"><i  class="fas fa-rupee-sign ac_without in_price"> None</i><i  class="fas fa-rupee-sign ac_with ac_price "> None</i></span><br>
-                                                <input type="hidden" class="ac_price " name="ac_price" value=None> 
-                                                <input type="hidden" class="in_price" name="in_price" value=None>
+                                                 
+                                                
                                               </div>
                                             </div>
                                         </div> 
@@ -217,8 +216,8 @@
                                                 </div>
                                               </div>
                                               <div class="row m-0">
-                                                <div class="col-6 border rounded border-warning id_c_ac_type_0 acclick" style="font-size: 14px;">W/O AC ₹ <span>{{car_data.2.without_ac_price }}</span></div>                                              
-                                                <div class="col-6 border rounded border-warning id_c_ac_type_1 acclick" style="font-size: 14px;">AC ₹ <span>{{car_data.2.ac_price }}</span></div>                                                                                                                               
+                                                <div id="in3" class="col-6 border rounded border-warning id_c_ac_type_0 acclick" style="font-size: 14px;"><input type="hidden" class="su_price" name="su_price" value=None><br>W/O AC ₹ <span>{{car_data.2.without_ac_price }}</span></div>                                              
+                                                <div id="ac3" class="col-6 border rounded border-warning id_c_ac_type_1 acclick" style="font-size: 14px;"><input type="hidden" class="su_ac_price " name="su_ac_price" value=None>AC ₹ <span>{{car_data.2.ac_price }}</span></div>                                                                                                                               
                                             </div>
                                              
                                             </div>
@@ -226,15 +225,15 @@
                                               <div class="description-block mb-4">                                                                                               
                                                 <h5 class="description-header">TATA SUMO</h5><br>
                                                 <span style="color: darkturquoise;"><i class="fas fa-rupee-sign su_ac_price ac_with " > None</i><i  class="fas fa-rupee-sign su_price ac_without "> None</i></span><br>
-                                                <input type="hidden" class="su_ac_price " name="su_ac_price" value=None> 
-                                                <input type="hidden" class="su_price" name="su_price" value=None><br>
+                                                 
+                                                
                                               </div>
                                             </div>
                                             
                                         </div>
                                         <div class="row" style="display: none;">
                                             {% for ac_type in car_form.c_ac_type %}                                              
-                                            <div class="col-6 border rounded-lg">{{ ac_type }}</div>
+                                            <div class="col-6 border rounded-md">{{ ac_type }}</div>
                                             {% endfor %}                                                                                 
                                         </div>                                              
                                     </div>                                    
@@ -243,6 +242,7 @@
                                     <div class="row">
                                         <div class="col-6 " ><span class="in_kilo">None</span><span> / KM</span></div>
                                         <div class="col-6" id="duration_text">None</div>
+                                        <div class="col-12" style="display: none;"> {% bootstrap_field  car_form.c_amount show_label=False %} </div>
                                         <!-- {% for car in car_data %}                                        
                                         <div class="col-4">₹ {{ car.ac_price }}</div>
                                         {% endfor %} -->
@@ -361,5 +361,4 @@
             </div>
         </div>
     </div>
-</div>
 {% endblock %}
