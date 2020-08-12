@@ -13,9 +13,11 @@
 
 {% block content %}
 
-<div class="content">
-    <div class="container-fluid">
-        <div class="row justify-content-center">
+    <div class="row justify-content-center">
+        <div class="login-box">
+            <div class="login-logo">
+              <a href=><b>Upcoming TRIPS</b></a>
+                </div>
             {% if live_os %}
             {% for x in live_os %}                                 
             <div class="card card-outline card-danger collapsed-card m-1">                
@@ -24,10 +26,10 @@
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool pt-3 " data-card-widget="collapse"><i class="fas fa-plus"></i>
                         </button>
-                      </div>
+                        </div>
                 </div>
                 <div class="card-body p-0">
-                    <table class="table table-striped">
+                    <table class="table table-striped table-responsive">
                         <tr>
                             <td>NAME    :</td>
                             <td>{{ x.os_persional_info.p_name }}</td>
@@ -42,8 +44,8 @@
                         </tr>
                         <tr>
                             <td>Itinerary   :</td>
-                             <td>{{ x.os_from }}>{{ x.os_to }}>{{ x.os_from }}</td>
-                         </tr>
+                                <td>{{ x.os_from }}>{{ x.os_to }}>{{ x.os_from }}</td>
+                            </tr>
                         <tr>
                             <td >Pickup Date :</td>
                             <td >{{ x.os_pickup }} at {{ x.os_picktime }}</td>
@@ -72,7 +74,7 @@
                         </tbody>
                     </table>        
                 </div>          
-            </div><br><br>
+            </div><br>
             {% endfor %}
             {% endif %}
             {% if live_l %}
@@ -83,10 +85,10 @@
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool pt-3 " data-card-widget="collapse"><i class="fas fa-plus"></i>
                         </button>
-                      </div>
+                        </div>
                 </div>
                 <div class="card-body p-0">
-                    <table class="table table-striped">
+                    <table class="table table-striped table-responsive">
                         <tr>
                             <td>NAME    :</td>
                             <td>{{ x.l_persional_info.p_name }}</td>
@@ -101,8 +103,8 @@
                         </tr>
                         <tr>
                             <td>Itinerary:</td>
-                             <td>{{ x.l_from }}>{{ x.l_to }}>{{ x.l_from }}</td>
-                         </tr>
+                                <td>{{ x.l_from }}>{{ x.l_to }}>{{ x.l_from }}</td>
+                            </tr>
                         <tr>
                             <td>Pickup Date :</td>
                             <td>{{ x.l_pickup }} at {{ x.l_picktime }}</td>
@@ -131,7 +133,7 @@
                         </tbody>
                     </table>        
                 </div>          
-            </div><br><br>
+            </div><br>
             {% endfor %}
             {% endif %}
             {% if live_ap %}
@@ -142,10 +144,10 @@
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool pt-3 " data-card-widget="collapse"><i class="fas fa-plus"></i>
                         </button>
-                      </div>
+                        </div>
                 </div>
                 <div class="card-body p-0">
-                    <table class="table table-striped">
+                    <table class="table table-striped table-responsive">
                         <tr>
                             <td>NAME    :</td>
                             <td>{{ x.ap_persional_info.p_name }}</td>
@@ -161,7 +163,7 @@
                         <tr>
                             <td>Itinerary :</td>
                             <td>{{ x.ap_city }}>{{ x.ap_pic_add }}>{{ x.ap_city }}</td>
-                         </tr>
+                            </tr>
                         <tr>
                             <td>Pickup Date :</td>
                             <td>{{ x.ap_pickup }} at {{ x.ap_picktime }}</td>
@@ -190,7 +192,7 @@
                         </tbody>
                     </table>        
                 </div>          
-            </div><br><br>
+            </div><br>
             {% endfor %}
             {% endif %}
             {% if not live_ap and not live_l and not live_os %}
@@ -205,9 +207,7 @@
                 </div>                
             </div>
             {% endif %}
-        </div>
+        </div>    
     </div>
-</div>
-
-
+    
 {% endblock %}

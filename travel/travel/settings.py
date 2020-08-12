@@ -14,6 +14,7 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+print('dir',BASE_DIR)
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media') 
 MEDIA_URL = '/media/'
 
@@ -69,7 +70,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST= 'smtp.gmail.com'
 EMAIL_PORT= 587
 EMAIL_HOST_USER= 'itskngtravels@gmail.com'
-EMAIL_HOST_PASSWORD= 'kng4travels'
+EMAIL_HOST_PASSWORD= 'kng4tr@vel$'
 EMAIL_USE_TLS= True
 
 
@@ -131,6 +132,33 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+PWA_APP_NAME = 'KNG Travels' 
+PWA_APP_DESCRIPTION = "Book your Trip" 
+PWA_APP_THEME_COLOR = '#0A0302' 
+PWA_APP_BACKGROUND_COLOR = '#ffffff' 
+PWA_APP_DISPLAY = 'standalone' 
+PWA_APP_SCOPE = '/' 
+PWA_APP_ORIENTATION = 'any' 
+PWA_APP_START_URL = '/' 
+PWA_APP_STATUS_BAR_COLOR = 'default' 
+PWA_APP_ICONS = [ {
+            "src": "../../static/assets/img/logo1.png",            
+            "sizes": "600x480"
+        },
+        {
+            "src": "../../static/assets/img/logo1.png",
+            "sizes": "192x192" 
+        },
+        {
+            "src": "../../static/assets/img/logo1.png",
+            "sizes": "512x512" 
+        } 
+        ] 
+PWA_APP_ICONS_APPLE = [ { 'src': "../../static/assets/img/logo1.png", 'sizes': '160x160' } ] 
+PWA_APP_SPLASH_SCREEN = [ { 'src': "../../static/assets/img/logo1.png", 'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)' } ] 
+PWA_APP_DIR = 'ltr' 
+PWA_APP_LANG = 'en-US'
+#PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/assets/js', 'serviceworker.js')
 
 
 # Internationalization
@@ -170,50 +198,6 @@ PAYTM_INDUSTRY_TYPE_ID = 'Retail'
 LOGIN_REDIRECT_URL='/'
 LOGOUT_REDIRECT_URL='/accounts/login/'
 
-TEMPUS_DOMINUS_LOCALIZE:True
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE =True
-SOCIALACCOUNT_STORE_TOKENS =True
 
-PWA_APP_NAME = 'KNG Travels'
-PWA_APP_DESCRIPTION = "Car Rentel"
-PWA_APP_THEME_COLOR = '#0A0302'
-PWA_APP_BACKGROUND_COLOR = '#050505'
-PWA_APP_DISPLAY = 'standalone'
-PWA_APP_SCOPE = '/'
-PWA_APP_ORIENTATION = 'any'
-PWA_APP_START_URL = '/'
-PWA_APP_STATUS_BAR_COLOR = 'default'
-PWA_APP_ICONS = [
-    {
-        'src': '/static/assets/img/logo1.png',
-        'sizes': '160x160'
-    },
-    {
-       'src': '/static/assets/img/logo1.png',
-        'sizes': '600x480' 
-    },
-    {
-       'src': '/static/assets/img/logo1.png',
-        "sizes": "192x192" 
-    },
-    {
-       'src': '/static/assets/img/logo1.png',
-        "sizes": "512x512" 
-    }
-]
-PWA_APP_ICONS_APPLE = [
-    {
-        'src': '/static/assets/img/logo1.png',
-        'sizes': '160x160'
-    }
-]
-PWA_APP_SPLASH_SCREEN = [
-    {
-        'src': '/static/assets/img/logo1.png',
-        'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'
-    }
-]
-PWA_APP_DIR = 'ltr'
-PWA_APP_LANG = 'en-US'
-#PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR,  'static', 'assets/js/serviceworker.js')
+ACCOUNT_EMAIL_REQUIRED = True
+SOCIALACCOUNT_STORE_TOKENS =True

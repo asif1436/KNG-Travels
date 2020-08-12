@@ -23,6 +23,7 @@ urlpatterns = [
     path('', views.Home, name='home'),
     #path('autofill/', views.Home, name='autofill'),
     path('checkdate/', views.Check_date, name='checkdate'),
+    path('offline/', views.base_layout, name='offline'),
     path('profile/', views.Profile_view, name='profile'),
     path('upcoming/', views.Live_Bookings, name='upcoming'),
     path('cancelbooking/<int:c_id>/', views.Cancel_Booking, name='cancelbooking'),
@@ -35,7 +36,7 @@ urlpatterns = [
     path('cust/login/', views.login, name='cust_login'),
     path('cust/register/', views.register, name='cust_register'),
     path('accounts/', include('allauth.urls')),
-    path('', include('pwa.urls')),
+    
 
     path('reset_password/',
      auth_views.PasswordResetView.as_view(template_name="registration/forgot-password.html"),

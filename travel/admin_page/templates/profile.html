@@ -9,13 +9,13 @@
 {% bootstrap_javascript jquery='full' %}
 
 {% block content %}
-<div class="container row justify-content-center">
+<div class="row justify-content-center">
 <div class="login-box">
+  <div class="login-logo">
+    <a href=><b>Profile</b></a>
+  </div>
   <!-- /.login-logo -->
   <div class="card">
-    <div class="card-head text-center mt-2 border-bottom"> 
-        <h3>Personal Information</h3>
-    </div>
     <div class="card-body login-card-body">
       <form method="post" enctype="multipart/form-data">
         {% csrf_token %}

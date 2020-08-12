@@ -22,6 +22,10 @@ from django.contrib.auth.forms import PasswordChangeForm
 
 # Create your views here.
 
+def base_layout(request):
+	template='base.html'
+	return render(request,template)
+
 def is_admin(request):
     return True if request.user.is_active else False
 
@@ -146,6 +150,7 @@ def Home(request):
 
                 ########### redirect with data #############
                 context = {
+                    "order_id" : pi.p_order_id,
                     'name' : request.user.username,
                     'os_data' : os_data,
                     'pi_data' : pi_data,
@@ -194,6 +199,7 @@ def Home(request):
 
                 # ///// redirecting with data /////
                 context = {
+                    "order_id" : pi.p_order_id,
                     'name' : request.user.username,
                     'l_data' : l_data,
                     'pi_data' : pi_data,
@@ -242,6 +248,8 @@ def Home(request):
                 # ////// redirect with data ///////
 
                 context = {
+                    "order_id" : pi.p_order_id,
+                    'name' : request.user.username,
                     'ap_data' : ap_data,
                     'pi_data' : pi_data,
                     'car_data' : car_data,
@@ -273,7 +281,7 @@ def Home(request):
             'companies' : companies
         }
         
-        return render(request, 'home.html', context)
+        return render(request, 'index.html', context)
 
 @login_required
 def Profile_view(request):
