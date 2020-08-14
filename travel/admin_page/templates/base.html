@@ -1,4 +1,6 @@
 
+{% load static %}
+{% load pwa %}
 {# Load the tag library #}
 {% load bootstrap4 %}
 
@@ -10,9 +12,7 @@
 {% bootstrap_messages %}
 
 
-<html>
-  {% load pwa %}
-  {% load static %}  
+<html>    
 <head>
   <meta charset="utf-8">  
   <title>KNG | Travels</title>
@@ -167,7 +167,7 @@ section{
         <!-- <li class="nav-item">
             <a class="nav-link" href="{% url 'cust_register' %}">Singup</a>
         </li> -->
-        {% if request.user %}
+        {% if request.user.is_authenticated %}
         <li class="nav-item">
             <a class="nav-link" href="{% url 'logout' %}">Logout</a>
         </li>
@@ -203,7 +203,7 @@ section{
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-          {% if request.user %}
+          {% if request.user.is_authenticated %}
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
                 with font-awesome or any other icon font library -->
@@ -344,7 +344,7 @@ section{
 <!-- bootstrab form wizard js file -->
 <script src="{% static 'assets/js/my.js' %}" type="text/javascript"></script>
 
-<script  defer src="https://maps.googleapis.com/maps/api/js?libraries=places&language=en&key=AIzaSyCx4tmnmH-zPGBnkLPEFIi3Ff8OkG_fths "  type="text/javascript"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCx4tmnmH-zPGBnkLPEFIi3Ff8OkG_fths&libraries=places&language=en&callback=initAutocomplete" async defer ></script>
 <script> 
   $(function() {
     const Toast = Swal.mixin({
@@ -393,38 +393,9 @@ section{
       
       
     });
-  });  
-  $(function() {
-      // add input listeners
-      google.maps.event.addDomListener(window, 'load', function () {        
-        var os_from = (document.getElementById('id_os_from'));
-        var l_city = (document.getElementById('id_l_city'));
-        var ap_from = (document.getElementById('id_ap_city'));
-        var ap_to = (document.getElementById('id_ap_pic_add'));
-        var os_to = (document.getElementById('id_os_to'));
-
-        // var from_places = new google.maps.places.Autocomplete();
-        from_places.setComponentRestrictions(
-            {'country': ['IN',],
-            });
-       // var to_places = new google.maps.places.Autocomplete();
-        to_places.setComponentRestrictions(
-            {'country': ['IN',]});
-
-        google.maps.event.addListener(from_places, 'place_changed', function () {
-            var from_place = from_places.getPlace();
-            var from_address = from_place.formatted_address;
-            $('#id_os_from').val(from_address);
-        });
-
-        google.maps.event.addListener(to_places, 'place_changed', function () {
-            var to_place = to_places.getPlace();
-            var to_address = to_place.formatted_address;
-            $('#id_os_to').val(to_address);
-        });
-
-      });
-    });
+  });
+  
+    
       // calculate distance
       function calculateDistance(origin, destination) {
           //var origin = $('.origin_from').val();
@@ -598,6 +569,18 @@ section{
       });
 
 </script>
+<script>
+  let autocomplete;
+    function initAutocomplete(){
+      autocomplete = new google.maps.places.Autocomplete(document.getElementById('id_os_from'), 
+      {
+      types: ['(cities)'],
+      componentRestrictions: {country: 'IN'}
+      }) 
+    }; 
+</script>
+
+
 
 
 <script>
@@ -789,6 +772,7 @@ $(document).ready(function(){
   });
   $('#id_c_car_0').click(function(){
     $(this).parents("div.col-4").addClass("text-orange")
+    $('#ofterpay').text('12.0')
     //$(this).prev().addClass("border-orange"); just add to circule
     $('#id_c_car_1').parents("div.col-4").removeClass("text-orange")
     $('#id_c_car_2').parents("div.col-4").removeClass("text-orange")
@@ -798,6 +782,7 @@ $(document).ready(function(){
   });
   $('#id_c_car_1').click(function(){
     $(this).parents("div.col-4").addClass("text-orange");
+    $('#ofterpay').text('12.0')
     $('#id_c_car_0').parents("div.col-4").removeClass("text-orange");
     $('#id_c_car_2').parents("div.col-4").removeClass("text-orange");
     $("#zestinfo").addClass("hide-content");
@@ -806,6 +791,7 @@ $(document).ready(function(){
   });
   $('#id_c_car_2').click(function(){
     $(this).parents("div.col-4").addClass("text-orange");
+    $('#ofterpay').text('15.0')
     $('#id_c_car_0').parents("div.col-4").removeClass("text-orange");
     $('#id_c_car_1').parents("div.col-4").removeClass("text-orange");
     $("#zestinfo").addClass("hide-content");
