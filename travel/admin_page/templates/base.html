@@ -21,9 +21,13 @@
   <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <!-- Font Awesome --> 
-  
-  <link rel="stylesheet" type="text/css" href="{% static 'adminlte/plugins/fontawesome-free/css/all.css' %}">  
+  <!-- google login -->
+  <meta name="google-signin-scope" content="profile email">
+  <meta name="google-signin-client_id" content="468625496434-bnm0mtsbfclfm6tt0casibsrln9va6l2.apps.googleusercontent.com">
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
   <link rel="stylesheet" type="text/css" href="{% static 'adminlte/dist/css/my.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'adminlte/plugins/fontawesome-free/css/all.css' %}">  
+  
   <!-- <link href="{% static 'assets/css/my.css' %}" rel="stylesheet" > -->
   <!-- <link href="{% static 'assets/css/datetime.css' %}" rel="stylesheet" > -->
  
@@ -54,14 +58,7 @@
 
   <style type="text/css">
 
-  .bookedimg{
-    position: relative;
-    bottom: 105;
-    left: 90;
-  }
-
-    
-    .mycard {
+  .mycard {
     background: white;
     border: 0 none;
     border-radius: 0px;
@@ -120,14 +117,47 @@ section{
     min-height: 100vh !important;
   }
 
-  td{
+  /* td{
     padding-right: 12px !important;
-  }
+  } */
   /* .add-button {
   position: absolute;
   top: 1px;
   left: 1px;
 } */
+.main{
+    position: absolute;
+    top: 82px;
+    left: 150px;
+}
+.inner{
+    margin:12%;
+    border: 10px double #dc1c1c;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    
+}
+.book{
+    color:red;
+    position:relative;
+    top:30px;
+    left: 5px;
+    width:auto;
+    height:auto;
+    border: 10px double #dc1c1c;
+    border-width:5px;
+    text-align: center;
+    transform: rotateZ(-20deg);
+    font-size: small;
+    background-color:#f8f9fa;
+}
+.out > *{
+    position:absolute;
+    width:80px;
+    height:80px;
+
+}
   </style>
 
 </head>
@@ -184,7 +214,7 @@ section{
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="{% url 'home' %}" class="brand-link">
-        <img src="{% static 'adminlte/dist/img/AdminLTELogo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+        <img src="{% static 'assets/img/logo1.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
             style="opacity: .8">
         <span class="brand-text font-weight-light">KNG Travels</span>
       </a>
@@ -194,7 +224,7 @@ section{
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
           <div class="image">
-            <img src="{% static 'assets/img/default-avatar.jpg' %}" class="img-circle elevation-2" alt="User Image">
+          <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" onerror=this.src="{% static 'assets/img/default-avatar.jpg'%}" class="img-circle elevation-2" alt="User Image">
           </div>
           <div class="info">
             <a href="{% url 'home' %}" class="d-block">{% firstof request.user.get_full_name request.user.username|title %}</a>
@@ -246,9 +276,9 @@ section{
             </li>
             <li class="nav-item">
               <a href="{% url 'upcoming' %}" class="nav-link">
-                <i class="nav-icon fas fa-user-cog"></i>
+                <i class="nav-icon fas fa-clipboard-list"></i>
                 <p>
-                  Live Bookings
+                  My Bookings
                 </p>
               </a>
             </li>
@@ -570,13 +600,26 @@ section{
 
 </script>
 <script>
+  // var defaultBounds = new google.maps.LatLngBounds(
+  // new google.maps.LatLng(18.875595, 79.459138)
+  // )
   let autocomplete;
+  var options = {
+      types: ['geocode',],
+      componentRestrictions: {country: 'IN'} 
+  }
+  var options1 = {
+    //bounds: defaultBounds,
+    types: ['geocode',],
+    componentRestrictions: {country: 'IN'} 
+  }
     function initAutocomplete(){
-      autocomplete = new google.maps.places.Autocomplete(document.getElementById('id_os_from'), 
-      {
-      types: ['(cities)'],
-      componentRestrictions: {country: 'IN'}
-      }) 
+      var os_from = document.getElementById('id_os_from')
+      var os_to = document.getElementById('id_os_to')
+      var l_from = document.getElementById('id_l_from')
+      var l_to = document.getElementById('id_l_to')
+      autocomplete = new google.maps.places.Autocomplete(os_from, options)
+      //autocomplete = new google.maps.places.Autocomplete(os_to, options)      
     }; 
 </script>
 
@@ -659,12 +702,12 @@ $(document).ready(function(){
       success: function( data ){
         if (data==0){
           console.log("1");
-          $("img.bookedimg").hide()
+          $(".main").hide()
           $("#carbutton").attr("disabled", false);
         }
         else{
           console.log("0");
-          $("img.bookedimg").show()
+          $(".main").show()
           $("#carbutton").attr("disabled", true);
         }                
       }
@@ -685,12 +728,12 @@ $(document).ready(function(){
       success: function( data ){
         if (data==0){
           console.log("1");
-          $("img.bookedimg").hide()
+          $(".main").hide()
           $("#carbutton").attr("disabled", false);
         }
         else{
           console.log("0");
-          $("img.bookedimg").show()
+          $(".main").show()
           $("#carbutton").attr("disabled", true);
         }                
       }
@@ -711,12 +754,12 @@ $(document).ready(function(){
       success: function( data ){
         if (data==0){
           console.log("1");
-          $("img.bookedimg").hide()
+          $(".main").hide()
           $("#carbutton").attr("disabled", false);
         }
         else{
           console.log("0");
-          $("img.bookedimg").show()
+          $(".main").show()
           $("#carbutton").attr("disabled", true);
         }                
       }
@@ -859,6 +902,22 @@ $(document).ready(function(){
   $(window).on("load",function(){
     $(".loader-wrapper").fadeOut("slow");
   });
+</script>
+<script>
+  function onSignIn(googleUser) {
+    // Useful data for your client-side scripts:
+    var profile = googleUser.getBasicProfile();
+    console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+    console.log('Full Name: ' + profile.getName());
+    console.log('Given Name: ' + profile.getGivenName());
+    console.log('Family Name: ' + profile.getFamilyName());
+    console.log("Image URL: " + profile.getImageUrl());
+    console.log("Email: " + profile.getEmail());
+
+    // The ID token you need to pass to your backend:
+    var id_token = googleUser.getAuthResponse().id_token;
+    console.log("ID Token: " + id_token);
+  }
 </script>
 <!-- <script>
 
