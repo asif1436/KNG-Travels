@@ -1,10 +1,18 @@
 from django.contrib import admin
 from admin_page.models import *
+from import_export.admin import ExportActionMixin, ImportExportActionModelAdmin
+
+
 
 # Register your models here.
 
+class  CitysAdmin(ImportExportActionModelAdmin):
+    list_display = [field.name for field in Citys._meta.get_fields()]
 
-class  OutStationAdmin(admin.ModelAdmin):
+admin.site.register(Citys, CitysAdmin)
+
+
+class  OutStationAdmin(ImportExportActionModelAdmin):
     display = "__all__"
 
 admin.site.register(OutStation, OutStationAdmin)

@@ -18,7 +18,7 @@ from django.utils import timezone
 from django.db.models import Q
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
-
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -96,7 +96,7 @@ def Home(request):
                 pi.p_user = request.user
                 
 
-                os_data = os_form.cleaned_data                
+                os_data = os_form.cleaned_data             
                 os = os_form.save(commit=False)
                 os.os_user = request.user
                 os.os_car = cr
@@ -120,16 +120,16 @@ def Home(request):
 
                 url = "https://www.fast2sms.com/dev/bulk"
 
-                text_message = ('Dear ' + pi_data['p_name'] +',\nThank You for Booking With KNG Travels. \nYour ID: '+ pi.p_order_id + ' You booked a '+ str(car_data['c_car']) +' '+ car_data['c_ac_type'] + ' for ' + os_data['os_from'] + ' to ' + os_data['os_to'] + ' on '+ str(os_data['os_pickup']) +' at '+ str(os_data['os_picktime'])+'. \nWe wish you a very happy and safe Journey, \nIf you have any query contact on 9666817780.')
-
+                text_message = ('Dear ' + pi_data['p_name'] +',\nThank You for Booking With KNG Travels. \nYour ID: '+ pi.p_order_id + '.\nIf you have any query contact on 9666817780.')
+                print(text_message)
                 payload1 = {"sender_id":"FSTSMS",
                     "message":text_message,
                     "language":"english",
                     "route":'p',
                     "numbers": pi_data['p_Phone'],
                     }
-                text_sms = ('Dear Nithish, \nYour '+ str(car_data['c_car'])+ ' '+ car_data['c_ac_type'] +' Booked for ' + os_data['os_from'] + ' to ' + os_data['os_to'] + ' on '+ str(os_data['os_pickup']) +' at '+ str(os_data['os_picktime'])+'. \nHis Name : ' + pi_data['p_name'] +' Contact No : ' + pi_data['p_Phone'] + ' and Mail id : ' + pi_data['p_email'] + '.')
-
+                text_sms = ('Dear Nithish,\nYour '+str(car_data['c_car'])+' '+car_data['c_ac_type']+' Booked for ' + os_data['os_from'].split(',')[0] + ' to ' + os_data['os_to'].split(',')[0] + ' on '+ str(os_data['os_pickup']) +'. \nHis Name : ' + pi_data['p_name'] +' and Contact No : ' +pi_data['p_Phone']+'.')
+                print(text_sms)
                 payload2 = {"sender_id":"FSTSMS",
                     "message":text_sms,
                     "language":"english",
@@ -194,8 +194,37 @@ def Home(request):
                 # ///// send mail /////
 
                 message1 = ('New Booking', 'Dear ' + pi_data['p_name'] +',\nThank You for Booking With KNG Travles. \nYour ID: '+ pi.p_order_id + ' You booked a '+ str(car_data['c_car'])+ ' '+ car_data['c_ac_type'] + ' for ' + l_data['l_from'] + ' to ' + l_data['l_to'] + ', on '+ str(l_data['l_pickup']) +' at '+ str(l_data['l_picktime'])+'. \nWe wish you a very happy and safe Journey, \nIf you have any query contact on 9666817780 .' , settings.EMAIL_HOST_USER, [pi_data['p_email'],])
-                message2 = ('New Booking', 'Dear Nithish, \nYour '+ str(car_data['c_car'])+ ' '+ car_data['c_ac_type'] + ' Booked for ' + l_data['l_from'] + ' on '+ str(l_data['l_pickup']) +' at '+ str(l_data['l_picktime'])+'. \nHis Name : ' + pi_data['p_name']+ ' Contact No : ' + pi_data['p_Phone'] + ' and Mail id ' + pi_data['p_email'] + '.', settings.EMAIL_HOST_USER, [settings.EMAIL_HOST_USER,])
-                send_mass_mail((message1, message2), fail_silently=False)
+                message2 = ('New Booking', 'Dear Nithish, \nYour '+ str(car_data['c_car'])+ ' '+ car_data['c_ac_type'] + ' Booked for ' + l_data['l_from'] +' to ' + l_data['l_to'] + ' on '+ str(l_data['l_pickup']) +' at '+ str(l_data['l_picktime'])+'. \nHis Name : ' + pi_data['p_name']+ ' Contact No : ' + pi_data['p_Phone'] + ' and Mail id ' + pi_data['p_email'] + '.', settings.EMAIL_HOST_USER, ['kondanithishgoud1436@gmail.com',])
+                #send_mass_mail((message1, message2), fail_silently=False)
+
+                ######### sms gatway ###########
+
+                url = "https://www.fast2sms.com/dev/bulk"
+
+                text_message = ('Dear ' + pi_data['p_name'] +',\nThank You for Booking With KNG Travels. \nYour ID: '+ pi.p_order_id + '.\nIf you have any query contact on 9666817780.')
+                print(text_message)
+                payload1 = {"sender_id":"FSTSMS",
+                    "message":text_message,
+                    "language":"english",
+                    "route":'p',
+                    "numbers": pi_data['p_Phone'],
+                    }
+                text_sms = ('Dear Nithish,\nYour '+str(car_data['c_car'])+' '+car_data['c_ac_type']+' Booked for ' + l_data['l_from'].split(',')[0] + ' to ' + l_data['l_to'].split(',')[0] + ' on '+ str(l_data['l_pickup']) +'. \nHis Name : ' + pi_data['p_name'] +' and Contact No : ' +pi_data['p_Phone']+'.')
+                print(text_sms)
+                payload2 = {"sender_id":"FSTSMS",
+                    "message":text_sms,
+                    "language":"english",
+                    "route":'p',
+                    "numbers":"9666817780",
+                    }
+                headers = {
+                    'authorization': "F1t5krIUSpe6Vf0mCQ7zZuBJqGcdglhbAMjv9XNToK2PnYRE344HMxXnYkiyDN0wRKlTsFeCaVhZEmjB",
+                    'Content-Type': "application/x-www-form-urlencoded",
+                    'Cache-Control': "no-cache",
+                    }
+
+                #response = requests.request("POST", url, data=payload1, headers=headers)
+                #response = requests.request("POST", url, data=payload2, headers=headers)
 
                 # ///// redirecting with data /////
                 context = {
@@ -241,9 +270,39 @@ def Home(request):
                 ap.save()
 
                 #/////// emial sending ////////
-                message1 = ('New Booking', 'Dear ' + pi_data['p_name'] +',\nThank You for Booking With KNG Travles. \nYour ID: '+  pi.p_order_id + ' You booked a '+ str(car_data['c_car']) + ' '+ car_data['c_ac_type']+ ' for ' + ap_data['ap_from'] + ' to ' + ap_data['ap_to'] + ', on '+ str(ap_data['ap_pickup']) +' at '+ str(ap_data['ap_picktime'])+'. \nWe wish you a very happy and safe Journey, \nIf you have any query contact on 9666817780 .' , settings.EMAIL_HOST_USER, [pi_data['p_email'],])
-                message2 = ('New Booking', 'Dear Nithish, \nYour '+ str(car_data['c_car']) + ' '+ car_data['c_ac_type']+ ' Booked for ' + ap_data['ap_city'] + ' on '+ str(ap_data['ap_pickup']) +' at '+ str(ap_data['ap_picktime'])+'. \nHis Name : ' + pi_data['p_name']+' Contact No : ' + pi_data['p_Phone'] + ', and Mail id ' + pi_data['p_email'] + '.', settings.EMAIL_HOST_USER, [settings.EMAIL_HOST_USER,])
-                send_mass_mail((message1, message2), fail_silently=False)
+                message1 = ('New Booking', 'Dear ' + pi_data['p_name'] +',\nThank You for Booking With KNG Travles. \nYour ID: '+  pi.p_order_id + ' You booked a '+ str(car_data['c_car']) + ' '+ car_data['c_ac_type']+ ' for ' + ap_data['ap_city'] + ' to ' + ap_data['ap_pic_add'] + ', on '+ str(ap_data['ap_pickup']) +' at '+ str(ap_data['ap_picktime'])+'. \nWe wish you a very happy and safe Journey, \nIf you have any query contact on 9666817780 .' , settings.EMAIL_HOST_USER, [pi_data['p_email'],])
+                message2 = ('New Booking', 'Dear Nithish, \nYour '+ str(car_data['c_car']) + ' '+ car_data['c_ac_type']+ ' Booked for '+ ap_data['ap_city']+' to ' + ap_data['ap_pic_add'] +' on '+ str(ap_data['ap_pickup']) +' at '+ str(ap_data['ap_picktime'])+'. \nHis Name : ' + pi_data['p_name']+' Contact No : ' + pi_data['p_Phone'] + ', and Mail id ' + pi_data['p_email'] + '.', settings.EMAIL_HOST_USER, ['kondanithishgoud1436@gmail.com',])
+                #send_mass_mail((message1, message2), fail_silently=False)
+
+                ######### sms gatway ###########
+
+                url = "https://www.fast2sms.com/dev/bulk"
+
+                text_message = ('Dear ' + pi_data['p_name'] +',\nThank You for Booking With KNG Travels. \nYour ID: '+ pi.p_order_id + '.\nIf you have any query contact on 9666817780.')
+                print(text_message)
+                payload1 = {"sender_id":"FSTSMS",
+                    "message":text_message,
+                    "language":"english",
+                    "route":'p',
+                    "numbers": pi_data['p_Phone'],
+                    }
+                text_sms = ('Dear Nithish,\nYour '+str(car_data['c_car'])+' '+car_data['c_ac_type']+' Booked for ' + ap_data['ap_city'].split(',')[0] + 'to ' + ap_data['ap_pic_add'].split(',')[0] +' on '+ str(ap_data['ap_pickup']) +'. \nHis Name : ' + pi_data['p_name'] +' and Contact No : ' +pi_data['p_Phone']+'.')
+                print(text_sms)
+                payload2 = {"sender_id":"FSTSMS",
+                    "message":text_sms,
+                    "language":"english",
+                    "route":'p',
+                    "numbers":"9666817780",
+                    }
+                headers = {
+                    'authorization': "F1t5krIUSpe6Vf0mCQ7zZuBJqGcdglhbAMjv9XNToK2PnYRE344HMxXnYkiyDN0wRKlTsFeCaVhZEmjB",
+                    'Content-Type': "application/x-www-form-urlencoded",
+                    'Cache-Control': "no-cache",
+                    }
+
+                #response = requests.request("POST", url, data=payload1, headers=headers)
+                #response = requests.request("POST", url, data=payload2, headers=headers)
+
 
                 # ////// redirect with data ///////
 
@@ -516,8 +575,47 @@ def Check_date(request):
         ap = AirPort.objects.values('ap_car').filter(Q(Q(ap_pickup__gte=timezone.now()) & Q(ap_car_id__c_car_id=car_id)) & Q(Q(Q(ap_return__gte=start) & Q(ap_return__lte=end)) | Q(Q(ap_pickup__lte=end) & Q(ap_pickup__gte=start)) | Q(Q(ap_pickup__lte=end) & Q(ap_return__gte=end)) | Q(Q(ap_pickup__lte=start) & Q(ap_return__gte=start))))
         
         print(o, l, ap)
+        if car_id == '3':
+            result = '1'
+            return HttpResponse(result)
+        elif car_id == '2':
+            result = '1'
+            return HttpResponse(result)
         result = o.count()+l.count()+ap.count()
         print(result)
         return HttpResponse(result)
 
 
+def Autocomplete(request):
+    city = Citys.objects.values('city_name')
+    l = list()
+    for x in city:
+        l.append(x['city_name'])
+    return HttpResponse(l)
+
+# def Autocomplete_airport(request):
+#     city = Citys.objects.values('airport_name')
+#     l = list()
+#     for x in city:
+#         l.append(x['airport_name']+'..')
+#     print(l)
+#     return HttpResponse(l)
+
+def Autocomplete_airport(request):
+    if 'term' in request.GET:
+        city = Citys.objects.filter(airport_name__icontains=request.GET.get("term"))
+        l = list()
+        for x in city:
+            l.append(x.airport_name)
+        return JsonResponse(l, safe=False)
+
+
+###################    to Store CSV file data in database   ##################################
+
+ # with open("/home/grktechnologies/myfolder/thierd_project/airport.csv") as f:
+    #     import csv
+    #     reader = csv.reader(f)
+    #     for row in reader:
+    #         print(row)
+    #         created = Citys.objects.get_or_create(airport_name=row)
+    #         created.save()

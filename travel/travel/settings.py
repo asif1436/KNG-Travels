@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.facebook',
     'pwa',
+    'import_export',
 ]
 
 MIDDLEWARE = [
@@ -69,7 +70,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST= 'smtp.gmail.com'
 EMAIL_PORT= 587
 EMAIL_HOST_USER= 'itskngtravels@gmail.com'
-EMAIL_HOST_PASSWORD= 'kng4tr@vel$'
+EMAIL_HOST_PASSWORD= 'kng4@sif'
 EMAIL_USE_TLS= True
 
 
@@ -199,32 +200,30 @@ LOGOUT_REDIRECT_URL='/accounts/login/'
 
 #google
 ACCOUNT_EMAIL_REQUIRED = True
-SOCIALACCOUNT_STORE_TOKENS =True
-ACCOUNT_USERNAME_REQURIED=True
+# SOCIALACCOUNT_STORE_TOKENS =True
+# ACCOUNT_USERNAME_REQURIED=True
 
 #facebook
-SOCIALACCOUNT_PROVIDERS = {
-    'facebook': {
-        'METHOD': 'oauth2',
-        'SDK_URL': '//connect.facebook.net/{locale}/sdk.js',
-        'SCOPE': ['email', 'public_profile'],
-        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
-        'INIT_PARAMS': {'cookie': True},
-        'FIELDS': [
-            'id',
-            'first_name',
-            'last_name',
-            'middle_name',
-            'name',
-            'name_format',
-            'picture',
-            'short_name'
-        ],
-        'EXCHANGE_TOKEN': True,
-        'LOCALE_FUNC': 'path.to.callable',
-        'VERIFIED_EMAIL': False,
-        'VERSION': 'v7.0',
-    }
-}
-SOCIAL_AUTH_FACEBOOK_KEY = '764501190968436'  # App ID
-SOCIAL_AUTH_FACEBOOK_SECRET ='4191bef763b2bb182dedcaca4c98d246' #app key
+# SOCIALACCOUNT_PROVIDERS = {
+#     'facebook': {
+#         'METHOD': 'oauth2',
+#         'SDK_URL': '//connect.facebook.net/{locale}/sdk.js',
+#         'SCOPE': ['email', 'public_profile'],
+#         'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+#         'INIT_PARAMS': {'cookie': True},
+#         'FIELDS': [
+#             'id',
+#             'first_name',
+#             'last_name',
+#             'middle_name',
+#             'name',
+#             'name_format',
+#             'picture',
+#             'short_name'
+#         ],
+#         'EXCHANGE_TOKEN': True,
+#         'LOCALE_FUNC': 'path.to.callable',
+#         'VERIFIED_EMAIL': False,
+#         'VERSION': 'v7.0',
+#     }
+# }

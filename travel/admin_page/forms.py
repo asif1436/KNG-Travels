@@ -41,7 +41,9 @@ class  OutstationForm(ModelForm):
         widgets = {
             #'os_trip_type': RadioSelect(),            
             'os_pickup': DatePicker(),
-            'os_picktime': TimePicker(),
+            'os_picktime': TimePicker(options={
+            'format': 'hh:mm A'
+            }),
             'os_return': DatePicker(),
             #'os_return': DatePicker(
             #    options={
@@ -60,7 +62,9 @@ class  LocalForm(ModelForm):
         exclude = ['l_user','l_status', 'l_created_on', 'l_updated_on']
         widgets = {
         'l_pickup': DatePicker(),
-        'l_picktime': TimePicker(),
+        'l_picktime': TimePicker(options={
+            'format': 'hh:mm A'
+        }),
         'l_return': DatePicker(),
 
         }
@@ -72,7 +76,9 @@ class  AirPortForm(ModelForm):
         exclude = ['ap_user','ap_status', 'ap_created_on', 'ap_updated_on']
         widgets = {
         'ap_pickup': DatePicker(),
-        'ap_picktime': TimePicker(),
+        'ap_picktime': TimePicker(options={
+            'format': 'hh:mm A'
+        }),
         'ap_return': DatePicker(),
 
         }

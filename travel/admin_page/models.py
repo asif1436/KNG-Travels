@@ -166,3 +166,11 @@ def update_profile(sender, instance, created, **kwargs):
     if created==False:
         instance.profile.save()
         print("updated  ")
+
+
+class Citys(models.Model):
+    city_name = models.CharField(max_length=100, null=True, blank=True, verbose_name="City")
+    airport_name = models.CharField(max_length=100, null=True, blank=True, verbose_name="Airport_name")
+
+    def __str__(self):
+        return str(self.city_name)

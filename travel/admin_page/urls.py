@@ -36,6 +36,8 @@ urlpatterns = [
     path('cust/login/', views.login, name='cust_login'),
     path('cust/register/', views.register, name='cust_register'),
     path('accounts/', include('allauth.urls')),
+    path('autocomplete/', views.Autocomplete, name='autocomplete'),
+    path('autocomplete-airport/', views.Autocomplete_airport, name='autocomplete_airport'),
     
 
     path('reset_password/',
