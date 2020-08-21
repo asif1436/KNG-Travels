@@ -142,8 +142,8 @@ def Home(request):
                     'Cache-Control': "no-cache",
                     }
 
-                #response = requests.request("POST", url, data=payload1, headers=headers)
-                #response = requests.request("POST", url, data=payload2, headers=headers)
+                response = requests.request("POST", url, data=payload1, headers=headers)
+                response = requests.request("POST", url, data=payload2, headers=headers)
 
                 #print(response.text)
                 
@@ -223,8 +223,8 @@ def Home(request):
                     'Cache-Control': "no-cache",
                     }
 
-                #response = requests.request("POST", url, data=payload1, headers=headers)
-                #response = requests.request("POST", url, data=payload2, headers=headers)
+                response = requests.request("POST", url, data=payload1, headers=headers)
+                response = requests.request("POST", url, data=payload2, headers=headers)
 
                 # ///// redirecting with data /////
                 context = {
@@ -300,8 +300,8 @@ def Home(request):
                     'Cache-Control': "no-cache",
                     }
 
-                #response = requests.request("POST", url, data=payload1, headers=headers)
-                #response = requests.request("POST", url, data=payload2, headers=headers)
+                response = requests.request("POST", url, data=payload1, headers=headers)
+                response = requests.request("POST", url, data=payload2, headers=headers)
 
 
                 # ////// redirect with data ///////
