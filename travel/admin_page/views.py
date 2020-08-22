@@ -120,7 +120,7 @@ def Home(request):
 
                 url = "https://www.fast2sms.com/dev/bulk"
 
-                text_message = ('Dear ' + pi_data['p_name'] +',\nThank You for Booking With KNG Travels. \nYour ID: '+ pi.p_order_id + '.\nIf you have any query contact on 9666817780.')
+                text_message = ('Dear ' + pi_data['p_name'] +',\nThank You for Booking With KNG Travels. \nYour Booking ID: '+ pi.p_order_id + '.\nIf you have any query contact on 9666817780.')
                 print(text_message)
                 payload1 = {"sender_id":"FSTSMS",
                     "message":text_message,
@@ -160,10 +160,14 @@ def Home(request):
                 }
 
                 return render(request, 'thankq.html', context)
-                
-        elif l_form.data["l_from"]:
-            if l_form.is_valid() and car_form.is_valid() and pi_form.is_valid():
 
+            else:
+                messages.error(request, 'Somthing went Wrong!', extra_tags='red')
+                return redirect('/')
+
+        elif l_form.data["l_from"]:
+            print('local')
+            if car_form.is_valid() and l_form.is_valid() and pi_form.is_valid():
                 
                 car_data = car_form.cleaned_data
                 cr = car_form.save(commit=False)
@@ -195,13 +199,13 @@ def Home(request):
 
                 message1 = ('New Booking', 'Dear ' + pi_data['p_name'] +',\nThank You for Booking With KNG Travles. \nYour ID: '+ pi.p_order_id + ' You booked a '+ str(car_data['c_car'])+ ' '+ car_data['c_ac_type'] + ' for ' + l_data['l_from'] + ' to ' + l_data['l_to'] + ', on '+ str(l_data['l_pickup']) +' at '+ str(l_data['l_picktime'])+'. \nWe wish you a very happy and safe Journey, \nIf you have any query contact on 9666817780 .' , settings.EMAIL_HOST_USER, [pi_data['p_email'],])
                 message2 = ('New Booking', 'Dear Nithish, \nYour '+ str(car_data['c_car'])+ ' '+ car_data['c_ac_type'] + ' Booked for ' + l_data['l_from'] +' to ' + l_data['l_to'] + ' on '+ str(l_data['l_pickup']) +' at '+ str(l_data['l_picktime'])+'. \nHis Name : ' + pi_data['p_name']+ ' Contact No : ' + pi_data['p_Phone'] + ' and Mail id ' + pi_data['p_email'] + '.', settings.EMAIL_HOST_USER, ['kondanithishgoud1436@gmail.com',])
-                #send_mass_mail((message1, message2), fail_silently=False)
+                send_mass_mail((message1, message2), fail_silently=False)
 
                 ######### sms gatway ###########
 
                 url = "https://www.fast2sms.com/dev/bulk"
 
-                text_message = ('Dear ' + pi_data['p_name'] +',\nThank You for Booking With KNG Travels. \nYour ID: '+ pi.p_order_id + '.\nIf you have any query contact on 9666817780.')
+                text_message = ('Dear ' + pi_data['p_name'] +',\nThank You for Booking With KNG Travels. \nYour Booking ID: '+ pi.p_order_id + '.\nIf you have any query contact on 9666817780.')
                 print(text_message)
                 payload1 = {"sender_id":"FSTSMS",
                     "message":text_message,
@@ -239,6 +243,10 @@ def Home(request):
 
                 return render(request, 'thankq.html', context)
             
+            else:
+                messages.error(request, 'Somthing went Wrong!', extra_tags='red')
+                return redirect('/')
+
         elif ap_form.data["ap_city"]:
             if ap_form.is_valid() and car_form.is_valid() and pi_form.is_valid():
 
@@ -272,13 +280,13 @@ def Home(request):
                 #/////// emial sending ////////
                 message1 = ('New Booking', 'Dear ' + pi_data['p_name'] +',\nThank You for Booking With KNG Travles. \nYour ID: '+  pi.p_order_id + ' You booked a '+ str(car_data['c_car']) + ' '+ car_data['c_ac_type']+ ' for ' + ap_data['ap_city'] + ' to ' + ap_data['ap_pic_add'] + ', on '+ str(ap_data['ap_pickup']) +' at '+ str(ap_data['ap_picktime'])+'. \nWe wish you a very happy and safe Journey, \nIf you have any query contact on 9666817780 .' , settings.EMAIL_HOST_USER, [pi_data['p_email'],])
                 message2 = ('New Booking', 'Dear Nithish, \nYour '+ str(car_data['c_car']) + ' '+ car_data['c_ac_type']+ ' Booked for '+ ap_data['ap_city']+' to ' + ap_data['ap_pic_add'] +' on '+ str(ap_data['ap_pickup']) +' at '+ str(ap_data['ap_picktime'])+'. \nHis Name : ' + pi_data['p_name']+' Contact No : ' + pi_data['p_Phone'] + ', and Mail id ' + pi_data['p_email'] + '.', settings.EMAIL_HOST_USER, ['kondanithishgoud1436@gmail.com',])
-                #send_mass_mail((message1, message2), fail_silently=False)
+                send_mass_mail((message1, message2), fail_silently=False)
 
                 ######### sms gatway ###########
 
                 url = "https://www.fast2sms.com/dev/bulk"
 
-                text_message = ('Dear ' + pi_data['p_name'] +',\nThank You for Booking With KNG Travels. \nYour ID: '+ pi.p_order_id + '.\nIf you have any query contact on 9666817780.')
+                text_message = ('Dear ' + pi_data['p_name'] +',\nThank You for Booking With KNG Travels. \nYour Booking ID: '+ pi.p_order_id + '.\nIf you have any query contact on 9666817780.')
                 print(text_message)
                 payload1 = {"sender_id":"FSTSMS",
                     "message":text_message,
@@ -317,13 +325,11 @@ def Home(request):
                 }
 
                 return render(request, 'thankq.html', context)
-        
-   
-        
+       
                    
             else:
                 messages.error(request, 'Somthing went Wrong!', extra_tags='red')
-                return redirect('/home')
+                return redirect('/')
     else:
         car_data = Cardemo.objects.all()
         #car_json = serializers.serialize("json",  Cardemo.objects.all())

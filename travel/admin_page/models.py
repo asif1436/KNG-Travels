@@ -9,10 +9,10 @@ advance=[('25', '25'), ('50', '50'), ('75', '75'), ('100', '100'),]
 
 class PersionInfo(models.Model):
     p_user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)   
-    p_name = models.CharField(max_length=50, null=True, verbose_name="Name")
-    p_Phone = models.CharField(max_length=50, null=True, verbose_name="Mobile Number")
+    p_name = models.CharField(max_length=50, null=True, blank=True, verbose_name="Name")
+    p_Phone = models.CharField(max_length=50, null=True, blank=True, verbose_name="Mobile Number")
     p_email = models.EmailField(null=True, blank=True, verbose_name="Demo@gmail.com")
-    p_address = models.CharField(max_length=100, null=True, blank=True, verbose_name="Exact Drop Location")
+    p_address = models.CharField(max_length=100, null=True, blank=True, verbose_name="Exact Drop Location (Optional)")
     p_order_id = models.CharField(unique=True, max_length=100, null=True, blank=True)
 
     
@@ -40,7 +40,7 @@ class PersionInfo(models.Model):
 
     
 class Cardemo(models.Model):
-    cars = models.CharField(max_length=50, null=True, verbose_name="car name")
+    cars = models.CharField(max_length=50, null=True, blank=True, verbose_name="car name")
     img = models.ImageField(upload_to='4wheeler/Images/', null=True, blank=True, verbose_name="Car Image")
     ac_price = models.FloatField(null=True, blank=True, verbose_name="Car Ac Price")
     without_ac_price = models.FloatField(null=True, blank=True, verbose_name="Car Without Ac Price")
@@ -52,7 +52,7 @@ class Cardemo(models.Model):
 class Car(models.Model):
     c_user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     c_car = models.ForeignKey(Cardemo, default=0, null=True, on_delete=models.CASCADE)
-    c_ac_type = models.CharField(max_length=50, null=True, blank=True, verbose_name="AC Type")    
+    c_ac_type = models.CharField(max_length=50, null=True, verbose_name="AC Type")    
     c_amount = models.FloatField( null=True, blank=True)
     c_advance = models.FloatField( null=True, blank=True)
 
@@ -85,7 +85,7 @@ class OutStation(models.Model):
     os_to = models.CharField(max_length=100, null=True, blank=True, verbose_name="TO city -e.g. Hyderabad")
     os_pickup = models.DateField(null=True, blank=True, verbose_name="PICK UP")
     os_return = models.DateField(null=True, blank=True, verbose_name="RETURN")
-    os_picktime = models.TimeField(null=True, blank=True, verbose_name="PICK UP AT")
+    os_picktime = models.CharField(max_length=100,null=True, blank=True, verbose_name="PICK UP AT")
     os_car = models.ForeignKey(Car, null=True, blank=True, on_delete=models.CASCADE)
     os_persional_info = models.ForeignKey(PersionInfo, null=True, blank=True, on_delete=models.CASCADE)
     
@@ -107,7 +107,7 @@ class Local(models.Model):
     l_from = models.CharField(max_length=100, null=True, blank=True, verbose_name="From -e.g. Wankidi")
     l_to = models.CharField(max_length=100, null=True, blank=True, verbose_name="To -e.g. Mancherial")
     l_pickup = models.DateField(null=True, blank=True, verbose_name="PICK UP")
-    l_picktime = models.TimeField(null=True, blank=True, verbose_name="PICK UP AT")
+    l_picktime = models.CharField(max_length=100,null=True, blank=True, verbose_name="PICK UP AT")
     l_return = models.DateField(null=True, blank=True, verbose_name="RETURN")
     l_car = models.ForeignKey(Car, null=True, blank=True, on_delete=models.CASCADE)
     l_persional_info = models.ForeignKey(PersionInfo, null=True, blank=True, on_delete=models.CASCADE)
@@ -130,7 +130,7 @@ class AirPort(models.Model):
     ap_trip = models.CharField(max_length=50, null=True, blank=True, verbose_name="Trip Type")
     ap_pic_add = models.CharField(max_length=100, null=True, blank=True, verbose_name="Your Address -e.g. Wankidi")
     ap_pickup = models.DateField(null=True, blank=True, verbose_name="PICK UP")
-    ap_picktime = models.TimeField(null=True, blank=True, verbose_name="PICK UP AT")
+    ap_picktime = models.CharField(max_length=100,null=True, blank=True, verbose_name="PICK UP AT")
     ap_return = models.DateField(null=True, blank=True, verbose_name="RETURN")
     ap_car = models.ForeignKey(Car, null=True, blank=True, on_delete=models.CASCADE)
     ap_persional_info = models.ForeignKey(PersionInfo, null=True, blank=True, on_delete=models.CASCADE)
