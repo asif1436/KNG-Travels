@@ -38,3 +38,19 @@ def admin_only(view_func):
 			return view_func(request, *args, **kwargs)
 
 	return wrapper_function
+
+def Admin_only(func): 
+    def check_admin(request, *args, **kwargs):
+        if request.user.is_superuser:
+            return func(request, *args, **kwargs)
+        else:
+            return redirect('/')
+    return check_admin
+
+def User_only(func): 
+    def check_admin(request, *args, **kwargs):
+        if request.user.is_active:
+            return func(request, *args, **kwargs)
+        else:
+            return redirect('/')
+    return check_admin

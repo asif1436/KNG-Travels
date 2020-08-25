@@ -1,0 +1,55 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{# Load the tag library #}
+{% load bootstrap4 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+
+{% bootstrap_javascript jquery='full' %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="login-box">
+      <div class="login-logo">
+        <a href=><b>Add Car Details</b></a>
+      </div>
+      <!-- /.login-logo -->
+      <div class="card">
+        <div class="card-body">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-12" style="padding-top: 15px;">                                                
+                        <div>{% bootstrap_field carform.cars  %}</div>                                     		                                                                                    
+                    </div>
+                    <div class="col-md-12">                                                
+                        <div>{% bootstrap_field carform.img  %}</div>                                     		                                                                                    
+                    </div> 
+                    <div class="col-md-12">
+                        {% bootstrap_field carform.ac_price %}
+                    </div>
+                    <div class="col-md-12 ">
+                        {% bootstrap_field carform.without_ac_price %}
+                    </div>
+                    <div class="col-md-12 ">
+                        {% bootstrap_field carform.advance %}
+                    </div>                                             
+                </div>
+                <div class="col-md-12">
+                    <a href="{% url 'car_detail' %}" name="" class="btn btn-success btn-lg" >Cancel</a>
+                    <input type="submit" name="" class="btn btn-success btn-lg" value="Add Car" />
+                </div>                
+            </form>
+        </div>
+        <!-- /.login-card-body -->
+      </div>
+    </div>
+</div>
+
+    
+{% endblock %}

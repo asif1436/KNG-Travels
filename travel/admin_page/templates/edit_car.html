@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{# Load the tag library #}
+{% load bootstrap4 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+
+{% bootstrap_javascript jquery='full' %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="login-box">
+      <div class="login-logo">
+        <a href=><b>Edit Car Details</b></a>
+      </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="col-md-12" style="padding-top: 15px;">                                                
+                        <div>{% bootstrap_field form.cars  %}</div>                                     		                                                                                    
+                    </div>
+                    <div class="col-md-12">                                                
+                        <div>{% bootstrap_field form.ac_price  %}</div>                                     		                                                                                    
+                    </div> 
+                    <div class="col-md-12">
+                        {% bootstrap_field form.without_ac_price %}
+                    </div>
+                    <div class="col-md-12 ">
+                        {% bootstrap_field form.advance %}
+                    </div>
+                    <div class="col-md-12">                                            
+                        <div>{% if form.img %}<img src="{{ form.img.value.url }}" style="width:90px;" />{% else %}<img src="{% static 'assets/img/exclusions_icon3.png' %}" style="width:90px;" />{% endif %}{% bootstrap_field form.img %}</div>                                    		                                                                                    
+                    </div>
+                    <div class="col-md-12">
+                        <a href="{% url 'car_detail' %}" name="" class="btn btn-success btn-lg" >Cancel</a>
+                        <input type="submit" name="" class="btn btn-success btn-lg" value="Confirm" />
+                    </div>                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

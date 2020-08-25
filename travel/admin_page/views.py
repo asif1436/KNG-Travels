@@ -19,6 +19,7 @@ from django.db.models import Q
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.http import JsonResponse
+from admin_page.decorators import Admin_only, User_only
 
 # Create your views here.
 
@@ -26,11 +27,6 @@ def base_layout(request):
 	template='base.html'
 	return render(request,template)
 
-def is_admin(request):
-    return True if request.user.is_active else False
-
-def is_superuser(request):
-    return True if request.user.is_superuser else False
 
 def login(request):
     if request.method == "POST":
@@ -40,7 +36,6 @@ def login(request):
         if user is not None:
             login(request, user)
             # Redirect to a success page.
-            return redirect('/home')
         else:
             # Return an 'invalid login' error message.
             return HttpResponseRedirect('cust/login/')
@@ -52,10 +47,10 @@ def register(request):
         signup = Cust_SignUpForm(request.POST)
         if signup.is_valid():
             signup.save()
-            return redirect('/home')
+            return redirect('/')
     signup = Cust_SignUpForm()
     return render(request, 'register.html', {'signup': signup})
-
+@User_only
 def change_password(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
@@ -71,10 +66,8 @@ def change_password(request):
         return render(request, 'registration/change_password.html', {'form': form})
 
 @login_required
+
 def Home(request):
-    if not is_admin(request):
-        messages.error(request, 'Your Password or Username is incorrect', extra_tags='red')
-        return HttpResponseRedirect('cust_login')
     if request.method == "POST":
         advance = float(request.POST['amount'])
         os_form = OutstationForm(request.POST )
@@ -128,7 +121,7 @@ def Home(request):
                     "route":'p',
                     "numbers": pi_data['p_Phone'],
                     }
-                text_sms = ('Dear Nithish,\nYour '+str(car_data['c_car'])+' '+car_data['c_ac_type']+' Booked for ' + os_data['os_from'].split(',')[0] + ' to ' + os_data['os_to'].split(',')[0] + ' on '+ str(os_data['os_pickup']) +'. \nHis Name : ' + pi_data['p_name'] +' and Contact No : ' +pi_data['p_Phone']+'.')
+                text_sms = ('Dear Nithish,\nYour '+str(car_data['c_car'])+' Booked for ' + os_data['os_from'].split(',')[0] + ' to ' + os_data['os_to'].split(',')[0] + ' on '+ str(os_data['os_pickup']) +' '+ os_data['os_picktime'] +'. \nHis Name: ' + pi_data['p_name'] +' & P.No: ' +pi_data['p_Phone']+'.')
                 print(text_sms)
                 payload2 = {"sender_id":"FSTSMS",
                     "message":text_sms,
@@ -213,7 +206,7 @@ def Home(request):
                     "route":'p',
                     "numbers": pi_data['p_Phone'],
                     }
-                text_sms = ('Dear Nithish,\nYour '+str(car_data['c_car'])+' '+car_data['c_ac_type']+' Booked for ' + l_data['l_from'].split(',')[0] + ' to ' + l_data['l_to'].split(',')[0] + ' on '+ str(l_data['l_pickup']) +'. \nHis Name : ' + pi_data['p_name'] +' and Contact No : ' +pi_data['p_Phone']+'.')
+                text_sms = ('Dear Nithish,\nYour '+str(car_data['c_car'])+' Booked for ' + l_data['l_from'].split(',')[0] + ' to ' + l_data['l_to'].split(',')[0] + ' on '+ str(l_data['l_pickup']) +' '+ l_data['l_picktime'] +'. \nHis Name: ' + pi_data['p_name'] +' & P.No : ' +pi_data['p_Phone']+'.')
                 print(text_sms)
                 payload2 = {"sender_id":"FSTSMS",
                     "message":text_sms,
@@ -294,7 +287,7 @@ def Home(request):
                     "route":'p',
                     "numbers": pi_data['p_Phone'],
                     }
-                text_sms = ('Dear Nithish,\nYour '+str(car_data['c_car'])+' '+car_data['c_ac_type']+' Booked for ' + ap_data['ap_city'].split(',')[0] + 'to ' + ap_data['ap_pic_add'].split(',')[0] +' on '+ str(ap_data['ap_pickup']) +'. \nHis Name : ' + pi_data['p_name'] +' and Contact No : ' +pi_data['p_Phone']+'.')
+                text_sms = ('Dear Nithish,\nYour '+str(car_data['c_car'])+' Booked for ' + ap_data['ap_city'].split(',')[0] + ' to ' + ap_data['ap_pic_add'].split(',')[0] +' on '+ str(ap_data['ap_pickup']) +' '+ ap_data['ap_picktime'] +'.\nHis Name: ' + pi_data['p_name'] +' & P.No: ' +pi_data['p_Phone']+'.')
                 print(text_sms)
                 payload2 = {"sender_id":"FSTSMS",
                     "message":text_sms,
@@ -350,8 +343,6 @@ def Home(request):
 
 @login_required
 def Profile_view(request):
-    if not is_admin(request):
-        return HttpResponseRedirect('cust_login')
     p_data = request.user.profile 
     if request.method == "POST":
         user_form1 = UserForm(data=request.POST, instance=request.user)
@@ -374,15 +365,44 @@ def Profile_view(request):
 
 
 @login_required
+@User_only
 def Oustation_view(request):
-    if not is_admin(request):
-        return HttpResponseRedirect('cust_login')
-    else:
-        os_data = OutStation.objects.filter(os_user=request.user.id)
+    os_data = OutStation.objects.filter(os_user=request.user.id)
         
     return render(request, 'outstation.html', {"os_data":os_data, 'name':request.user.username})
 
 @login_required
+@User_only
+def Local_view(request):
+    l_data = Local.objects.filter(l_user=request.user.id)
+        
+    return render(request, 'local.html', {"l_data":l_data, 'name':request.user.username})
+
+@login_required
+@User_only
+def Airport_view(request):
+    ap_data = AirPort.objects.filter(ap_user=request.user.id)
+        
+    return render(request, 'airport.html', {"ap_data":ap_data, 'name':request.user.username})
+
+@login_required
+@User_only
+def Live_Bookings(request):
+    live_os = OutStation.objects.filter(os_user=request.user.id, os_pickup__gte=timezone.now())
+    live_l = Local.objects.filter(l_user=request.user.id, l_pickup__gte=timezone.now())
+    live_ap = AirPort.objects.filter(ap_user=request.user.id, ap_pickup__gte=timezone.now())
+
+    context = {
+        'live_os' : live_os,
+        'live_l' : live_l,
+        'live_ap' : live_ap,
+        'name':request.user.username
+    }
+    return render(request, 'liveBook.html', context)
+
+
+@login_required
+@User_only
 def Cancel_Booking(request, c_id):
     if not is_admin(request):
         return HttpResponseRedirect('cust_login')
@@ -400,6 +420,7 @@ def Cancel_Booking(request, c_id):
     return redirect('/upcoming')
 
 @login_required
+@User_only
 def Edit_Booking(request, c_id):
     if not is_admin(request):
         return HttpResponseRedirect('cust_login')
@@ -414,40 +435,6 @@ def Edit_Booking(request, c_id):
     else:
         os_edit_form = OutstationForm(instance=os_data)
         return render(request, 'liveBook.html', {'edit_form':os_edit_form, 'name':request.user.username})
-
-@login_required
-def Local_view(request):
-    if not is_admin(request):
-        return HttpResponseRedirect('cust_login')
-    else :
-        l_data = Local.objects.filter(l_user=request.user.id)
-        
-    return render(request, 'local.html', {"l_data":l_data, 'name':request.user.username})
-
-@login_required
-def Airport_view(request):
-    if not is_admin(request):
-        return HttpResponseRedirect('cust_login')
-    else :
-        ap_data = AirPort.objects.filter(ap_user=request.user.id)
-        
-    return render(request, 'airport.html', {"ap_data":ap_data, 'name':request.user.username})
-
-@login_required
-def Live_Bookings(request):
-    live_os = OutStation.objects.filter(os_user=request.user.id, os_pickup__gte=timezone.now())
-    live_l = Local.objects.filter(l_user=request.user.id, l_pickup__gte=timezone.now())
-    live_ap = AirPort.objects.filter(ap_user=request.user.id, ap_pickup__gte=timezone.now())
-
-    context = {
-        'live_os' : live_os,
-        'live_l' : live_l,
-        'live_ap' : live_ap,
-        'name':request.user.username
-    }
-    return render(request, 'liveBook.html', context)
-
-
 
 
 def initiate_payment(request):
@@ -568,6 +555,7 @@ def callback(request):
         #         break   
 import datetime
 @login_required
+@User_only
 def Check_date(request):
     if request.method == "GET":
         f_date = request.GET.get("from_date")
@@ -591,9 +579,10 @@ def Check_date(request):
         print(result)
         return HttpResponse(result)
 
-
+@login_required
+@User_only
 def Autocomplete(request):
-    city = Citys.objects.values('city_name')
+    city = City.objects.values('city_name')
     l = list()
     for x in city:
         l.append(x['city_name'])
@@ -606,7 +595,8 @@ def Autocomplete(request):
 #         l.append(x['airport_name']+'..')
 #     print(l)
 #     return HttpResponse(l)
-
+@login_required
+@User_only
 def Autocomplete_airport(request):
     if 'term' in request.GET:
         city = Citys.objects.filter(airport_name__icontains=request.GET.get("term"))
@@ -625,3 +615,161 @@ def Autocomplete_airport(request):
     #         print(row)
     #         created = Citys.objects.get_or_create(airport_name=row)
     #         created.save()
+
+@Admin_only
+def AdminLiveBook(request):
+    outStation_count = OutStation.objects.filter(os_pickup__gte=timezone.now()).count()
+    local_count = Local.objects.filter(l_pickup__gte=timezone.now()).count()
+    airport_count = AirPort.objects.filter(ap_pickup__gte=timezone.now()).count()
+
+    context = {
+        "outStation_count":outStation_count,
+        "local_count":local_count,
+        "airport_count":airport_count,
+        "total_count": outStation_count+local_count+airport_count
+    }
+
+    return render(request, 'admin_live_booking.html', context)
+
+@Admin_only
+def AdminPreBook(request):
+    outStation_count = OutStation.objects.filter(os_pickup__lt=timezone.now()).count()
+    local_count = Local.objects.filter(l_pickup__lt=timezone.now()).count()
+    airport_count = AirPort.objects.filter(ap_pickup__lt=timezone.now()).count()
+
+    context = {
+        "outStation_count":outStation_count,
+        "local_count":local_count,
+        "airport_count":airport_count,
+        "total_count": outStation_count+local_count+airport_count
+    }
+
+    return render(request, 'admin_pre_booking.html', context)
+
+    # def AdminPre_outBook(request):
+    # outStation_count = OutStation.objects.filter(os_pickup__lt=timezone.now())
+    # local_count = Local.objects.filter(l_pickup__lt=timezone.now())
+    # airport_count = AirPort.objects.filter(ap_pickup__lt=timezone.now())
+
+    # context = {
+    #     "outStation_count":outStation_count,
+    #     "local_count":local_count,
+    #     "airport_count":airport_count,
+    #     "total_count": outStation_count+local_count+airport_count
+    # }
+
+    # return render(request, 'admin_live_booking.html', context)
+
+@Admin_only
+def Addcar(request):
+    if request.method=='POST':
+        carform = CardemoForm(request.POST, request.FILES)
+        if carform.is_valid():
+            carform.save()
+            return redirect('car_detail')
+    carform = CardemoForm()
+    context = {
+        "carform":carform,
+    }
+    return render(request, 'addcar.html', context)
+
+@Admin_only
+def Cardetail(request):
+    form = Cardemo.objects.all()
+    return render(request, 'car_details.html', {"form":form})
+
+@Admin_only
+def Editcar(request, c_id):
+    edit_car = Cardemo.objects.get(id=c_id)
+    if request.method=='POST':
+        form = CardemoForm(request.POST, request.FILES, instance=edit_car)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Member edited successfully', extra_tags='green')
+            return redirect('car_detail')
+    form = CardemoForm(instance=edit_car)
+    return render(request, 'edit_car.html', {"form":form})
+
+@Admin_only
+def Deletecar(request, c_id):
+    delete_car = Cardemo.objects.get(id=c_id)
+    delete_car.delete()
+    return redirect('car_detail')
+
+@Admin_only
+def Add_Cities(request):
+    form = CityForm()
+    if request.method=='POST':
+        form = CityForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'City added successfully', extra_tags='green')
+            return redirect('/')
+        else:
+            messages.error(request, 'City not added', extra_tags='red')
+            return redirect('add_city')
+
+    return render(request, 'add_city.html', {"form":form})
+
+
+@login_required
+@Admin_only
+def Oustation_live_view(request):
+    if not is_admin(request):
+        return HttpResponseRedirect('cust_login')
+    else:
+        out_live_view = OutStation.objects.filter(os_pickup__gte=timezone.now())
+        
+    return render(request, 'live_view_list/outstationlive.html', {"os_data":out_live_view, 'name':request.user.username})
+
+@login_required
+@Admin_only
+def Local_live_view(request):
+    if not is_admin(request):
+        return HttpResponseRedirect('cust_login')
+    else :
+        local_live_view = Local.objects.filter(l_pickup__gte=timezone.now())
+        
+    return render(request, 'live_view_list/locallive.html', {"l_data":local_live_view, 'name':request.user.username})
+
+@login_required
+@Admin_only
+def Airport_live_view(request):
+    if not is_admin(request):
+        return HttpResponseRedirect('cust_login')
+    else :
+        ap_live_view = AirPort.objects.filter(ap_pickup__gte=timezone.now())
+        
+    return render(request, 'live_view_list/airportlive.html', {"ap_data":ap_live_view, 'name':request.user.username})
+
+@login_required
+@Admin_only
+def Oustation_pre_view(request):
+    if not is_admin(request):
+        return HttpResponseRedirect('cust_login')
+    else:
+        out_pre_view = OutStation.objects.filter(os_pickup__lt=timezone.now())
+        
+    return render(request, 'live_view_list/outstationpre.html', {"os_data":out_pre_view, 'name':request.user.username})
+
+@login_required
+@Admin_only
+def Local_pre_view(request):
+    if not is_admin(request):
+        return HttpResponseRedirect('cust_login')
+    else :
+        local_pre_view = Local.objects.filter(l_pickup__lt=timezone.now())
+        
+    return render(request, 'live_view_list/localpre.html', {"l_data":local_pre_view, 'name':request.user.username})
+
+@login_required
+@Admin_only
+def Airport_pre_view(request):
+    if not is_admin(request):
+        return HttpResponseRedirect('cust_login')
+    else :
+        ap_pre_view = AirPort.objects.filter(ap_pickup__lt=timezone.now())
+        
+    return render(request, 'live_view_list/airportpre.html', {"ap_data":ap_pre_view, 'name':request.user.username})
+
+

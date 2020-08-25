@@ -6,10 +6,10 @@ from import_export.admin import ExportActionMixin, ImportExportActionModelAdmin
 
 # Register your models here.
 
-class  CitysAdmin(ImportExportActionModelAdmin):
-    list_display = [field.name for field in Citys._meta.get_fields()]
+class  CityAdmin(ImportExportActionModelAdmin):
+    list_display = [field.name for field in City._meta.get_fields()]
 
-admin.site.register(Citys, CitysAdmin)
+admin.site.register(City, CityAdmin)
 
 
 class  OutStationAdmin(ImportExportActionModelAdmin):

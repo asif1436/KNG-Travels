@@ -16,54 +16,54 @@
     <div class="row justify-content-center">
         <div class="box">
             <div class="login-logo">
-                <a href=><b>Local Bookings</b></a>
+                <a href=><b>Outstation Bookings</b></a>
             </div>
-            {% for x in l_data %}            
+            {% for x in os_data %}            
             <div class="card card-outline card-green collapsed-card m-1">
                 <div class="card-header">
-                    <h2 class="card-title" data-card-widget="collapse"> Booking-ID : {{ x.l_persional_info.p_order_id }}</h2>
+                    <h2 class="card-title" data-card-widget="collapse">Booking-ID : {{ x.os_persional_info.p_order_id }}</h2>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool pt-3 " data-card-widget="collapse"><i class="fas fa-plus"></i>
                         </button>
                     </div>
                 </div>
-                <div class="card-body p-0">
-                    <table class="table table-striped table-responsive">
+                <div class="card-body p-1">
+                    <table class="table table-responsive table-striped">
                         <tr>
                             <td>NAME :</td>
-                            <td>{{ x.l_persional_info.p_name }}</td>
+                            <td>{{ x.os_persional_info.p_name }}</td>
                         </tr>
                         <tr>
                             <td>PHONE NO. :</td>
-                            <td>{{  x.l_persional_info.p_Phone }}</td>
+                            <td>{{  x.os_persional_info.p_Phone }}</td>
                         </tr>
                         <tr>
                             <td>EMAIL ID :</td>
-                            <td>{{  x.l_persional_info.p_email }}</td>
+                            <td>{{  x.os_persional_info.p_email }}</td>
                         </tr>
                         <tr>
-                        <td>Itinerary:</td>
-                            <td>{{ x.l_from }}>{{ x.l_to }}>{{ x.l_from }}</td>
-                        </tr> 
+                            <td>Itinerary:</td>
+                            <td>{{ x.os_from }}>{{ x.os_to }}>{{ x.os_from }}</td>
+                        </tr>
                         <tr>
                             <td>Pickup Date :</td>
-                            <td>{{ x.l_pickup }} at {{ x.l_picktime }}</td>
+                            <td>{{ x.os_pickup }} at {{ x.os_picktime }}</td>
                         </tr>
                         <tr>
                             <td>Return Date :</td>
-                            <td>{{ x.l_return}}</td>
+                            <td>{{ x.os_return}}</td>
                         </tr>
                         <tr>
                             <td>Trip Type :</td>
-                            <td> Local </td>
+                            <td>{{ x.os_trip_type }}</td>
                         </tr>
                         <tr>
                             <td>Car Type :</td>
-                            <td>{{ x.l_car.c_car }} ({{ x.l_car.c_ac_type }})</td>
+                            <td>{{ x.os_car.c_car }} ({{ x.os_car.c_ac_type }})</td>
                         </tr>
                         <tr>
                             <td>Total Fare :</td>
-                            <td>{{ x.l_car.c_amount }}</td>                             
+                            <td>{{ x.os_car.c_amount }}</td>                             
                         </tr>
                         
                         </tbody>
@@ -77,16 +77,16 @@
                     <div class="p-1 flex-fill">
                         <div >
                             <h1> Dear {{ name|title }},</h1>
-                            <h2> Sorry You Don't Have Any Local bookings... </h2>
+                            <h2> Sorry You Don't Have Any Outstation bookings... </h2>
                         </div><br>
                         <div class="row justify-content-center">
-                            <a href="{% url 'pre_booking' %}" name="" class="btn btn-success btn-lg" >Go Back</a>
-                        </div> 
+                            <a href="{% url 'live_booking' %}" name="" class="btn btn-success btn-lg" >Go Back</a>
+                        </div>                         
                     </div>
                 </div>                
-            </div>                
+            </div>
             {% endfor %}
-        </div>
+        </div>    
     </div>
 
 {% endblock %}

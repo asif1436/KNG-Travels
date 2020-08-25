@@ -38,6 +38,21 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('autocomplete/', views.Autocomplete, name='autocomplete'),
     path('autocomplete-airport/', views.Autocomplete_airport, name='autocomplete_airport'),
+    path('live-booking/', views.AdminLiveBook, name='live_booking'),
+    path('pre-booking/', views.AdminPreBook, name='pre_booking'),
+    path('add-car/', views.Addcar, name='add_car'),
+    path('view-car/<int:c_id>/', views.Editcar, name='edit_car'),
+    path('delete-car/<int:c_id>/', views.Deletecar, name='delete_car'),
+    path('car-details/', views.Cardetail, name='car_detail'),
+    path('add-cities/', views.Add_Cities, name='add_cities'),
+
+    path('outstationlive_view/', views.Oustation_live_view, name='outstationlive_view'),
+    path('locallive_view/', views.Local_live_view, name='locallive_view'),
+    path('airportlive_view/', views.Airport_live_view, name='airportlive_view'),
+
+    path('outstationlive_view/', views.Oustation_pre_view, name='outstationpre_view'),
+    path('localpre_view/', views.Local_pre_view, name='localpre_view'),
+    path('airportpre_view/', views.Airport_pre_view, name='airportpre_view'),
     
 
     path('reset_password/',

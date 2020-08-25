@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+{# Load the tag library #}
+{% load bootstrap4 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+
+{% bootstrap_javascript jquery='full' %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title text-center" style="font-size: x-large;">Live Booking Details</h3>
+
+    </div>
+    <div class="card-body bg-black">
+        <div class="row">
+            <div class="col-lg-3 col-12">
+                <!-- small box -->
+                <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>{{ outStation_count }}</h3>
+    
+                    <p>Outstation Bookings</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a href="{% url 'outstationlive_view' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-12">
+                <!-- small box -->
+                <div class="small-box bg-success">
+                <div class="inner">
+                    <h3>{{ local_count }}</h3>
+    
+                    <p>Local Bookings</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a href="{% url 'locallive_view'%}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-12">
+                <!-- small box -->
+                <div class="small-box bg-warning">
+                <div class="inner">
+                    <h3>{{ airport_count }}</h3>
+    
+                    <p>Airport Bookings</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a href="{% url 'airportlive_view' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-12">
+                <!-- small box -->
+                <div class="small-box bg-danger">
+                <div class="inner">
+                    <h3>{{ total_count }}</h3>
+    
+                    <p>Total Bookings</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+        </div> 
+    </div>
+
+</div>
+           
+{% endblock %}

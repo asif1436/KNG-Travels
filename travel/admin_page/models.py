@@ -168,9 +168,14 @@ def update_profile(sender, instance, created, **kwargs):
         print("updated  ")
 
 
-class Citys(models.Model):
+class City(models.Model):
     city_name = models.CharField(max_length=100, null=True, blank=True, verbose_name="City")
     airport_name = models.CharField(max_length=100, null=True, blank=True, verbose_name="Airport_name")
+
+
+    class Meta:
+        verbose_name_plural = "Cities"
+        verbose_name = "City"
 
     def __str__(self):
         return str(self.city_name)

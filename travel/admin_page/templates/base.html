@@ -22,9 +22,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <!-- Font Awesome --> 
   <!-- google login -->
-  <meta name="google-signin-scope" content="profile email">
+  <!-- <meta name="google-signin-scope" content="profile email">
   <meta name="google-signin-client_id" content="468625496434-bnm0mtsbfclfm6tt0casibsrln9va6l2.apps.googleusercontent.com">
-  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script> -->
   <link rel="stylesheet" type="text/css" href="{% static 'adminlte/dist/css/my.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'adminlte/plugins/fontawesome-free/css/all.css' %}">  
   
@@ -132,7 +132,7 @@ section{
     top: 82px;
     left: 150px;
 }
-.inner{
+.in-ring{
     margin:12%;
     border: 10px double #dc1c1c;
     border-radius: 50%;
@@ -201,7 +201,12 @@ section{
 .autocomplete-active {
   background-color: DodgerBlue !important; 
   color: #ffffff; 
+};
+
+.icon::after {
+    display:block !important;
 }
+
 </style>
 
 </head>
@@ -281,14 +286,56 @@ section{
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
                 with font-awesome or any other icon font library -->
-              <li class="nav-item">
+            <li class="nav-item">
               <a href="{% url 'profile' %}" class="nav-link">
                 <i class="nav-icon fas fa-user-cog"></i>
                 <p>
                   Profille
                 </p>
               </a>
+            </li>            
+            {% if request.user.is_superuser %}
+            <li class="nav-item">
+              <a href="{% url 'home' %}" class="nav-link">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                  Add_Bookings
+                </p>
+              </a>
             </li>
+            <li class="nav-item">
+              <a href="{% url 'pre_booking' %}" class="nav-link">
+                <i class="nav-icon fas fa-clipboard-list"></i>
+                <p>
+                  Pre_Bookings
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'live_booking' %}" class="nav-link">
+                <i class="nav-icon fas fa-clipboard-list"></i>
+                <p>
+                  Live_Bookings
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'car_detail' %}" class="nav-link">
+                <i class="nav-icon fas fa-clipboard-list"></i>
+                <p>
+                  Add_Car_Details
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'add_cities' %}" class="nav-link">
+                <i class="nav-icon fas fa-clipboard-list"></i>
+                <p>
+                  Add_Cities
+                </p>
+              </a>
+            </li>
+            {% else %}            
             <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -326,6 +373,7 @@ section{
                 </p>
               </a>
             </li>
+            {% endif %}
             
           </ul>
           {% endif %}
@@ -357,7 +405,7 @@ section{
         <!-- /.content-header -->
 
         <!-- Main content -->
-        <section class="content" >
+        <section class="content pt-4 pb-4" >
           <div class="container-fluid">
             {% block content %}                            
             {% endblock %}
@@ -424,6 +472,7 @@ section{
 <script>
 
   $(function() {
+    $('[data-inputmask]').inputmask()
     const Toast = Swal.mixin({
       toast: true,
       position: 'top-end',
