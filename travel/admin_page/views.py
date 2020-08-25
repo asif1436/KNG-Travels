@@ -404,8 +404,6 @@ def Live_Bookings(request):
 @login_required
 @User_only
 def Cancel_Booking(request, c_id):
-    if not is_admin(request):
-        return HttpResponseRedirect('cust_login')
     os_data = OutStation.objects.filter(os_persional_info=c_id)
     l_data = Local.objects.filter(l_persional_info=c_id)
     ap_data = AirPort.objects.filter(ap_persional_info=c_id)
@@ -422,8 +420,6 @@ def Cancel_Booking(request, c_id):
 @login_required
 @User_only
 def Edit_Booking(request, c_id):
-    if not is_admin(request):
-        return HttpResponseRedirect('cust_login')
     os_data = OutStation.objects.get(pk=c_id)
     print("id if edit", c_id)
     print("khbfsbkff", os_data)
@@ -715,60 +711,42 @@ def Add_Cities(request):
 @login_required
 @Admin_only
 def Oustation_live_view(request):
-    if not is_admin(request):
-        return HttpResponseRedirect('cust_login')
-    else:
-        out_live_view = OutStation.objects.filter(os_pickup__gte=timezone.now())
+    out_live_view = OutStation.objects.filter(os_pickup__gte=timezone.now())
         
     return render(request, 'live_view_list/outstationlive.html', {"os_data":out_live_view, 'name':request.user.username})
 
 @login_required
 @Admin_only
 def Local_live_view(request):
-    if not is_admin(request):
-        return HttpResponseRedirect('cust_login')
-    else :
-        local_live_view = Local.objects.filter(l_pickup__gte=timezone.now())
+    local_live_view = Local.objects.filter(l_pickup__gte=timezone.now())
         
     return render(request, 'live_view_list/locallive.html', {"l_data":local_live_view, 'name':request.user.username})
 
 @login_required
 @Admin_only
 def Airport_live_view(request):
-    if not is_admin(request):
-        return HttpResponseRedirect('cust_login')
-    else :
-        ap_live_view = AirPort.objects.filter(ap_pickup__gte=timezone.now())
+    ap_live_view = AirPort.objects.filter(ap_pickup__gte=timezone.now())
         
     return render(request, 'live_view_list/airportlive.html', {"ap_data":ap_live_view, 'name':request.user.username})
 
 @login_required
 @Admin_only
-def Oustation_pre_view(request):
-    if not is_admin(request):
-        return HttpResponseRedirect('cust_login')
-    else:
-        out_pre_view = OutStation.objects.filter(os_pickup__lt=timezone.now())
+def Oustation_pre_view(request): 
+    out_pre_view = OutStation.objects.filter(os_pickup__lt=timezone.now())
         
     return render(request, 'live_view_list/outstationpre.html', {"os_data":out_pre_view, 'name':request.user.username})
 
 @login_required
 @Admin_only
 def Local_pre_view(request):
-    if not is_admin(request):
-        return HttpResponseRedirect('cust_login')
-    else :
-        local_pre_view = Local.objects.filter(l_pickup__lt=timezone.now())
+    local_pre_view = Local.objects.filter(l_pickup__lt=timezone.now())
         
     return render(request, 'live_view_list/localpre.html', {"l_data":local_pre_view, 'name':request.user.username})
 
 @login_required
 @Admin_only
 def Airport_pre_view(request):
-    if not is_admin(request):
-        return HttpResponseRedirect('cust_login')
-    else :
-        ap_pre_view = AirPort.objects.filter(ap_pickup__lt=timezone.now())
+    ap_pre_view = AirPort.objects.filter(ap_pickup__lt=timezone.now())
         
     return render(request, 'live_view_list/airportpre.html', {"ap_data":ap_pre_view, 'name':request.user.username})
 
