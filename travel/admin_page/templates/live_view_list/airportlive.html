@@ -78,14 +78,15 @@
                             <div >
                                 <h1> Dear {{ name|title }},</h1>
                                 <h2> Sorry You Don't Have Any Airport bookings... </h2>
-                            </div><br>
-                            <div class="row justify-content-center">
-                                <a href="{% url 'live_booking' %}" name="" class="btn btn-success btn-lg" >Go Back</a>
                             </div> 
                         </div>
                     </div>                
                 </div>
                 {% endfor %}
+                {% include 'paginator.html' with page_obj=ap_data %}
+                <div class="row justify-content-center">
+                    <a href="{% url 'live_booking' %}" name="" class="btn btn-success btn-lg" >Go Back</a>
+                </div>
             </div>
         </div>
     </div>

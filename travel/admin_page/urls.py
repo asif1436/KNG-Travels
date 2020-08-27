@@ -50,7 +50,7 @@ urlpatterns = [
     path('locallive_view/', views.Local_live_view, name='locallive_view'),
     path('airportlive_view/', views.Airport_live_view, name='airportlive_view'),
 
-    path('outstationlive_view/', views.Oustation_pre_view, name='outstationpre_view'),
+    path('outstationpre_view/', views.Oustation_pre_view, name='outstationpre_view'),
     path('localpre_view/', views.Local_pre_view, name='localpre_view'),
     path('airportpre_view/', views.Airport_pre_view, name='airportpre_view'),
     

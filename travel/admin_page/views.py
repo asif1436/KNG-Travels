@@ -20,6 +20,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.http import JsonResponse
 from admin_page.decorators import Admin_only, User_only
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 # Create your views here.
 
@@ -106,7 +107,7 @@ def Home(request):
                 ########## email gateway ############
 
                 message1 = ('New Booking', 'Dear ' + pi_data['p_name'] +',\nThank You for Booking With KNG Travles. \nYour Booking ID: '+ pi.p_order_id + ' You booked a '+ str(car_data['c_car']) +  ' '+ car_data['c_ac_type'] + ' for ' + os_data['os_from'] + ' to ' + os_data['os_to'] + ', on '+ str(os_data['os_pickup']) +' at '+ str(os_data['os_picktime'])+'. \nWe wish you a very happy and safe Journey, \nIf you have any query contact on 9666817780 .' , settings.EMAIL_HOST_USER, [pi_data['p_email'],])
-                message2 = ('New Booking', 'Dear Nithish, \nYour '+ str(car_data['c_car']) +  ' '+ car_data['c_ac_type']+ ' Booked for ' + os_data['os_from'] + ' to ' + os_data['os_to'] + ' on '+ str(os_data['os_pickup']) +' at '+ str(os_data['os_picktime'])+'. \nHis Name : ' + pi_data['p_name'] + ' Contact No : ' + pi_data['p_Phone'] + ' and Mail id : ' + pi_data['p_email'] + '.', settings.EMAIL_HOST_USER, ['kondanithishgoud1436@gmail.com',])
+                message2 = ('New Booking', 'Dear Nithish, \nYour '+ str(car_data['c_car']) +  ' '+ car_data['c_ac_type']+ ' Booked for ' + os_data['os_from'] + ' to ' + os_data['os_to'] + ' on '+ str(os_data['os_pickup']) +' at '+ str(os_data['os_picktime'])+'. \nHis Name : ' + pi_data['p_name'] + ' Contact No : ' + pi_data['p_Phone'].replace("-",""), + ' and Mail id : ' + pi_data['p_email'] + '.', settings.EMAIL_HOST_USER, ['kondanithishgoud1436@gmail.com',])
                 send_mass_mail((message1, message2), fail_silently=False)
                 
                 ######### sms gatway ###########
@@ -119,9 +120,9 @@ def Home(request):
                     "message":text_message,
                     "language":"english",
                     "route":'p',
-                    "numbers": pi_data['p_Phone'],
+                    "numbers": pi_data['p_Phone'].replace("-",""),
                     }
-                text_sms = ('Dear Nithish,\nYour '+str(car_data['c_car'])+' Booked for ' + os_data['os_from'].split(',')[0] + ' to ' + os_data['os_to'].split(',')[0] + ' on '+ str(os_data['os_pickup']) +' '+ os_data['os_picktime'] +'. \nHis Name: ' + pi_data['p_name'] +' & P.No: ' +pi_data['p_Phone']+'.')
+                text_sms = ('Dear Nithish,\nYour '+str(car_data['c_car'])+' Booked for ' + os_data['os_from'].split(',')[0] + ' to ' + os_data['os_to'].split(',')[0] + ' on '+ str(os_data['os_pickup']) +' '+ os_data['os_picktime'] +'. \nHis Name: ' + pi_data['p_name'] +' & P.No: ' +pi_data['p_Phone'].replace("-","")+'.')
                 print(text_sms)
                 payload2 = {"sender_id":"FSTSMS",
                     "message":text_sms,
@@ -191,7 +192,7 @@ def Home(request):
                 # ///// send mail /////
 
                 message1 = ('New Booking', 'Dear ' + pi_data['p_name'] +',\nThank You for Booking With KNG Travles. \nYour ID: '+ pi.p_order_id + ' You booked a '+ str(car_data['c_car'])+ ' '+ car_data['c_ac_type'] + ' for ' + l_data['l_from'] + ' to ' + l_data['l_to'] + ', on '+ str(l_data['l_pickup']) +' at '+ str(l_data['l_picktime'])+'. \nWe wish you a very happy and safe Journey, \nIf you have any query contact on 9666817780 .' , settings.EMAIL_HOST_USER, [pi_data['p_email'],])
-                message2 = ('New Booking', 'Dear Nithish, \nYour '+ str(car_data['c_car'])+ ' '+ car_data['c_ac_type'] + ' Booked for ' + l_data['l_from'] +' to ' + l_data['l_to'] + ' on '+ str(l_data['l_pickup']) +' at '+ str(l_data['l_picktime'])+'. \nHis Name : ' + pi_data['p_name']+ ' Contact No : ' + pi_data['p_Phone'] + ' and Mail id ' + pi_data['p_email'] + '.', settings.EMAIL_HOST_USER, ['kondanithishgoud1436@gmail.com',])
+                message2 = ('New Booking', 'Dear Nithish, \nYour '+ str(car_data['c_car'])+ ' '+ car_data['c_ac_type'] + ' Booked for ' + l_data['l_from'] +' to ' + l_data['l_to'] + ' on '+ str(l_data['l_pickup']) +' at '+ str(l_data['l_picktime'])+'. \nHis Name : ' + pi_data['p_name']+ ' Contact No : ' + pi_data['p_Phone'].replace("-","") + ' and Mail id ' + pi_data['p_email'] + '.', settings.EMAIL_HOST_USER, ['kondanithishgoud1436@gmail.com',])
                 send_mass_mail((message1, message2), fail_silently=False)
 
                 ######### sms gatway ###########
@@ -204,9 +205,9 @@ def Home(request):
                     "message":text_message,
                     "language":"english",
                     "route":'p',
-                    "numbers": pi_data['p_Phone'],
+                    "numbers": pi_data['p_Phone'].replace("-",""),
                     }
-                text_sms = ('Dear Nithish,\nYour '+str(car_data['c_car'])+' Booked for ' + l_data['l_from'].split(',')[0] + ' to ' + l_data['l_to'].split(',')[0] + ' on '+ str(l_data['l_pickup']) +' '+ l_data['l_picktime'] +'. \nHis Name: ' + pi_data['p_name'] +' & P.No : ' +pi_data['p_Phone']+'.')
+                text_sms = ('Dear Nithish,\nYour '+str(car_data['c_car'])+' Booked for ' + l_data['l_from'].split(',')[0] + ' to ' + l_data['l_to'].split(',')[0] + ' on '+ str(l_data['l_pickup']) +' '+ l_data['l_picktime'] +'. \nHis Name: ' + pi_data['p_name'] +' & P.No : ' +pi_data['p_Phone'].replace("-","")+'.')
                 print(text_sms)
                 payload2 = {"sender_id":"FSTSMS",
                     "message":text_sms,
@@ -272,7 +273,7 @@ def Home(request):
 
                 #/////// emial sending ////////
                 message1 = ('New Booking', 'Dear ' + pi_data['p_name'] +',\nThank You for Booking With KNG Travles. \nYour ID: '+  pi.p_order_id + ' You booked a '+ str(car_data['c_car']) + ' '+ car_data['c_ac_type']+ ' for ' + ap_data['ap_city'] + ' to ' + ap_data['ap_pic_add'] + ', on '+ str(ap_data['ap_pickup']) +' at '+ str(ap_data['ap_picktime'])+'. \nWe wish you a very happy and safe Journey, \nIf you have any query contact on 9666817780 .' , settings.EMAIL_HOST_USER, [pi_data['p_email'],])
-                message2 = ('New Booking', 'Dear Nithish, \nYour '+ str(car_data['c_car']) + ' '+ car_data['c_ac_type']+ ' Booked for '+ ap_data['ap_city']+' to ' + ap_data['ap_pic_add'] +' on '+ str(ap_data['ap_pickup']) +' at '+ str(ap_data['ap_picktime'])+'. \nHis Name : ' + pi_data['p_name']+' Contact No : ' + pi_data['p_Phone'] + ', and Mail id ' + pi_data['p_email'] + '.', settings.EMAIL_HOST_USER, ['kondanithishgoud1436@gmail.com',])
+                message2 = ('New Booking', 'Dear Nithish, \nYour '+ str(car_data['c_car']) + ' '+ car_data['c_ac_type']+ ' Booked for '+ ap_data['ap_city']+' to ' + ap_data['ap_pic_add'] +' on '+ str(ap_data['ap_pickup']) +' at '+ str(ap_data['ap_picktime'])+'. \nHis Name : ' + pi_data['p_name']+' Contact No : ' + pi_data['p_Phone'].replace("-","") + ', and Mail id ' + pi_data['p_email'] + '.', settings.EMAIL_HOST_USER, ['kondanithishgoud1436@gmail.com',])
                 send_mass_mail((message1, message2), fail_silently=False)
 
                 ######### sms gatway ###########
@@ -285,9 +286,10 @@ def Home(request):
                     "message":text_message,
                     "language":"english",
                     "route":'p',
-                    "numbers": pi_data['p_Phone'],
+                    "numbers": pi_data['p_Phone'].replace("-",""),
                     }
-                text_sms = ('Dear Nithish,\nYour '+str(car_data['c_car'])+' Booked for ' + ap_data['ap_city'].split(',')[0] + ' to ' + ap_data['ap_pic_add'].split(',')[0] +' on '+ str(ap_data['ap_pickup']) +' '+ ap_data['ap_picktime'] +'.\nHis Name: ' + pi_data['p_name'] +' & P.No: ' +pi_data['p_Phone']+'.')
+                print(payload1)
+                text_sms = ('Dear Nithish,\nYour '+str(car_data['c_car'])+' Booked for ' + ap_data['ap_city'].split(',')[0] + ' to ' + ap_data['ap_pic_add'].split(',')[0] +' on '+ str(ap_data['ap_pickup']) +' '+ ap_data['ap_picktime'] +'.\nHis Name: ' + pi_data['p_name'].replace("-","") +' & P.No: ' +pi_data['p_Phone'].replace("-","")+'.')
                 print(text_sms)
                 payload2 = {"sender_id":"FSTSMS",
                     "message":text_sms,
@@ -368,6 +370,14 @@ def Profile_view(request):
 @User_only
 def Oustation_view(request):
     os_data = OutStation.objects.filter(os_user=request.user.id)
+    paginator = Paginator(os_data, 6)
+    page_no = request.GET.get('page')
+    try:
+        os_data = paginator.page(page_no)
+    except PageNotAnInteger:
+        os_data = paginator.page(1)
+    except EmptyPage:
+        os_data = paginator.page(paginator.num_pages)
         
     return render(request, 'outstation.html', {"os_data":os_data, 'name':request.user.username})
 
@@ -375,6 +385,14 @@ def Oustation_view(request):
 @User_only
 def Local_view(request):
     l_data = Local.objects.filter(l_user=request.user.id)
+    paginator = Paginator(l_data, 6)
+    page_no = request.GET.get('page')
+    try:
+        l_data = paginator.page(page_no)
+    except PageNotAnInteger:
+        l_data = paginator.page(1)
+    except EmptyPage:
+        l_data = paginator.page(paginator.num_pages)
         
     return render(request, 'local.html', {"l_data":l_data, 'name':request.user.username})
 
@@ -382,6 +400,14 @@ def Local_view(request):
 @User_only
 def Airport_view(request):
     ap_data = AirPort.objects.filter(ap_user=request.user.id)
+    paginator = Paginator(ap_data, 6)
+    page_no = request.GET.get('page')
+    try:
+        ap_data = paginator.page(page_no)
+    except PageNotAnInteger:
+        ap_data = paginator.page(1)
+    except EmptyPage:
+        ap_data = paginator.page(paginator.num_pages)
         
     return render(request, 'airport.html', {"ap_data":ap_data, 'name':request.user.username})
 
@@ -557,23 +583,23 @@ def Check_date(request):
         f_date = request.GET.get("from_date")
         t_date = request.GET.get("to_date")
         car_id = request.GET.get("c_id")
-        print(car_id)
+        print("car_id:",car_id)
         start = datetime.datetime.strptime(f_date, '%Y-%m-%d')
         end = datetime.datetime.strptime(t_date, '%Y-%m-%d') 
         o = OutStation.objects.values('os_car').filter(Q(Q(os_pickup__gte=timezone.now()) & Q(os_car_id__c_car_id=car_id)) & Q(Q(Q(os_return__gte=start) & Q(os_return__lte=end)) | Q(Q(os_pickup__lte=end) & Q(os_pickup__gte=start)) | Q(Q(os_pickup__lte=end) & Q(os_return__gte=end)) | Q(Q(os_pickup__lte=start) & Q(os_return__gte=start))))
         l = Local.objects.values('l_car').filter(Q(Q(l_pickup__gte=timezone.now()) & Q(l_car_id__c_car_id=car_id)) & Q(Q(Q(l_return__gte=start) & Q(l_return__lte=end)) | Q(Q(l_pickup__lte=end) & Q(l_pickup__gte=start)) | Q(Q(l_pickup__lte=end) & Q(l_return__gte=end)) | Q(Q(l_pickup__lte=start) & Q(l_return__gte=start))))
         ap = AirPort.objects.values('ap_car').filter(Q(Q(ap_pickup__gte=timezone.now()) & Q(ap_car_id__c_car_id=car_id)) & Q(Q(Q(ap_return__gte=start) & Q(ap_return__lte=end)) | Q(Q(ap_pickup__lte=end) & Q(ap_pickup__gte=start)) | Q(Q(ap_pickup__lte=end) & Q(ap_return__gte=end)) | Q(Q(ap_pickup__lte=start) & Q(ap_return__gte=start))))
         
-        print(o, l, ap)
-        if car_id == '3':
-            result = '1'
-            return HttpResponse(result)
-        elif car_id == '2':
-            result = '1'
-            return HttpResponse(result)
-        result = o.count()+l.count()+ap.count()
-        print(result)
-        return HttpResponse(result)
+        # print("all count check",o, l, ap)
+        # if car_id == '5':
+        #     result = '1'
+        #     return HttpResponse(result)
+        # elif car_id == '6':
+        #     result = '1'
+        #     return HttpResponse(result)
+    result = o.count()+l.count()+ap.count()
+    print("result:",result)
+    return HttpResponse(result)
 
 @login_required
 @User_only
@@ -595,7 +621,7 @@ def Autocomplete(request):
 @User_only
 def Autocomplete_airport(request):
     if 'term' in request.GET:
-        city = Citys.objects.filter(airport_name__icontains=request.GET.get("term"))
+        city = City.objects.filter(airport_name__icontains=request.GET.get("term"))
         l = list()
         for x in city:
             l.append(x.airport_name)
@@ -712,6 +738,14 @@ def Add_Cities(request):
 @Admin_only
 def Oustation_live_view(request):
     out_live_view = OutStation.objects.filter(os_pickup__gte=timezone.now())
+    paginator = Paginator(out_live_view, 6)
+    page_no = request.GET.get('page')
+    try:
+        out_live_view = paginator.page(page_no)
+    except PageNotAnInteger:
+        out_live_view = paginator.page(1)
+    except EmptyPage:
+        out_live_view = paginator.page(paginator.num_pages)
         
     return render(request, 'live_view_list/outstationlive.html', {"os_data":out_live_view, 'name':request.user.username})
 
@@ -719,6 +753,14 @@ def Oustation_live_view(request):
 @Admin_only
 def Local_live_view(request):
     local_live_view = Local.objects.filter(l_pickup__gte=timezone.now())
+    paginator = Paginator(local_live_view, 6)
+    page_no = request.GET.get('page')
+    try:
+        local_live_view = paginator.page(page_no)
+    except PageNotAnInteger:
+        local_live_view = paginator.page(1)
+    except EmptyPage:
+        local_live_view = paginator.page(paginator.num_pages)
         
     return render(request, 'live_view_list/locallive.html', {"l_data":local_live_view, 'name':request.user.username})
 
@@ -726,6 +768,14 @@ def Local_live_view(request):
 @Admin_only
 def Airport_live_view(request):
     ap_live_view = AirPort.objects.filter(ap_pickup__gte=timezone.now())
+    paginator = Paginator(ap_live_view, 6)
+    page_no = request.GET.get('page')
+    try:
+        ap_live_view = paginator.page(page_no)
+    except PageNotAnInteger:
+        ap_live_view = paginator.page(1)
+    except EmptyPage:
+        ap_live_view = paginator.page(paginator.num_pages)
         
     return render(request, 'live_view_list/airportlive.html', {"ap_data":ap_live_view, 'name':request.user.username})
 
@@ -733,6 +783,14 @@ def Airport_live_view(request):
 @Admin_only
 def Oustation_pre_view(request): 
     out_pre_view = OutStation.objects.filter(os_pickup__lt=timezone.now())
+    paginator = Paginator(out_pre_view, 6)
+    page_no = request.GET.get('page')
+    try:
+        out_pre_view = paginator.page(page_no)
+    except PageNotAnInteger:
+        out_pre_view = paginator.page(1)
+    except EmptyPage:
+        out_pre_view = paginator.page(paginator.num_pages)
         
     return render(request, 'live_view_list/outstationpre.html', {"os_data":out_pre_view, 'name':request.user.username})
 
@@ -740,6 +798,14 @@ def Oustation_pre_view(request):
 @Admin_only
 def Local_pre_view(request):
     local_pre_view = Local.objects.filter(l_pickup__lt=timezone.now())
+    paginator = Paginator(local_pre_view, 6)
+    page_no = request.GET.get('page')
+    try:
+        local_pre_view = paginator.page(page_no)
+    except PageNotAnInteger:
+        local_pre_view = paginator.page(1)
+    except EmptyPage:
+        local_pre_view = paginator.page(paginator.num_pages)
         
     return render(request, 'live_view_list/localpre.html', {"l_data":local_pre_view, 'name':request.user.username})
 
@@ -747,6 +813,14 @@ def Local_pre_view(request):
 @Admin_only
 def Airport_pre_view(request):
     ap_pre_view = AirPort.objects.filter(ap_pickup__lt=timezone.now())
+    paginator = Paginator(ap_pre_view, 6)
+    page_no = request.GET.get('page')
+    try:
+        ap_pre_view = paginator.page(page_no)
+    except PageNotAnInteger:
+        ap_pre_view = paginator.page(1)
+    except EmptyPage:
+        ap_pre_view = paginator.page(paginator.num_pages)
         
     return render(request, 'live_view_list/airportpre.html', {"ap_data":ap_pre_view, 'name':request.user.username})
 

@@ -191,7 +191,7 @@
                         
                         </tbody>
                     </table>        
-                </div>          
+                </div>
             </div><br>
             {% endfor %}
             {% endif %}
@@ -202,14 +202,14 @@
                         <div >
                             <h1> Dear {{ name|title }},</h1>
                             <h2> Sorry You Don't Have Any Upcoming bookings... </h2>
-                        </div><br>
-                        <div class="row justify-content-center">
-                            <a href="{% url 'pre_booking' %}" name="" class="btn btn-success btn-lg" >Go Back</a>
-                        </div> 
+                        </div>
                     </div>
                 </div>                
             </div>
             {% endif %}
+            <div class="row justify-content-center">
+                <a href="{% url 'pre_booking' %}" name="" class="btn btn-success btn-lg" >Go Back</a>
+            </div> 
         </div>    
     </div>
     

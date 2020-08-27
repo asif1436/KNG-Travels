@@ -1,36 +1,18 @@
 
-{% load static %}
-{# Load the tag library #}
-{% load bootstrap4 %}
-
-{# Load CSS and JavaScript #}
-{% bootstrap_css %}
-
-{% bootstrap_javascript jquery='full' %}
-
-{# Display django.contrib.messages as Bootstrap alerts #}
-{% bootstrap_messages %}
-
-<!-- {% for contact in page_obj %}
-    {# Each "contact" is a Contact model object. #}
-    {{ contact.full_name|upper }}<br>
-{% endfor %} -->
-<nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-end">
-        {% if page_obj.has_previous %}
-        <li class="page-item ">
-            <a class="btn btn-sm btn-success btn-sm waves-effect" href="?page={{ page_obj.previous_page_number }}">previous</a>
-        </li>
-        {% endif %}
-        <li class="page-item ">
-        <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
-        </li>
-        {% if page_obj.has_next %}
-        <li class="page-item ">
-            <a class="btn btn-sm btn-success btn-sm waves-effect" href="?page={{ page_obj.next_page_number }}">next</a>
-        </li>
-        {% endif %}
-    </ul>
-</nav>
+<ul class="pagination">
+    {% if page_obj.has_previous %}
+    <li class="page-item ">
+        <a class="btn btn-block btn-success btn-sm" href="?page={{ page_obj.previous_page_number }}">previous</a>
+    </li><br><br>
+    {% endif %}
+    <li class="page-item ">
+    <span class="current">
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+    </span>
+    </li><br><br>
+    {% if page_obj.has_next %}
+    <li class="page-item ">
+        <a class="btn btn-block btn-primary btn-sm" href="?page={{ page_obj.next_page_number }}">next</a>
+    </li>
+    {% endif %}
+</ul>

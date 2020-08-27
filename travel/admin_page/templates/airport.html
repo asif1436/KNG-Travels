@@ -67,10 +67,9 @@
                             </tr>                       
                             
                             </tbody>
-                        </table>
-            
+                        </table>     
                     </div>                        
-                </div><br>
+                </div><br>                
                 {% empty %}
                 <div class="shadow p-4 mb-4 bg-white">
                     <div class="card-body d-flex">
@@ -78,14 +77,15 @@
                             <div >
                                 <h1> Dear {{ name|title }},</h1>
                                 <h2> Sorry You Don't Have Any Airport bookings... </h2>
-                            </div><br>
-                            <div class="row justify-content-center">
-                                <a href="{% url 'pre_booking' %}" name="" class="btn btn-success btn-lg" >Go Back</a>
                             </div> 
                         </div>
                     </div>                
                 </div>
                 {% endfor %}
+                {% include 'paginator.html' with page_obj=ap_data %}
+                <div class="row justify-content-center">
+                    <a href="{% url 'pre_booking' %}" name="" class="btn btn-success btn-lg" >Go Back</a>
+                </div> 
             </div>
         </div>
     </div>

@@ -23,8 +23,8 @@
   <!-- Font Awesome --> 
   <!-- google login -->
   <!-- <meta name="google-signin-scope" content="profile email">
-  <meta name="google-signin-client_id" content="468625496434-bnm0mtsbfclfm6tt0casibsrln9va6l2.apps.googleusercontent.com">
-  <script src="https://apis.google.com/js/platform.js" async defer></script> -->
+  <meta name="google-signin-client_id" content="468625496434-bnm0mtsbfclfm6tt0casibsrln9va6l2.apps.googleusercontent.com">-->
+  <!-- <script src="https://apis.google.com/js/platform.js" async defer></script> -->
   <link rel="stylesheet" type="text/css" href="{% static 'adminlte/dist/css/my.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'adminlte/plugins/fontawesome-free/css/all.css' %}">  
   
@@ -179,7 +179,7 @@ section{
   box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
 }
 .ui-autocomplete{
-  width: inherit !important;
+  right: auto;
 }
 
 
@@ -201,10 +201,6 @@ section{
 .autocomplete-active {
   background-color: DodgerBlue !important; 
   color: #ffffff; 
-};
-
-.icon::after {
-    display:block !important;
 }
 
 </style>
@@ -778,14 +774,16 @@ $(document).ready(function(){
 // for (i = 0; i < array.length; i++ ) {
 //     trima.push(array[i].substring(10,""))
 
-
+  $('#SubmitForm').click(function(){
+    $("#id_c_ac_type_0").prop("checked",true)
+  })
 
   $(".carClick").click(function(){
     var car_id = $(this).find("input").val();
     if (car_id == null){
-      car_id=1
+      car_id='4'
     }
-    var url = "{% url 'checkdate' %}";
+    var my_url = "{% url 'checkdate' %}";
     var os_pickup = $('#id_os_pickup').val(); 
     var l_pickup = $('#id_l_pickup').val();        
     var ap_pickup = $('#id_ap_pickup').val();
@@ -796,7 +794,7 @@ $(document).ready(function(){
       $.ajax(
       {
         type:"GET",
-        url: url,
+        url: my_url,
         data:{ 
           'from_date' : date_from,
           'to_date' : date_to,
@@ -819,8 +817,8 @@ $(document).ready(function(){
       var date_to = $("#id_l_return").val();
       $.ajax(
       {
-        type:"GET",
-        url: url,
+        type : 'GET',
+        url: my_url,
         data:{ 
           'from_date' : date_from,
           'to_date' : date_to,
@@ -846,7 +844,7 @@ $(document).ready(function(){
       $.ajax(
       {
         type:"GET",
-        url: url,
+        url: my_url,
         data:{ 
           'from_date' : date_from,
           'to_date' : date_to,
@@ -870,16 +868,18 @@ $(document).ready(function(){
       
     }
   });
-  $("#inclusion").click(function(){
+  $("#inclusion").click(function(e){
+    e.preventDefault();
     $(this).addClass("bg-orange");
     $("#exclusion").removeClass("bg-orange");
     $("#exclusion_info").hide();
-    $("#inclusion_info").show("slow");
+    $("#inclusion_info").show();
   });
-  $("#exclusion").click(function(){
+  $("#exclusion").click(function(e){
+    e.preventDefault();
     $(this).addClass("bg-orange")
     $("#inclusion").removeClass("bg-orange");
-    $("#exclusion_info").show("slow");
+    $("#exclusion_info").show();
     $("#inclusion_info").hide();
   });
   
@@ -917,6 +917,11 @@ $(document).ready(function(){
   $('#id_c_car_0').click(function(){
     $(this).parents("div.col-4").addClass("text-orange")
     $('#ofterpay').text('12.0')
+    $("#id_c_ac_type_0").prop("checked",true)
+    $('.id_c_ac_type_0').addClass('bg-orange');
+    $('.id_c_ac_type_1').removeClass('bg-orange');
+    $(".ac_without").show();
+    $(".ac_with").hide()
     //$(this).prev().addClass("border-orange"); just add to circule
     $('#id_c_car_1').parents("div.col-4").removeClass("text-orange")
     $('#id_c_car_2').parents("div.col-4").removeClass("text-orange")
@@ -937,6 +942,11 @@ $(document).ready(function(){
   $('#id_c_car_1').click(function(){
     $(this).parents("div.col-4").addClass("text-orange");
     $('#ofterpay').text('12.0')
+    $("#id_c_ac_type_0").prop("checked",true)
+    $('.id_c_ac_type_0').addClass('bg-orange');
+    $('.id_c_ac_type_1').removeClass('bg-orange');
+    $(".ac_without").show();
+    $(".ac_with").hide()
     $('#id_c_car_0').parents("div.col-4").removeClass("text-orange");
     $('#id_c_car_2').parents("div.col-4").removeClass("text-orange");
     $("#zestinfo").addClass("hide-content");
@@ -946,6 +956,11 @@ $(document).ready(function(){
   $('#id_c_car_2').click(function(){
     $(this).parents("div.col-4").addClass("text-orange");
     $('#ofterpay').text('15.0')
+    $("#id_c_ac_type_0").prop("checked",true)
+    $('.id_c_ac_type_0').addClass('bg-orange');
+    $('.id_c_ac_type_1').removeClass('bg-orange');
+    $(".ac_without").show();
+    $(".ac_with").hide()
     $('#id_c_car_0').parents("div.col-4").removeClass("text-orange");
     $('#id_c_car_1').parents("div.col-4").removeClass("text-orange");
     $("#zestinfo").addClass("hide-content");
