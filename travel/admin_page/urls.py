@@ -71,5 +71,6 @@ urlpatterns = [
         auth_views.PasswordResetCompleteView.as_view(template_name="registration/password_done.html"),
         name="password_reset_complete"),
 
-    path('password_change/', views.change_password, name="password_change"),    
+    path('password_change/', views.change_password, name="password_change"),
+    path('kng-download/', views.download_apk, name='kng_download'),    
     ]
