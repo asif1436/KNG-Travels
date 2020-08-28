@@ -33,7 +33,10 @@ def login(request):
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
-        user = authenticate(request, username__iexact=username, password=password)
+        user = authenticate(request, username__iexact=username, password=password)        
+
+        # if not request.POST.get('remember_me', None):
+        #     request.session.set_expiry(0)
         if user is not None:
             login(request, user)
             # Redirect to a success page.
@@ -68,7 +71,7 @@ def change_password(request):
 
 @login_required
 
-def Home(request):
+def Home(request):    
     if request.method == "POST":
         advance = float(request.POST['amount'])
         os_form = OutstationForm(request.POST )
