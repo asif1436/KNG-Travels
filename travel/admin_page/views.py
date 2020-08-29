@@ -33,10 +33,7 @@ def login(request):
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
-        user = authenticate(request, username__iexact=username, password=password)        
-
-        # if not request.POST.get('remember_me', None):
-        #     request.session.set_expiry(0)
+        user = authenticate(request, username__iexact=username, password=password)
         if user is not None:
             login(request, user)
             # Redirect to a success page.
@@ -51,9 +48,15 @@ def register(request):
         signup = Cust_SignUpForm(request.POST)
         if signup.is_valid():
             signup.save()
+            #messages.success(request, 'Your are register Successfully', extra_tags='green')
             return redirect('/')
+        else:
+            #messages.error(request, 'Your Profile changed Successfully', extra_tags='red')
+            pass
     signup = Cust_SignUpForm()
     return render(request, 'register.html', {'signup': signup})
+
+
 @User_only
 def change_password(request):
     if request.method == 'POST':
@@ -70,7 +73,6 @@ def change_password(request):
         return render(request, 'registration/change_password.html', {'form': form})
 
 @login_required
-
 def Home(request):    
     if request.method == "POST":
         advance = float(request.POST['amount'])
@@ -827,7 +829,6 @@ def Airport_pre_view(request):
         
     return render(request, 'live_view_list/airportpre.html', {"ap_data":ap_pre_view, 'name':request.user.username})
 
-from django.http import HttpResponse, Http404
 import os
 
 # Django project base directory
