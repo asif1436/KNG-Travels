@@ -849,3 +849,10 @@ def download_apk(request):
             return response
     # If file is not exists
     raise Http404
+
+def Privacy_Policy(request):
+    return render(request, 'privacy-policy.html')
+
+
+def Terms_Conditions(request):
+    return render(request, 'terms-conditions.html')

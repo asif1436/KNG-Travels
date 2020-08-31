@@ -45,6 +45,8 @@ urlpatterns = [
     path('delete-car/<int:c_id>/', views.Deletecar, name='delete_car'),
     path('car-details/', views.Cardetail, name='car_detail'),
     path('add-cities/', views.Add_Cities, name='add_cities'),
+    path('privacy-policy/', views.Privacy_Policy, name='privacy_policy'),
+    path('terms-conditions/', views.Terms_Conditions, name='terms_conditions'),
 
     path('outstationlive_view/', views.Oustation_live_view, name='outstationlive_view'),
     path('locallive_view/', views.Local_live_view, name='locallive_view'),

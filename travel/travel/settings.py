@@ -142,20 +142,20 @@ PWA_APP_ORIENTATION = 'any'
 PWA_APP_START_URL = '/' 
 PWA_APP_STATUS_BAR_COLOR = 'default' 
 PWA_APP_ICONS = [ {
-            "src": "../../static/assets/img/logo1.png",            
+            "src": "../../static/assets/img/kng.png",            
             "sizes": "600x480"
         },
         {
-            "src": "../../static/assets/img/logo1.png",
+            "src": "../../static/assets/img/kng.png",
             "sizes": "192x192" 
         },
         {
-            "src": "../../static/assets/img/logo1.png",
+            "src": "../../static/assets/img/kng.png",
             "sizes": "512x512" 
         } 
         ] 
-PWA_APP_ICONS_APPLE = [ { 'src': "../../static/assets/img/logo1.png", 'sizes': '160x160' } ] 
-PWA_APP_SPLASH_SCREEN = [ { 'src': "../../static/assets/img/logo1.png", 'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)' } ] 
+PWA_APP_ICONS_APPLE = [ { 'src': "../../static/assets/img/kng.png", 'sizes': '160x160' } ] 
+PWA_APP_SPLASH_SCREEN = [ { 'src': "../../static/assets/img/kng.png", 'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)' } ] 
 PWA_APP_DIR = 'ltr' 
 PWA_APP_LANG = 'en-US'
 #PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/assets/js', 'serviceworker.js')
