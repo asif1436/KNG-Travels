@@ -840,7 +840,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 #
 def download_apk(request):
     # Full path of file
-    file_path = BASE_DIR + '/static/assets/apkfile/KNG-Travels.apk'
+    file_path = BASE_DIR + '/static/assets/apkfile/com.kngtravels.app.apk'
     # print(file_path)
     if os.path.exists(file_path):
         with open(file_path, 'rb') as fh:

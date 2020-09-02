@@ -102,7 +102,11 @@ class CarForm(ModelForm):
 
         }
     c_ac_type =  forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'form-check-inline'}), choices=(('Without Ac', 'W/O AC'),('With Ac', 'WITH AC')))
-    #c_car = forms.ChoiceField(required=False, widget=forms.RadioSelect(attrs={'class': 'form-check form-check-inline '}), choices=(('zest','ZEST'), ('indica','INDICA'),('Sumo', 'SUMO'),))
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['c_car'].widget.attrs.update({'class': 'getCarBooking'})
+
+
 class UserForm(ModelForm):
     class Meta:
         model = User

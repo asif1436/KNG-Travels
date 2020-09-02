@@ -22,9 +22,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <!-- Font Awesome --> 
   <!-- google login -->
-  <meta name="google-signin-scope" content="profile email">
-  <meta name="google-signin-client_id" content="468625496434-bt9pfkv0g4vbe61k3dvmtu9dquaa8sfc.apps.googleusercontent.com">
-  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <!-- <meta name="google-signin-scope" content="profile email">
+  <meta name="google-signin-client_id" content="351852733447-gtrprsnl9vqecmra8iv2sli4s4js2pfs.apps.googleusercontent.com"> -->
+  <!-- <script src="https://apis.google.com/js/platform.js" async defer></script> -->
   <link rel="stylesheet" type="text/css" href="{% static 'adminlte/dist/css/my.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'adminlte/plugins/fontawesome-free/css/all.css' %}">  
   
@@ -778,9 +778,9 @@ $(document).ready(function(){
     $("#id_c_ac_type_0").prop("checked",true)
   })
 
-  $(".carClick").click(function(){
-    var car_id = $(this).find("input").val();
-    if (car_id == null){
+  $(".getCarBooking").click(function(){
+    var car_id = $(this).val();
+    if (car_id == 'Select Car'){
       car_id='4'
     }
     var my_url = "{% url 'checkdate' %}";
@@ -1029,7 +1029,9 @@ $(document).ready(function(){
     $(".loader-wrapper").fadeOut("slow");
   });
 </script>
-<script>
+<!-- onSignIn function -->
+
+<!-- <script>
   function onSignIn(googleUser) {
     // Useful data for your client-side scripts:
     var profile = googleUser.getBasicProfile();
@@ -1041,20 +1043,20 @@ $(document).ready(function(){
     console.log("Email: " + profile.getEmail());
 
     // The ID token you need to pass to your backend:
-    var id_token = googleUser.getAuthResponse().id_token;
-    console.log("ID Token: " + id_token);
+    ///var id_token = googleUser.getAuthResponse().id_token;
+    ///console.log("ID Token: " + id_token);
 
     // The ID token you need to pass to your backend:
-    var id_token = googleUser.getAuthResponse().id_token;
-    postAJAX('/server/sign-in', {id_token: id_token})
-    .then(function(user) {
+    ///var id_token = googleUser.getAuthResponse().id_token;
+    ///postAJAX('/server/sign-in', {id_token: id_token})
+    ///.then(function(user) {
         // The user is now signed in on the server too
         // and the user should now have a session cookie
         // for the whole site. 
-        document.location.href = '/home/' + user.username
-    })
+        ///document.location.href = '/home/' + user.username
+    ///})
 }
-</script>
+</script> -->
 
 <script>
   //var inp = document.getElementById('id_l_from')
